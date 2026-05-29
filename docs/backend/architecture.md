@@ -42,7 +42,14 @@ backend/
 │           ├── service.go
 │           ├── repository.go
 │           └── dto.go
+│       └── users/              # User listing + pagination
+│           ├── handler.go     # GET /api/v1/users
+│           ├── service.go     # ListUsers(page, perPage)
+│           ├── repository.go  # FindAll(offset, limit)
+│           └── dto.go         # UserResponse, ToUserResponse
 ├── pkg/                       # Reusable utilities (no business logic)
+│   ├── pagination/
+│   │   └── pagination.go      # ParseParams, BuildMeta, Params, Meta, Response
 │   └── response/
 │       └── response.go        # Standard JSON response format
 ├── docs/                       # Generated Swagger docs (by swag init)
@@ -71,15 +78,14 @@ backend/
 main.go
 ├── config.Load()
 ├── database.Connect(cfg.Database.DSN())
-├── database.AutoMigrate(models...)     # planned, not yet wired
+├── db.AutoMigrate(&models.User{})           # creates/updates users table
 ├── r := gin.Default()
-├── r.GET("/swagger/*any", ginSwagger)  # Swagger UI at /swagger/index.html
+├── r.GET("/swagger/*any", ginSwagger)       # Swagger UI at /swagger/index.html
 ├──
 ├── api := r.Group("/api/v1")
-│   ├── modules/health/RegisterRoutes(api)    # GET /api/v1/health
-│   ├── modules/auth/RegisterRoutes(api)      # planned
-│   ├── modules/client/RegisterRoutes(api)    # planned
-│   └── modules/trainer/RegisterRoutes(api)   # planned
+│   ├── modules/health/RegisterRoutes(api)   # GET /api/v1/health
+│   ├── modules/users/RegisterRoutes(api)    # GET /api/v1/users
+│   ├── modules/auth/RegisterRoutes(api)     # planned
 │
 └── r.Run(":" + cfg.AppPort)
 ```
@@ -98,6 +104,56 @@ func RegisterRoutes(rg *gin.RouterGroup) {
 }
 ```
 
+## Pagination
+
+All list endpoints use `pkg/pagination` for consistent pagination. Import it from any module.
+
+### Request
+
+```
+GET /api/v1/users?page=1&per_page=20
+```
+
+| Query param | Type | Default | Max |
+|-------------|------|---------|-----|
+| `page` | int | 1 | — |
+| `per_page` | int | 20 | 100 |
+
+### Response
+
+```json
+{
+  "data": [ ... ],
+  "meta": {
+    "page": 1,
+    "per_page": 20,
+    "total": 50,
+    "total_pages": 3
+  }
+}
+```
+
+### Usage in a module
+
+```go
+// handler.go
+params := pagination.ParseParams(c)
+items, total, err := svc.ListItems(params)
+meta := pagination.BuildMeta(params, total)
+c.JSON(200, pagination.NewResponse(items, meta))
+```
+
+```go
+// repository.go
+func (r *Repo) FindAll(p pagination.Params) ([]Model, int64, error) {
+    var items []Model
+    var total int64
+    r.db.Model(&Model{}).Count(&total)
+    r.db.Offset(p.Offset()).Limit(p.PerPage).Find(&items)
+    return items, total, nil
+}
+```
+
 ## Conventions
 
 | Type | Location | Example |
@@ -112,3 +168,4 @@ func RegisterRoutes(rg *gin.RouterGroup) {
 | Middleware | `internal/middleware/` | Global or group-level |
 | Config | `internal/config/` | Env loading |
 | Util | `pkg/` | Stateless, no domain types |
+| Pagination | `pkg/pagination/` | Parsed via `ParseParams(c)`, rendered via `NewResponse(data, meta)` |

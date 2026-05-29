@@ -9,7 +9,10 @@ import (
 
 	"github.com/felipe/FitTrackPro/backend/internal/config"
 	"github.com/felipe/FitTrackPro/backend/internal/database"
+	"github.com/felipe/FitTrackPro/backend/internal/models"
 	"github.com/felipe/FitTrackPro/backend/internal/modules/health"
+	"github.com/felipe/FitTrackPro/backend/internal/modules/users"
+
 	_ "github.com/felipe/FitTrackPro/backend/docs"
 )
 
@@ -31,12 +34,17 @@ func main() {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
+	if err := db.AutoMigrate(&models.User{}); err != nil {
+		log.Fatalf("Failed to run migrations: %v", err)
+	}
+
 	r := gin.Default()
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	api := r.Group("/api/v1")
 	health.RegisterRoutes(api, health.NewHandler(db))
+	users.RegisterRoutes(api, users.NewHandler(db))
 
 	log.Printf("Server starting on port %s", cfg.AppPort)
 	if err := r.Run(":" + cfg.AppPort); err != nil {
