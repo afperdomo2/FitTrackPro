@@ -22,19 +22,9 @@
 - Strict mode enabled. Path alias: `@/*` → `./src/*`.
 - TS version: ~5.x (compatible with React 19 types).
 
-## Structure
+## Architecture
 
-```
-apps/web/
-├── src/app/          # App Router pages & layouts
-│   ├── layout.tsx    # Root layout (Geist font, globals.css)
-│   ├── page.tsx      # Home page
-│   └── globals.css   # Tailwind v4 theme + base styles
-├── public/           # Static assets
-├── next.config.ts    # Next.js config
-├── eslint.config.mjs # Flat ESLint config
-└── tsconfig.json     # TypeScript config with Next plugin
-```
+See `docs/web/architecture.md` for folder layout, entrypoint flow, and naming conventions.
 
 ## Gotchas
 

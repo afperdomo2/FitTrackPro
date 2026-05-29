@@ -3,6 +3,8 @@ node_modules/
 dist/
 .next/
 .expo/
+backend/bin/
+backend/tmp/
 *.log
 .env
 .env.local

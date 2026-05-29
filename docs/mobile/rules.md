@@ -10,16 +10,9 @@
 - Extends `expo/tsconfig.base`. Strict mode enabled.
 - TS version: ~6.0.3 (may differ from web).
 
-## Structure
+## Architecture
 
-```
-apps/mobile/
-├── App.tsx           # Main app component
-├── index.ts          # Entry point
-├── app.json          # Expo config (name, slug, icons, platforms)
-├── assets/           # Icons, splash, favicon
-└── tsconfig.json     # TS config extending expo preset
-```
+See `docs/mobile/architecture.md` for folder layout, entrypoint flow, and naming conventions.
 
 ## Linting
 
