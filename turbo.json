@@ -15,6 +15,13 @@
     },
     "clean": {
       "cache": false
+    },
+    "deploy": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "dist/**"]
+    },
+    "deploy:web": {
+      "outputs": ["dist/**"]
     }
   }
 }

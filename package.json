@@ -6,7 +6,16 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "clean": "turbo clean",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "dev:api": "cd backend && make dev-api",
+    "dev:web": "pnpm --filter web dev",
+    "dev:mobile": "pnpm --filter mobile start",
+    "build:api": "cd backend && make build-api",
+    "build:web": "pnpm --filter web build",
+    "build:mobile": "pnpm --filter mobile build",
+    "test:api": "cd backend && make test-api",
+    "deploy:web": "pnpm --filter web deploy",
+    "deploy:mobile": "pnpm --filter mobile deploy:web"
   },
   "devDependencies": {
     "turbo": "^2.5.0",
