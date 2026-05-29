@@ -8,9 +8,10 @@ import (
 )
 
 type Config struct {
-	AppPort  string
-	Database DatabaseConfig
-	JWT      JWTConfig
+	AppPort              string
+	DefaultUserPassword  string
+	Database             DatabaseConfig
+	JWT                  JWTConfig
 }
 
 type DatabaseConfig struct {
@@ -43,7 +44,8 @@ func Load() *Config {
 	}
 
 	return &Config{
-		AppPort: getEnv("APP_PORT", "8080"),
+		AppPort:             getEnv("APP_PORT", "8080"),
+		DefaultUserPassword: getEnv("DEFAULT_USER_PASSWORD", "ChangeMe123!"),
 		Database: DatabaseConfig{
 			Host:     getEnv("DB_HOST", "localhost"),
 			Port:     getEnv("DB_PORT", "5432"),

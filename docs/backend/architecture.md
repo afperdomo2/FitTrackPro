@@ -42,11 +42,11 @@ backend/
 │           ├── service.go
 │           ├── repository.go
 │           └── dto.go
-│       └── users/              # User listing + pagination
-│           ├── handler.go     # GET /api/v1/users
-│           ├── service.go     # ListUsers(page, perPage)
-│           ├── repository.go  # FindAll(offset, limit)
-│           └── dto.go         # UserResponse, ToUserResponse
+│       └── users/              # CRUD + pagination
+│           ├── handler.go     # POST/GET/PUT/DELETE /users, GET /users
+│           ├── service.go     # List, Get, Create, Update, Delete
+│           ├── repository.go  # FindAll, FindByID, FindByEmail, Create, Update, Delete
+│           └── dto.go         # UserResponse, CreateUserRequest, UpdateUserRequest
 ├── pkg/                       # Reusable utilities (no business logic)
 │   ├── pagination/
 │   │   └── pagination.go      # ParseParams, BuildMeta, Params, Meta, Response

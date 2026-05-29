@@ -20,6 +20,16 @@ type PaginatedUsersResponse struct {
 	pagination.Response
 }
 
+type CreateUserRequest struct {
+	Email string `json:"email" binding:"required,email"`
+	Name  string `json:"name"  binding:"required"`
+	Role  string `json:"role"  binding:"required,oneof=admin trainer client"`
+}
+
+type UpdateUserRequest struct {
+	Name string `json:"name" binding:"required"`
+}
+
 func ToUserResponse(u *models.User) UserResponse {
 	return UserResponse{
 		ID:        u.ID,

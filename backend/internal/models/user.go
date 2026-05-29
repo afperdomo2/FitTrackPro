@@ -20,5 +20,6 @@ type User struct {
 	Role         string         `gorm:"size:50;not null;default:'user'" json:"role"`
 	CreatedAt    time.Time      `json:"created_at"`
 	UpdatedAt    time.Time      `json:"updated_at"`
-	DeletedAt    gorm.DeletedAt `gorm:"index" json:"-"`
+	DeletedAt         gorm.DeletedAt `gorm:"index" json:"-"`
+	MustChangePassword bool           `gorm:"default:true" json:"-"`
 }
