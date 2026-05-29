@@ -43,10 +43,12 @@ backend/
 │           ├── repository.go
 │           └── dto.go
 ├── pkg/                       # Reusable utilities (no business logic)
-│   ├── validator/
-│   │   └── validator.go       # Input validation helpers
 │   └── response/
 │       └── response.go        # Standard JSON response format
+├── docs/                       # Generated Swagger docs (by swag init)
+│   ├── docs.go
+│   ├── swagger.json
+│   └── swagger.yaml
 ├── .env.example               # Template — safe to commit
 ├── .env                       # Local secrets — gitignored
 ├── go.mod
@@ -68,19 +70,16 @@ backend/
 ```
 main.go
 ├── config.Load()
-├── database.Connect(cfg)
-├── database.AutoMigrate(models...)
+├── database.Connect(cfg.Database.DSN())
+├── database.AutoMigrate(models...)     # planned, not yet wired
 ├── r := gin.Default()
-├── r.Use(middleware.CORS())
-├── r.Use(middleware.Logger())
+├── r.GET("/swagger/*any", ginSwagger)  # Swagger UI at /swagger/index.html
 ├──
-├── public := r.Group("/api/v1")
-│   ├── modules/auth/handler.RegisterRoutes(public)
-│
-├── protected := r.Group("/api/v1")
-│   ├── protected.Use(middleware.Auth(cfg.JWTSecret))
-│   ├── modules/client/handler.RegisterRoutes(protected)
-│   ├── modules/trainer/handler.RegisterRoutes(protected)
+├── api := r.Group("/api/v1")
+│   ├── modules/health/RegisterRoutes(api)    # GET /api/v1/health
+│   ├── modules/auth/RegisterRoutes(api)      # planned
+│   ├── modules/client/RegisterRoutes(api)    # planned
+│   └── modules/trainer/RegisterRoutes(api)   # planned
 │
 └── r.Run(":" + cfg.AppPort)
 ```

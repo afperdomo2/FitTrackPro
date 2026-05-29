@@ -48,3 +48,12 @@ cd backend && go test ./internal/modules/auth/...  # single module
 cd backend && govulncheck ./...   # vulnerability scan
 cd backend && go vet ./...        # static analysis
 ```
+
+## Swagger
+
+```bash
+cd backend && make swagger        # regenerate docs/
+swag init -g cmd/server/main.go -o docs/
+```
+
+Swagger UI available at: http://localhost:8080/swagger/index.html

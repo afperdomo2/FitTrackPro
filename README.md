@@ -8,7 +8,7 @@ Monorepo para seguimiento de fitness con **Go**, **Next.js 16** y **React Native
 |----------------|---------------------------------|
 | Orquestador    | Turborepo 2.9                   |
 | Package manager | pnpm                           |
-| Backend        | Go 1.26 + air (hot-reload)     |
+| Backend        | Go 1.26 + Gin + GORM + PostgreSQL |
 | Web            | Next.js 16 + React 19 + Tailwind |
 | Mobile         | Expo SDK 56 + RN 0.85           |
 
@@ -38,6 +38,8 @@ pnpm dev:mobile    # Expo dev server
 # Todas a la vez
 pnpm dev
 ```
+
+**Swagger UI**: http://localhost:8080/swagger/index.html
 
 ### 📱 Expo nativo
 

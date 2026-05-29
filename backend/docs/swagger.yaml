@@ -1,0 +1,57 @@
+basePath: /api/v1
+definitions:
+  health.HealthResponse:
+    properties:
+      database:
+        example: connected
+        type: string
+      status:
+        example: ok
+        type: string
+      timestamp:
+        example: "2025-01-01T00:00:00Z"
+        type: string
+    type: object
+  response.APIResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@fittrackpro.com
+    name: FitTrackPro
+  description: API para seguimiento de fitness y entrenamiento personal.
+  title: FitTrackPro API
+  version: "1.0"
+paths:
+  /health:
+    get:
+      description: Verifica que el servidor y la base de datos estén operativos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/health.HealthResponse'
+              type: object
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      summary: Health check
+      tags:
+      - health
+schemes:
+- http
+- https
+swagger: "2.0"

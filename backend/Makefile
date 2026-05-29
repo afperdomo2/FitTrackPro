@@ -1,4 +1,4 @@
-.PHONY: deps dev-api build-api test-api lint
+.PHONY: deps dev-api build-api test-api lint swagger
 
 deps:
 	go mod tidy
@@ -16,3 +16,6 @@ test-api:
 lint:
 	go vet ./...
 	govulncheck ./...
+
+swagger:
+	swag init -g cmd/server/main.go -o docs/
