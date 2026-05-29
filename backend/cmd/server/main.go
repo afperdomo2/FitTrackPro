@@ -49,7 +49,7 @@ func main() {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	authHandler := auth.NewHandler(db, &cfg.JWT)
-	usersHandler := users.NewHandler(db, cfg.DefaultUserPassword)
+	usersHandler := users.NewHandler(db)
 
 	public := r.Group("/api/v1")
 	health.RegisterRoutes(public, health.NewHandler(db))

@@ -92,30 +92,6 @@ definitions:
       success:
         type: boolean
     type: object
-  users.CreateUserRequest:
-    properties:
-      email:
-        type: string
-      name:
-        type: string
-      role:
-        enum:
-        - admin
-        - trainer
-        - client
-        type: string
-    required:
-    - email
-    - name
-    - role
-    type: object
-  users.UpdateUserRequest:
-    properties:
-      name:
-        type: string
-    required:
-    - name
-    type: object
   users.UserResponse:
     properties:
       created_at:
@@ -297,41 +273,6 @@ paths:
       summary: Listar usuarios
       tags:
       - users
-    post:
-      consumes:
-      - application/json
-      description: Crea un nuevo usuario con contraseña por defecto. El usuario deberá
-        cambiar su contraseña al iniciar sesión.
-      parameters:
-      - description: Datos del usuario
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/users.CreateUserRequest'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.APIResponse'
-            - properties:
-                data:
-                  $ref: '#/definitions/users.UserResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.APIResponse'
-        "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/response.APIResponse'
-      summary: Crear usuario
-      tags:
-      - users
   /users/{id}:
     delete:
       description: Realiza borrado lógico del usuario (establece la marca de eliminado)
@@ -378,45 +319,6 @@ paths:
           schema:
             $ref: '#/definitions/response.APIResponse'
       summary: Obtener usuario
-      tags:
-      - users
-    put:
-      consumes:
-      - application/json
-      description: Actualiza el nombre de un usuario existente
-      parameters:
-      - description: ID del usuario
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Nuevo nombre
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/users.UpdateUserRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.APIResponse'
-            - properties:
-                data:
-                  $ref: '#/definitions/users.UserResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.APIResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/response.APIResponse'
-      summary: Actualizar usuario
       tags:
       - users
 schemes:

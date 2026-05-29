@@ -13,20 +13,17 @@ import (
 )
 
 type Handler struct {
-	svc             *Service
-	defaultPassword string
+	svc *Service
 }
 
-func NewHandler(db *gorm.DB, defaultPassword string) *Handler {
+func NewHandler(db *gorm.DB) *Handler {
 	repo := NewRepository(db)
-	return &Handler{svc: NewService(repo), defaultPassword: defaultPassword}
+	return &Handler{svc: NewService(repo)}
 }
 
 func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	rg.GET("/users", h.ListUsers)
-	rg.POST("/users", h.CreateUser)
 	rg.GET("/users/:id", h.GetUser)
-	rg.PUT("/users/:id", h.UpdateUser)
 	rg.DELETE("/users/:id", h.DeleteUser)
 }
 
@@ -53,38 +50,6 @@ func (h *Handler) ListUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, pagination.NewResponse(users, meta))
 }
 
-// CreateUser godoc
-//
-//	@Summary		Crear usuario
-//	@Description	Crea un nuevo usuario con contraseña por defecto. El usuario deberá cambiar su contraseña al iniciar sesión.
-//	@Tags			users
-//	@Accept			json
-//	@Produce		json
-//	@Param			request	body		CreateUserRequest	true	"Datos del usuario"
-//	@Success		201		{object}	response.APIResponse{data=UserResponse}
-//	@Failure		400		{object}	response.APIResponse
-//	@Failure		409		{object}	response.APIResponse
-//	@Router			/users [post]
-func (h *Handler) CreateUser(c *gin.Context) {
-	var req CreateUserRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, http.StatusBadRequest, err.Error())
-		return
-	}
-
-	user, err := h.svc.CreateUser(req, h.defaultPassword)
-	if err != nil {
-		if errors.Is(err, ErrEmailTaken) {
-			response.Error(c, http.StatusConflict, err.Error())
-		} else {
-			response.Error(c, http.StatusInternalServerError, "Failed to create user: "+err.Error())
-		}
-		return
-	}
-
-	response.Created(c, user)
-}
-
 // GetUser godoc
 //
 //	@Summary		Obtener usuario
@@ -108,45 +73,6 @@ func (h *Handler) GetUser(c *gin.Context) {
 			response.Error(c, http.StatusNotFound, "User not found")
 		} else {
 			response.Error(c, http.StatusInternalServerError, "Failed to get user")
-		}
-		return
-	}
-
-	response.OK(c, user)
-}
-
-// UpdateUser godoc
-//
-//	@Summary		Actualizar usuario
-//	@Description	Actualiza el nombre de un usuario existente
-//	@Tags			users
-//	@Accept			json
-//	@Produce		json
-//	@Param			id		path		int					true	"ID del usuario"
-//	@Param			request	body		UpdateUserRequest	true	"Nuevo nombre"
-//	@Success		200		{object}	response.APIResponse{data=UserResponse}
-//	@Failure		400		{object}	response.APIResponse
-//	@Failure		404		{object}	response.APIResponse
-//	@Router			/users/{id} [put]
-func (h *Handler) UpdateUser(c *gin.Context) {
-	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
-	if err != nil {
-		response.Error(c, http.StatusBadRequest, "Invalid user ID")
-		return
-	}
-
-	var req UpdateUserRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, http.StatusBadRequest, err.Error())
-		return
-	}
-
-	user, err := h.svc.UpdateUser(uint(id), req)
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			response.Error(c, http.StatusNotFound, "User not found")
-		} else {
-			response.Error(c, http.StatusInternalServerError, "Failed to update user")
 		}
 		return
 	}
