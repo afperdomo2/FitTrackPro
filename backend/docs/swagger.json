@@ -211,6 +211,11 @@
         },
         "/users": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Lista usuarios con paginación",
                 "produces": [
                     "application/json"
@@ -268,6 +273,11 @@
         },
         "/users/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Devuelve un usuario por su ID",
                 "produces": [
                     "application/json"
@@ -313,6 +323,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Realiza borrado lógico del usuario (establece la marca de eliminado)",
                 "produces": [
                     "application/json"

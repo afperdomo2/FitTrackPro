@@ -35,6 +35,7 @@ func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 //	@Produce		json
 //	@Param			page		query		int		false	"Número de página"	default(1)
 //	@Param			per_page	query		int		false	"Registros por página"	default(20)
+//	@Security		BearerAuth
 //	@Success		200			{object}	pagination.Response{data=[]UserResponse}
 //	@Failure		500			{object}	response.APIResponse
 //	@Router			/users [get]
@@ -59,6 +60,7 @@ func (h *Handler) ListUsers(c *gin.Context) {
 //	@Param			id	path		int	true	"ID del usuario"
 //	@Success		200	{object}	response.APIResponse{data=UserResponse}
 //	@Failure		404	{object}	response.APIResponse
+//	@Security		BearerAuth
 //	@Router			/users/{id} [get]
 func (h *Handler) GetUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
@@ -89,6 +91,7 @@ func (h *Handler) GetUser(c *gin.Context) {
 //	@Param			id	path		int	true	"ID del usuario"
 //	@Success		204	"No Content"
 //	@Failure		404	{object}	response.APIResponse
+//	@Security		BearerAuth
 //	@Router			/users/{id} [delete]
 func (h *Handler) DeleteUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)

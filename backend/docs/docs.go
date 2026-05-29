@@ -213,6 +213,11 @@ const docTemplate = `{
         },
         "/users": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Lista usuarios con paginación",
                 "produces": [
                     "application/json"
@@ -270,6 +275,11 @@ const docTemplate = `{
         },
         "/users/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Devuelve un usuario por su ID",
                 "produces": [
                     "application/json"
@@ -315,6 +325,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Realiza borrado lógico del usuario (establece la marca de eliminado)",
                 "produces": [
                     "application/json"

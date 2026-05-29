@@ -270,6 +270,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Listar usuarios
       tags:
       - users
@@ -291,6 +293,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Eliminar usuario
       tags:
       - users
@@ -318,6 +322,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Obtener usuario
       tags:
       - users

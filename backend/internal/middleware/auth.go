@@ -19,14 +19,12 @@ func AuthRequired(secret string) gin.HandlerFunc {
 			return
 		}
 
-		parts := strings.SplitN(authHeader, " ", 2)
-		if len(parts) != 2 || !strings.EqualFold(parts[0], "Bearer") {
-			response.Error(c, http.StatusUnauthorized, "Invalid authorization format")
-			c.Abort()
-			return
+		token := authHeader
+		if parts := strings.SplitN(authHeader, " ", 2); len(parts) == 2 && strings.EqualFold(parts[0], "Bearer") {
+			token = parts[1]
 		}
 
-		claims, err := jwtpkg.ParseToken(parts[1], secret)
+		claims, err := jwtpkg.ParseToken(token, secret)
 		if err != nil {
 			switch {
 			case err == jwtpkg.ErrExpiredToken:
