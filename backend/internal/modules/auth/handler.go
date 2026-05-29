@@ -7,20 +7,23 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
+	"github.com/felipe/FitTrackPro/backend/internal/config"
 	"github.com/felipe/FitTrackPro/backend/pkg/response"
 )
 
 type Handler struct {
-	svc *Service
+	svc    *Service
+	jwtCfg *config.JWTConfig
 }
 
-func NewHandler(db *gorm.DB) *Handler {
+func NewHandler(db *gorm.DB, jwtCfg *config.JWTConfig) *Handler {
 	repo := NewRepository(db)
-	return &Handler{svc: NewService(repo)}
+	return &Handler{svc: NewService(repo), jwtCfg: jwtCfg}
 }
 
 func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	rg.POST("/auth/register", h.Register)
+	rg.POST("/auth/login", h.Login)
 }
 
 // Register godoc
@@ -56,4 +59,36 @@ func (h *Handler) Register(c *gin.Context) {
 	}
 
 	response.Created(c, user)
+}
+
+// Login godoc
+//
+//	@Summary		Login
+//	@Description	Authenticates a user and returns a JWT token.
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body		LoginRequest	true	"Login credentials"
+//	@Success		200		{object}	response.APIResponse{data=LoginResponse}
+//	@Failure		400		{object}	response.APIResponse
+//	@Failure		401		{object}	response.APIResponse
+//	@Router			/auth/login [post]
+func (h *Handler) Login(c *gin.Context) {
+	var req LoginRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response.Error(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	loginResp, err := h.svc.Login(req, h.jwtCfg.Secret, h.jwtCfg.ExpirationHours)
+	if err != nil {
+		if errors.Is(err, ErrInvalidCredentials) {
+			response.Error(c, http.StatusUnauthorized, err.Error())
+		} else {
+			response.Error(c, http.StatusInternalServerError, "Internal server error")
+		}
+		return
+	}
+
+	response.OK(c, loginResp)
 }

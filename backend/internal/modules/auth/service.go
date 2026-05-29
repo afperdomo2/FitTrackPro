@@ -4,12 +4,14 @@ import (
 	"errors"
 
 	"github.com/felipe/FitTrackPro/backend/internal/models"
+	jwtpkg "github.com/felipe/FitTrackPro/backend/pkg/jwt"
 	"golang.org/x/crypto/bcrypt"
 )
 
 var (
-	ErrAdminExists = errors.New("admin user already exists, registration is disabled")
-	ErrEmailTaken  = errors.New("email already registered")
+	ErrAdminExists     = errors.New("admin user already exists, registration is disabled")
+	ErrEmailTaken      = errors.New("email already registered")
+	ErrInvalidCredentials = errors.New("invalid credentials")
 )
 
 type Service struct {
@@ -51,4 +53,30 @@ func (s *Service) Register(req RegisterRequest) (*models.User, error) {
 	}
 
 	return user, nil
+}
+
+func (s *Service) Login(req LoginRequest, secret, expirationHours string) (*LoginResponse, error) {
+	user, err := s.repo.FindByEmail(req.Email)
+	if err != nil {
+		return nil, ErrInvalidCredentials
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password)); err != nil {
+		return nil, ErrInvalidCredentials
+	}
+
+	token, err := jwtpkg.GenerateToken(user.ID, user.Email, user.Role, secret, expirationHours)
+	if err != nil {
+		return nil, err
+	}
+
+	return &LoginResponse{
+		Token: token,
+		User: UserResponse{
+			ID:    user.ID,
+			Email: user.Email,
+			Name:  user.Name,
+			Role:  user.Role,
+		},
+	}, nil
 }

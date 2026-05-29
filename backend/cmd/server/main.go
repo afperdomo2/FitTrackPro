@@ -46,7 +46,7 @@ func main() {
 	api := r.Group("/api/v1")
 	health.RegisterRoutes(api, health.NewHandler(db))
 	users.RegisterRoutes(api, users.NewHandler(db))
-	auth.RegisterRoutes(api, auth.NewHandler(db))
+	auth.RegisterRoutes(api, auth.NewHandler(db, &cfg.JWT))
 
 	log.Printf("Server starting on port %s", cfg.AppPort)
 	if err := r.Run(":" + cfg.AppPort); err != nil {
