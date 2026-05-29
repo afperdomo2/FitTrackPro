@@ -17,16 +17,16 @@ backend/
 │   │   ├── cors.go            # CORS configuration
 │   │   └── logger.go          # Custom request logging
 │   ├── models/                # GORM entity definitions
-│   │   ├── user.go            # User (email, password_hash, role)
+│   │   ├── user.go            # User (ID, Email, Name, PasswordHash, Role, MustChangePassword)
 │   │   ├── client.go          # Client profile
 │   │   ├── trainer.go         # Trainer profile
 │   │   └── ...
 │   └── modules/               # Domain modules (one folder per feature)
 │       ├── auth/
-│       │   ├── handler.go     # POST /api/v1/auth/register
-│       │   ├── service.go     # Register(): bcrypt, validar único admin
-│       │   ├── repository.go  # CountAdmins, FindByEmail, CreateUser
-│       │   └── dto.go         # RegisterRequest
+│       │   ├── handler.go     # Register, Login (public) + ChangePassword (protected)
+│       │   ├── service.go     # Register(), Login(), ChangePassword()
+│       │   ├── repository.go  # CountAdmins, FindByEmail, FindByID, CreateUser, UpdateUser
+│       │   └── dto.go         # RegisterRequest, LoginRequest, ChangePasswordRequest
 │       ├── client/
 │       │   ├── handler.go
 │       │   ├── service.go
@@ -48,6 +48,8 @@ backend/
 │           ├── repository.go  # FindAll, FindByID, FindByEmail, Create, Update, Delete
 │           └── dto.go         # UserResponse, CreateUserRequest, UpdateUserRequest
 ├── pkg/                       # Reusable utilities (no business logic)
+│   ├── jwt/
+│   │   └── jwt.go             # GenerateToken, ParseToken, Claims
 │   ├── pagination/
 │   │   └── pagination.go      # ParseParams, BuildMeta, Params, Meta, Response
 │   └── response/
@@ -80,13 +82,17 @@ main.go
 ├── database.Connect(cfg.Database.DSN())
 ├── db.AutoMigrate(&models.User{})           # creates/updates users table
 ├── r := gin.Default()
-├── r.GET("/swagger/*any", ginSwagger)       # Swagger UI at /swagger/index.html
+├── r.GET("/swagger/*any", ginSwagger)          # Swagger UI at /swagger/index.html
 ├──
-├── api := r.Group("/api/v1")
-│   ├── modules/health/RegisterRoutes(api)   # GET /api/v1/health
-│   ├── modules/users/RegisterRoutes(api)    # GET /api/v1/users
-│   ├── modules/auth/RegisterRoutes(api)     # POST /api/v1/auth/register
-│   ├── modules/client/RegisterRoutes(api)   # planned
+├── public := r.Group("/api/v1")
+│   ├── health.RegisterRoutes(public)           # GET /api/v1/health
+│   ├── auth.RegisterPublicRoutes(public)       # POST /auth/register, /auth/login
+│
+├── protected := r.Group("/api/v1")
+│   ├── protected.Use(middleware.AuthRequired()) # JWT Bearer token validation
+│   ├── auth.RegisterProtectedRoutes(protected)  # PUT /auth/change-password
+│   ├── users.RegisterRoutes(protected)          # CRUD /users
+│   ├── modules/client/RegisterRoutes(protected) # planned
 │
 └── r.Run(":" + cfg.AppPort)
 ```

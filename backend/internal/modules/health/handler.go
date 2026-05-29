@@ -25,7 +25,7 @@ func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 
 // HealthCheck godoc
 //
-//	@Summary		Health check
+//	@Summary		Verificación de estado
 //	@Description	Verifica que el servidor y la base de datos estén operativos
 //	@Tags			health
 //	@Produce		json

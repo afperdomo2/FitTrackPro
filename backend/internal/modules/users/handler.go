@@ -32,12 +32,12 @@ func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 
 // ListUsers godoc
 //
-//	@Summary		List users
+//	@Summary		Listar usuarios
 //	@Description	Lista usuarios con paginación
 //	@Tags			users
 //	@Produce		json
-//	@Param			page		query		int		false	"Page number"	default(1)
-//	@Param			per_page	query		int		false	"Items per page"	default(20)
+//	@Param			page		query		int		false	"Número de página"	default(1)
+//	@Param			per_page	query		int		false	"Registros por página"	default(20)
 //	@Success		200			{object}	pagination.Response{data=[]UserResponse}
 //	@Failure		500			{object}	response.APIResponse
 //	@Router			/users [get]
@@ -55,12 +55,12 @@ func (h *Handler) ListUsers(c *gin.Context) {
 
 // CreateUser godoc
 //
-//	@Summary		Create user
-//	@Description	Creates a new user with a default password. User must change password on first login.
+//	@Summary		Crear usuario
+//	@Description	Crea un nuevo usuario con contraseña por defecto. El usuario deberá cambiar su contraseña al iniciar sesión.
 //	@Tags			users
 //	@Accept			json
 //	@Produce		json
-//	@Param			request	body		CreateUserRequest	true	"User data"
+//	@Param			request	body		CreateUserRequest	true	"Datos del usuario"
 //	@Success		201		{object}	response.APIResponse{data=UserResponse}
 //	@Failure		400		{object}	response.APIResponse
 //	@Failure		409		{object}	response.APIResponse
@@ -87,11 +87,11 @@ func (h *Handler) CreateUser(c *gin.Context) {
 
 // GetUser godoc
 //
-//	@Summary		Get user by ID
-//	@Description	Returns a single user by ID
+//	@Summary		Obtener usuario
+//	@Description	Devuelve un usuario por su ID
 //	@Tags			users
 //	@Produce		json
-//	@Param			id	path		int	true	"User ID"
+//	@Param			id	path		int	true	"ID del usuario"
 //	@Success		200	{object}	response.APIResponse{data=UserResponse}
 //	@Failure		404	{object}	response.APIResponse
 //	@Router			/users/{id} [get]
@@ -117,13 +117,13 @@ func (h *Handler) GetUser(c *gin.Context) {
 
 // UpdateUser godoc
 //
-//	@Summary		Update user
-//	@Description	Updates the name of an existing user
+//	@Summary		Actualizar usuario
+//	@Description	Actualiza el nombre de un usuario existente
 //	@Tags			users
 //	@Accept			json
 //	@Produce		json
-//	@Param			id		path		int					true	"User ID"
-//	@Param			request	body		UpdateUserRequest	true	"Updated name"
+//	@Param			id		path		int					true	"ID del usuario"
+//	@Param			request	body		UpdateUserRequest	true	"Nuevo nombre"
 //	@Success		200		{object}	response.APIResponse{data=UserResponse}
 //	@Failure		400		{object}	response.APIResponse
 //	@Failure		404		{object}	response.APIResponse
@@ -156,11 +156,11 @@ func (h *Handler) UpdateUser(c *gin.Context) {
 
 // DeleteUser godoc
 //
-//	@Summary		Delete user
-//	@Description	Soft-deletes a user (sets deleted_at timestamp)
+//	@Summary		Eliminar usuario
+//	@Description	Realiza borrado lógico del usuario (establece la marca de eliminado)
 //	@Tags			users
 //	@Produce		json
-//	@Param			id	path		int	true	"User ID"
+//	@Param			id	path		int	true	"ID del usuario"
 //	@Success		204	"No Content"
 //	@Failure		404	{object}	response.APIResponse
 //	@Router			/users/{id} [delete]

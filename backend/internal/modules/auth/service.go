@@ -9,9 +9,10 @@ import (
 )
 
 var (
-	ErrAdminExists     = errors.New("admin user already exists, registration is disabled")
-	ErrEmailTaken      = errors.New("email already registered")
-	ErrInvalidCredentials = errors.New("invalid credentials")
+	ErrAdminExists         = errors.New("admin user already exists, registration is disabled")
+	ErrEmailTaken          = errors.New("email already registered")
+	ErrInvalidCredentials  = errors.New("invalid credentials")
+	ErrInvalidOldPassword  = errors.New("current password is incorrect")
 )
 
 type Service struct {
@@ -65,13 +66,14 @@ func (s *Service) Login(req LoginRequest, secret, expirationHours string) (*Logi
 		return nil, ErrInvalidCredentials
 	}
 
-	token, err := jwtpkg.GenerateToken(user.ID, user.Email, user.Role, secret, expirationHours)
+	token, err := jwtpkg.GenerateToken(user.ID, user.Email, user.Role, user.MustChangePassword, secret, expirationHours)
 	if err != nil {
 		return nil, err
 	}
 
 	return &LoginResponse{
-		Token: token,
+		Token:              token,
+		MustChangePassword: user.MustChangePassword,
 		User: UserResponse{
 			ID:    user.ID,
 			Email: user.Email,
@@ -79,4 +81,25 @@ func (s *Service) Login(req LoginRequest, secret, expirationHours string) (*Logi
 			Role:  user.Role,
 		},
 	}, nil
+}
+
+func (s *Service) ChangePassword(userID uint, req ChangePasswordRequest) error {
+	user, err := s.repo.FindByID(userID)
+	if err != nil {
+		return err
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.OldPassword)); err != nil {
+		return ErrInvalidOldPassword
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.NewPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	user.PasswordHash = string(hashedPassword)
+	user.MustChangePassword = false
+
+	return s.repo.UpdateUser(user)
 }

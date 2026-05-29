@@ -12,8 +12,14 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	Token string       `json:"token"`
-	User  UserResponse `json:"user"`
+	Token               string       `json:"token"`
+	MustChangePassword  bool         `json:"must_change_password"`
+	User                UserResponse `json:"user"`
+}
+
+type ChangePasswordRequest struct {
+	OldPassword string `json:"old_password" binding:"required"`
+	NewPassword string `json:"new_password" binding:"required,min=8"`
 }
 
 type UserResponse struct {

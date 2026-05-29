@@ -9,6 +9,7 @@ import (
 
 	"github.com/felipe/FitTrackPro/backend/internal/config"
 	"github.com/felipe/FitTrackPro/backend/internal/database"
+	"github.com/felipe/FitTrackPro/backend/internal/middleware"
 	"github.com/felipe/FitTrackPro/backend/internal/models"
 	"github.com/felipe/FitTrackPro/backend/internal/modules/auth"
 	"github.com/felipe/FitTrackPro/backend/internal/modules/health"
@@ -25,6 +26,10 @@ import (
 
 // @host            localhost:8080
 // @BasePath        /api/v1
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 
 // @schemes         http https
 func main() {
@@ -43,10 +48,17 @@ func main() {
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	api := r.Group("/api/v1")
-	health.RegisterRoutes(api, health.NewHandler(db))
-	users.RegisterRoutes(api, users.NewHandler(db, cfg.DefaultUserPassword))
-	auth.RegisterRoutes(api, auth.NewHandler(db, &cfg.JWT))
+	authHandler := auth.NewHandler(db, &cfg.JWT)
+	usersHandler := users.NewHandler(db, cfg.DefaultUserPassword)
+
+	public := r.Group("/api/v1")
+	health.RegisterRoutes(public, health.NewHandler(db))
+	auth.RegisterPublicRoutes(public, authHandler)
+
+	protected := r.Group("/api/v1")
+	protected.Use(middleware.AuthRequired(cfg.JWT.Secret))
+	auth.RegisterProtectedRoutes(protected, authHandler)
+	users.RegisterRoutes(protected, usersHandler)
 
 	log.Printf("Server starting on port %s", cfg.AppPort)
 	if err := r.Run(":" + cfg.AppPort); err != nil {

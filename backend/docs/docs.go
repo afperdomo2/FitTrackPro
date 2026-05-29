@@ -18,9 +18,14 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/auth/login": {
-            "post": {
-                "description": "Authenticates a user and returns a JWT token.",
+        "/auth/change-password": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cambia la contraseña del usuario autenticado. Establece must_change_password a false.",
                 "consumes": [
                     "application/json"
                 ],
@@ -30,10 +35,56 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "Login",
+                "summary": "Cambiar contraseña",
                 "parameters": [
                     {
-                        "description": "Login credentials",
+                        "description": "Contraseña actual y nueva",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/auth.ChangePasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.APIResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "description": "Autentica un usuario y devuelve un token JWT. Si must_change_password es true, el usuario debe cambiar su contraseña.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Iniciar sesión",
+                "parameters": [
+                    {
+                        "description": "Credenciales de acceso",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -78,7 +129,7 @@ const docTemplate = `{
         },
         "/auth/register": {
             "post": {
-                "description": "Creates the first admin user. Blocks if an admin already exists.",
+                "description": "Crea el primer usuario administrador. Bloquea el registro si ya existe un administrador.",
                 "consumes": [
                     "application/json"
                 ],
@@ -88,10 +139,10 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "Register first admin",
+                "summary": "Registrar primer administrador",
                 "parameters": [
                     {
-                        "description": "Registration data",
+                        "description": "Datos de registro",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -131,7 +182,7 @@ const docTemplate = `{
                 "tags": [
                     "health"
                 ],
-                "summary": "Health check",
+                "summary": "Verificación de estado",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -169,19 +220,19 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "List users",
+                "summary": "Listar usuarios",
                 "parameters": [
                     {
                         "type": "integer",
                         "default": 1,
-                        "description": "Page number",
+                        "description": "Número de página",
                         "name": "page",
                         "in": "query"
                     },
                     {
                         "type": "integer",
                         "default": 20,
-                        "description": "Items per page",
+                        "description": "Registros por página",
                         "name": "per_page",
                         "in": "query"
                     }
@@ -217,7 +268,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Creates a new user with a default password. User must change password on first login.",
+                "description": "Crea un nuevo usuario con contraseña por defecto. El usuario deberá cambiar su contraseña al iniciar sesión.",
                 "consumes": [
                     "application/json"
                 ],
@@ -227,10 +278,10 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "Create user",
+                "summary": "Crear usuario",
                 "parameters": [
                     {
-                        "description": "User data",
+                        "description": "Datos del usuario",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -275,18 +326,18 @@ const docTemplate = `{
         },
         "/users/{id}": {
             "get": {
-                "description": "Returns a single user by ID",
+                "description": "Devuelve un usuario por su ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "users"
                 ],
-                "summary": "Get user by ID",
+                "summary": "Obtener usuario",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "User ID",
+                        "description": "ID del usuario",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -320,7 +371,7 @@ const docTemplate = `{
                 }
             },
             "put": {
-                "description": "Updates the name of an existing user",
+                "description": "Actualiza el nombre de un usuario existente",
                 "consumes": [
                     "application/json"
                 ],
@@ -330,17 +381,17 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "Update user",
+                "summary": "Actualizar usuario",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "User ID",
+                        "description": "ID del usuario",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "Updated name",
+                        "description": "Nuevo nombre",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -383,18 +434,18 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "Soft-deletes a user (sets deleted_at timestamp)",
+                "description": "Realiza borrado lógico del usuario (establece la marca de eliminado)",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "users"
                 ],
-                "summary": "Delete user",
+                "summary": "Eliminar usuario",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "User ID",
+                        "description": "ID del usuario",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -415,6 +466,22 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "auth.ChangePasswordRequest": {
+            "type": "object",
+            "required": [
+                "new_password",
+                "old_password"
+            ],
+            "properties": {
+                "new_password": {
+                    "type": "string",
+                    "minLength": 8
+                },
+                "old_password": {
+                    "type": "string"
+                }
+            }
+        },
         "auth.LoginRequest": {
             "type": "object",
             "required": [
@@ -433,6 +500,9 @@ const docTemplate = `{
         "auth.LoginResponse": {
             "type": "object",
             "properties": {
+                "must_change_password": {
+                    "type": "boolean"
+                },
                 "token": {
                     "type": "string"
                 },
@@ -590,6 +660,13 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

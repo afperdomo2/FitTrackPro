@@ -6,6 +6,7 @@
 - **`backend/` is NOT in the pnpm workspace.** Go is managed separately with `make`.
 - **`packages/`** is reserved for shared TS code. Empty for now.
 - **New dependencies must pass validation** (security, version stability, core compatibility). See `docs/monorepo.md#dependency-policy` and use Context7 MCP.
+- **Swagger annotations in Spanish.** All `@Summary`, `@Description`, and `@Param` descriptions must be written in Spanish. Keep tags (`@Tags`) and Go identifiers in lowercase English.
 
 ## Docs
 
