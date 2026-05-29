@@ -10,6 +10,7 @@ import (
 	"github.com/felipe/FitTrackPro/backend/internal/config"
 	"github.com/felipe/FitTrackPro/backend/internal/database"
 	"github.com/felipe/FitTrackPro/backend/internal/models"
+	"github.com/felipe/FitTrackPro/backend/internal/modules/auth"
 	"github.com/felipe/FitTrackPro/backend/internal/modules/health"
 	"github.com/felipe/FitTrackPro/backend/internal/modules/users"
 
@@ -45,6 +46,7 @@ func main() {
 	api := r.Group("/api/v1")
 	health.RegisterRoutes(api, health.NewHandler(db))
 	users.RegisterRoutes(api, users.NewHandler(db))
+	auth.RegisterRoutes(api, auth.NewHandler(db))
 
 	log.Printf("Server starting on port %s", cfg.AppPort)
 	if err := r.Run(":" + cfg.AppPort); err != nil {

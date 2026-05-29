@@ -23,10 +23,10 @@ backend/
 │   │   └── ...
 │   └── modules/               # Domain modules (one folder per feature)
 │       ├── auth/
-│       │   ├── handler.go     # POST /login, /register, /forgot-password, /reset-password
-│       │   ├── service.go     # Hash password, generate JWT, validate input
-│       │   ├── repository.go  # GORM queries: find user, create user
-│       │   └── dto.go         # Request/Response structs
+│       │   ├── handler.go     # POST /api/v1/auth/register
+│       │   ├── service.go     # Register(): bcrypt, validar único admin
+│       │   ├── repository.go  # CountAdmins, FindByEmail, CreateUser
+│       │   └── dto.go         # RegisterRequest
 │       ├── client/
 │       │   ├── handler.go
 │       │   ├── service.go
@@ -85,7 +85,8 @@ main.go
 ├── api := r.Group("/api/v1")
 │   ├── modules/health/RegisterRoutes(api)   # GET /api/v1/health
 │   ├── modules/users/RegisterRoutes(api)    # GET /api/v1/users
-│   ├── modules/auth/RegisterRoutes(api)     # planned
+│   ├── modules/auth/RegisterRoutes(api)     # POST /api/v1/auth/register
+│   ├── modules/client/RegisterRoutes(api)   # planned
 │
 └── r.Run(":" + cfg.AppPort)
 ```

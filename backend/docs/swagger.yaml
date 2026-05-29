@@ -1,5 +1,19 @@
 basePath: /api/v1
 definitions:
+  auth.RegisterRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        minLength: 8
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
   health.HealthResponse:
     properties:
       database:
@@ -61,6 +75,36 @@ info:
   title: FitTrackPro API
   version: "1.0"
 paths:
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Creates the first admin user. Blocks if an admin already exists.
+      parameters:
+      - description: Registration data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      summary: Register first admin
+      tags:
+      - auth
   /health:
     get:
       description: Verifica que el servidor y la base de datos estén operativos
