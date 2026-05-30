@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
-import type { User } from '@/types/api';
+import type { User } from '@fittrackpro/shared';
 import { getToken, setToken, removeToken, decodeToken } from '@/lib/auth';
 import type { LoginRequest, RegisterRequest, LoginResponse } from '../types';
 import { useLogin, useRegister, useLogout } from '../api';

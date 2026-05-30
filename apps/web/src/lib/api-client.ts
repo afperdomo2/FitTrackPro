@@ -1,4 +1,4 @@
-import { ApiError } from '@/types/api';
+import { ApiError } from '@fittrackpro/shared';
 import { getToken } from './auth';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';

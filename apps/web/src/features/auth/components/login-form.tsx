@@ -37,8 +37,8 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-sm">
       <Card.Header>
-        <Card.Title>Sign in</Card.Title>
-        <Card.Description>Welcome back to FitTrackPro</Card.Description>
+        <Card.Title>Iniciar sesión</Card.Title>
+        <Card.Description>Bienvenido de nuevo a FitTrackPro</Card.Description>
       </Card.Header>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card.Content className="flex flex-col gap-4">
@@ -47,12 +47,12 @@ export function LoginForm() {
             name="email"
             label="Email"
             type="email"
-            placeholder="you@example.com"
+            placeholder="tu@correo.com"
           />
           <FormField
             control={control}
             name="password"
-            label="Password"
+            label="Contraseña"
             type="password"
             placeholder="••••••••"
           />
@@ -67,12 +67,12 @@ export function LoginForm() {
             className="w-full"
             isDisabled={formState.isSubmitting}
           >
-            {formState.isSubmitting ? 'Signing in...' : 'Sign in'}
+            {formState.isSubmitting ? 'Iniciando sesión…' : 'Iniciar sesión'}
           </Button>
           <p className="text-sm text-center text-muted-foreground">
-            Don&apos;t have an account?{' '}
+            ¿No tienes cuenta?{' '}
             <Link href="/register" className="text-accent font-medium hover:underline">
-              Sign up
+              Registrarse
             </Link>
           </p>
         </Card.Footer>

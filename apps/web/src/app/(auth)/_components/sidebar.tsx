@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import type { Role } from '@/types/api';
+import type { Role } from '@fittrackpro/shared';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 
 interface NavItem {
@@ -13,11 +13,11 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: 'Dashboard', href: '/dashboard', roles: ['admin', 'trainer', 'client'] },
-  { label: 'Clients', href: '/clients', roles: ['admin', 'trainer'] },
-  { label: 'Trainers', href: '/trainers', roles: ['admin'] },
-  { label: 'Workouts', href: '/workouts', roles: ['admin', 'trainer', 'client'] },
+  { label: 'Clientes', href: '/clients', roles: ['admin', 'trainer'] },
+  { label: 'Entrenadores', href: '/trainers', roles: ['admin'] },
+  { label: 'Entrenamientos', href: '/workouts', roles: ['admin', 'trainer', 'client'] },
   { label: 'Admin', href: '/admin/users', roles: ['admin'] },
-  { label: 'Profile', href: '/profile', roles: ['admin', 'trainer', 'client'] },
+  { label: 'Perfil', href: '/profile', roles: ['admin', 'trainer', 'client'] },
 ];
 
 export function Sidebar() {
@@ -52,7 +52,7 @@ export function Sidebar() {
           onClick={() => logout()}
           className="w-full text-left text-sm text-danger hover:underline px-2 py-1"
         >
-          Sign out
+          Cerrar sesión
         </button>
       </div>
     </aside>

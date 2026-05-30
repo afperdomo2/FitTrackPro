@@ -14,6 +14,12 @@ See `docs/web/architecture.md` for folder layout, component patterns, and state 
 
 ## Quick rules
 
+### Spanish UI
+
+- All user-facing text must be in Spanish: labels, buttons, placeholders, error messages, titles, descriptions
+- Technical terms that stay in English: `Email`, `Token`, `JWT`, `Dashboard`, component names, CSS classes, API terms
+- After any TS/TSX change: run `pnpm format` and `pnpm --filter web lint`
+
 ### State
 
 - **TanStack Query v5** for all server state (queries + mutations)
@@ -54,4 +60,4 @@ See `docs/web/architecture.md` for folder layout, component patterns, and state 
 | `react-hook-form` + `zod` | Form validation                                 |
 | `sonner`                  | Toast notifications                             |
 | `next-themes`             | Dark/light mode                                 |
-| `atob` (nativo) | JWT payload decoding |
+| `atob` (nativo)           | JWT payload decoding                            |

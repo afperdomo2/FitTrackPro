@@ -1,4 +1,3 @@
-import type { User } from '@/types/api';
-import type { LoginRequest, RegisterRequest, LoginResponse } from '@/types/auth';
+import type { User, LoginRequest, RegisterRequest, LoginResponse } from '@fittrackpro/shared';
 
 export type { LoginRequest, RegisterRequest, LoginResponse, User };

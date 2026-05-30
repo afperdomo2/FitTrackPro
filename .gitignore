@@ -494,5 +494,6 @@ $RECYCLE.BIN/
 # IA
 .agents/
 .kiro/
+opencode.json
 
 # End of https://www.toptal.com/developers/gitignore/api/turbo,go,goland,visualstudiocode,react,reactnative,windows,linux,macos

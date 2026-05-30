@@ -1,8 +1,7 @@
 'use client';
 
-import type { Role } from '@/types/api';
+import { hasRole, type Role } from '@fittrackpro/shared';
 import { useAuth } from '@/features/auth/hooks/use-auth';
-import { hasRole } from '@/lib/roles';
 
 interface RoleGuardProps {
   roles: Role | Role[];

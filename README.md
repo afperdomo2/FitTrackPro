@@ -87,8 +87,8 @@ pnpm dev:web                # arranca frontend
 
 El backend usa `gin-contrib/cors` configurado en `internal/middleware/cors.go`.
 
-| Variable | Default | Descripción |
-|----------|---------|-------------|
+| Variable               | Default                                       | Descripción                              |
+| ---------------------- | --------------------------------------------- | ---------------------------------------- |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:3000,http://localhost:8081` | Orígenes permitidos (separados por coma) |
 
 - **Métodos**: `GET, POST, PUT, PATCH, DELETE, OPTIONS`

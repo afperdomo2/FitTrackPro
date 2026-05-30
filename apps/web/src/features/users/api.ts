@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
 import { queryClient } from '@/lib/query-client';
-import type { PaginatedData } from '@/types/api';
+import type { PaginatedData } from '@fittrackpro/shared';
 import type { UserRow } from './types';
 
 const USERS_KEY = ['users'] as const;

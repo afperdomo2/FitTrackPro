@@ -1,4 +1,4 @@
-import { ApiError } from '@/types/api';
+import { ApiError } from '@fittrackpro/shared';
 
 export function normalizeError(error: unknown): string {
   if (error instanceof ApiError) {

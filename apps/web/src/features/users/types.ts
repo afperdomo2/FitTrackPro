@@ -1,4 +1,4 @@
-import type { Role } from '@/types/api';
+import type { Role } from '@fittrackpro/shared';
 
 export interface UserRow {
   id: string;

@@ -12,11 +12,11 @@ export function UsersTable() {
   const deleteUser = useDeleteUser();
 
   const columns = [
-    { key: 'name', label: 'Name' },
+    { key: 'name', label: 'Nombre' },
     { key: 'email', label: 'Email' },
     {
       key: 'role',
-      label: 'Role',
+      label: 'Rol',
       render: (user: UserRow) => (
         <Chip variant="soft" size="sm">
           {user.role}
@@ -25,16 +25,16 @@ export function UsersTable() {
     },
     {
       key: 'is_active',
-      label: 'Status',
+      label: 'Estado',
       render: (user: UserRow) => (
         <Chip color={user.is_active ? 'success' : 'danger'} variant="soft" size="sm">
-          {user.is_active ? 'Active' : 'Inactive'}
+          {user.is_active ? 'Activo' : 'Inactivo'}
         </Chip>
       ),
     },
     {
       key: 'actions',
-      label: 'Actions',
+      label: 'Acciones',
       render: (user: UserRow) => (
         <Button
           size="sm"
@@ -42,7 +42,7 @@ export function UsersTable() {
           onPress={() => deleteUser.mutate(user.id)}
           isDisabled={deleteUser.isPending}
         >
-          Delete
+          Eliminar
         </Button>
       ),
     },
@@ -51,7 +51,7 @@ export function UsersTable() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Users</h1>
+        <h1 className="text-2xl font-semibold">Usuarios</h1>
       </div>
       <DataTable<UserRow>
         columns={columns}
@@ -61,7 +61,7 @@ export function UsersTable() {
         totalPages={data?.meta.total_pages ?? 1}
         onPageChange={setPage}
         isLoading={isLoading}
-        emptyMessage="No users found"
+        emptyMessage="No se encontraron usuarios"
       />
     </div>
   );

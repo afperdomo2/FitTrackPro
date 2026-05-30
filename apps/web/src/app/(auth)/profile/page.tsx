@@ -9,18 +9,18 @@ export default function ProfilePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Profile</h1>
-        <p className="text-sm text-muted-foreground">Your account details</p>
+        <h1 className="text-2xl font-semibold">Perfil</h1>
+        <p className="text-sm text-muted-foreground">Detalles de tu cuenta</p>
       </div>
 
       <Card className="w-full max-w-md">
         <Card.Header>
-          <Card.Title>Account information</Card.Title>
-          <Card.Description>Manage your profile details</Card.Description>
+          <Card.Title>Información de la cuenta</Card.Title>
+          <Card.Description>Gestiona los detalles de tu perfil</Card.Description>
         </Card.Header>
         <Card.Content className="flex flex-col gap-3">
           <div>
-            <p className="text-xs text-muted-foreground">Name</p>
+            <p className="text-xs text-muted-foreground">Nombre</p>
             <p className="text-sm font-medium">{user?.name}</p>
           </div>
           <div>
@@ -28,13 +28,13 @@ export default function ProfilePage() {
             <p className="text-sm font-medium">{user?.email}</p>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground">Role</p>
+            <p className="text-xs text-muted-foreground">Rol</p>
             <p className="text-sm font-medium capitalize">{user?.role}</p>
           </div>
         </Card.Content>
         <Card.Footer>
           <Button variant="ghost" isDisabled>
-            Edit profile
+            Editar perfil
           </Button>
         </Card.Footer>
       </Card>

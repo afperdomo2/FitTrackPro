@@ -69,6 +69,21 @@
 - Strict mode enabled. Path alias: `@/*` → `./src/*`.
 - TS version: ~5.x (compatible with React 19 types).
 
+## UI language
+
+- **All user-facing text must be in Spanish**: labels, buttons, placeholders, error messages, titles, descriptions.
+- Technical terms that stay in English: `Email`, `Token`, `JWT`, `Dashboard`, component names, CSS classes, API terms.
+
+## Shared package
+
+- Types, constants, and utilities shared between web and mobile live in `packages/shared/` (`@fittrackpro/shared`).
+- Import via `import { ... } from '@fittrackpro/shared'`.
+- Current exports: `Role`, `User`, `ApiResponse<T>`, `PaginatedData<T>`, `ApiError`, `LoginRequest`, `RegisterRequest`, `LoginResponse`, `JwtClaims`, `AuthState`, `ROLES` const, `hasRole()`.
+
+## Pre-commit checks
+
+- After any TS/TSX change: run `pnpm format` and `pnpm --filter web lint`.
+
 ## Architecture
 
 See `docs/web/architecture.md` for folder layout, entrypoint flow, component patterns, and design decisions.

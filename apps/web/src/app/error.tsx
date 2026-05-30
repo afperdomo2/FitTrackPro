@@ -13,17 +13,17 @@ export default function Error({
     <div className="flex flex-col items-center justify-center min-h-dvh p-8">
       <Card className="w-full max-w-md">
         <Card.Header>
-          <Card.Title>Something went wrong</Card.Title>
+          <Card.Title>Algo salió mal</Card.Title>
           <Card.Description>{error.message}</Card.Description>
         </Card.Header>
         <Card.Content>
           <p className="text-sm text-muted-foreground">
-            An unexpected error occurred. Please try again.
+            Ocurrió un error inesperado. Por favor, inténtalo de nuevo.
           </p>
         </Card.Content>
         <Card.Footer className="flex justify-end">
           <Button onPress={reset} variant="primary">
-            Try again
+            Reintentar
           </Button>
         </Card.Footer>
       </Card>

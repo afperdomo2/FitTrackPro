@@ -1,4 +1,4 @@
-import type { JwtClaims } from '@/types/auth';
+import type { JwtClaims } from '@fittrackpro/shared';
 
 const TOKEN_KEY = 'fittrackpro_token';
 

@@ -34,25 +34,30 @@ export function RegisterForm() {
   return (
     <Card className="w-full max-w-sm">
       <Card.Header>
-        <Card.Title>Create account</Card.Title>
-        <Card.Description>Get started with FitTrackPro</Card.Description>
+        <Card.Title>Crear cuenta</Card.Title>
+        <Card.Description>Comienza con FitTrackPro</Card.Description>
       </Card.Header>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card.Content className="flex flex-col gap-4">
-          <FormField control={control} name="name" label="Full name" placeholder="John Doe" />
+          <FormField
+            control={control}
+            name="name"
+            label="Nombre completo"
+            placeholder="Juan Pérez"
+          />
           <FormField
             control={control}
             name="email"
             label="Email"
             type="email"
-            placeholder="you@example.com"
+            placeholder="tu@correo.com"
           />
           <FormField
             control={control}
             name="password"
-            label="Password"
+            label="Contraseña"
             type="password"
-            placeholder="Min. 8 characters"
+            placeholder="Mín. 8 caracteres"
           />
           {formState.errors.root && (
             <p className="text-sm text-danger">{formState.errors.root.message}</p>
@@ -65,12 +70,12 @@ export function RegisterForm() {
             className="w-full"
             isDisabled={formState.isSubmitting}
           >
-            {formState.isSubmitting ? 'Creating account...' : 'Create account'}
+            {formState.isSubmitting ? 'Creando cuenta…' : 'Crear cuenta'}
           </Button>
           <p className="text-sm text-center text-muted-foreground">
-            Already have an account?{' '}
+            ¿Ya tienes cuenta?{' '}
             <Link href="/login" className="text-accent font-medium hover:underline">
-              Sign in
+              Iniciar sesión
             </Link>
           </p>
         </Card.Footer>
