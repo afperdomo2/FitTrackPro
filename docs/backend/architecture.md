@@ -122,9 +122,9 @@ GET /api/v1/users?page=1&per_page=20
 ```
 
 | Query param | Type | Default | Max |
-|-------------|------|---------|-----|
-| `page` | int | 1 | — |
-| `per_page` | int | 20 | 100 |
+| ----------- | ---- | ------- | --- |
+| `page`      | int  | 1       | —   |
+| `per_page`  | int  | 20      | 100 |
 
 ### Response
 
@@ -163,16 +163,16 @@ func (r *Repo) FindAll(p pagination.Params) ([]Model, int64, error) {
 
 ## Conventions
 
-| Type | Location | Example |
-|------|----------|---------|
-| Binary | `cmd/<name>/main.go` | `cmd/server/main.go` |
-| Model | `internal/models/<name>.go` | `internal/models/user.go` |
-| Module | `internal/modules/<name>/` | `internal/modules/auth/` |
-| Handler | `internal/modules/<name>/handler.go` | HTTP layer only |
-| Service | `internal/modules/<name>/service.go` | Business logic, no HTTP |
-| Repository | `internal/modules/<name>/repository.go` | GORM queries |
-| DTO | `internal/modules/<name>/dto.go` | Request/Response types |
-| Middleware | `internal/middleware/` | Global or group-level |
-| Config | `internal/config/` | Env loading |
-| Util | `pkg/` | Stateless, no domain types |
-| Pagination | `pkg/pagination/` | Parsed via `ParseParams(c)`, rendered via `NewResponse(data, meta)` |
+| Type       | Location                                | Example                                                             |
+| ---------- | --------------------------------------- | ------------------------------------------------------------------- |
+| Binary     | `cmd/<name>/main.go`                    | `cmd/server/main.go`                                                |
+| Model      | `internal/models/<name>.go`             | `internal/models/user.go`                                           |
+| Module     | `internal/modules/<name>/`              | `internal/modules/auth/`                                            |
+| Handler    | `internal/modules/<name>/handler.go`    | HTTP layer only                                                     |
+| Service    | `internal/modules/<name>/service.go`    | Business logic, no HTTP                                             |
+| Repository | `internal/modules/<name>/repository.go` | GORM queries                                                        |
+| DTO        | `internal/modules/<name>/dto.go`        | Request/Response types                                              |
+| Middleware | `internal/middleware/`                  | Global or group-level                                               |
+| Config     | `internal/config/`                      | Env loading                                                         |
+| Util       | `pkg/`                                  | Stateless, no domain types                                          |
+| Pagination | `pkg/pagination/`                       | Parsed via `ParseParams(c)`, rendered via `NewResponse(data, meta)` |

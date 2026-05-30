@@ -8,13 +8,13 @@
 
 ## Stack
 
-| Library | Purpose |
-|---------|---------|
-| `github.com/gin-gonic/gin` | HTTP server, routing, middleware |
-| `gorm.io/gorm` + `gorm.io/driver/postgres` | ORM + PostgreSQL driver |
-| `github.com/golang-jwt/jwt/v5` | JWT token creation & validation |
-| `golang.org/x/crypto/bcrypt` | Password hashing |
-| `github.com/joho/godotenv` | Load `.env` into environment |
+| Library                                    | Purpose                          |
+| ------------------------------------------ | -------------------------------- |
+| `github.com/gin-gonic/gin`                 | HTTP server, routing, middleware |
+| `gorm.io/gorm` + `gorm.io/driver/postgres` | ORM + PostgreSQL driver          |
+| `github.com/golang-jwt/jwt/v5`             | JWT token creation & validation  |
+| `golang.org/x/crypto/bcrypt`               | Password hashing                 |
+| `github.com/joho/godotenv`                 | Load `.env` into environment     |
 
 ## Environment
 

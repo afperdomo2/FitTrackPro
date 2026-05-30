@@ -491,4 +491,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# IA
+.agents/
+.kiro/
+
 # End of https://www.toptal.com/developers/gitignore/api/turbo,go,goland,visualstudiocode,react,reactnative,windows,linux,macos

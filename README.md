@@ -4,13 +4,13 @@ Monorepo para seguimiento de fitness con **Go**, **Next.js 16** y **React Native
 
 ## 📦 Stack
 
-| Capa           | Tecnología                      |
-|----------------|---------------------------------|
-| Orquestador    | Turborepo 2.9                   |
-| Package manager | pnpm                           |
-| Backend        | Go 1.26 + Gin + GORM + PostgreSQL |
-| Web            | Next.js 16 + React 19 + Tailwind |
-| Mobile         | Expo SDK 56 + RN 0.85           |
+| Capa            | Tecnología                        |
+| --------------- | --------------------------------- |
+| Orquestador     | Turborepo 2.9                     |
+| Package manager | pnpm                              |
+| Backend         | Go 1.26 + Gin + GORM + PostgreSQL |
+| Web             | Next.js 16 + React 19 + Tailwind  |
+| Mobile          | Expo SDK 56 + RN 0.85             |
 
 ## 📁 Estructura
 

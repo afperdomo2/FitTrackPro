@@ -6,7 +6,7 @@
 apps/web/
 ├── src/app/              # App Router pages & layouts (entrypoint)
 │   ├── layout.tsx        # Root layout — fonts, metadata, <html>/<body>
-│   ├── page.tsx          # Home page (/) 
+│   ├── page.tsx          # Home page (/)
 │   ├── globals.css       # Tailwind v4 @theme + base styles
 │   └── favicon.ico       # Favicon
 ├── public/               # Static assets (images, fonts, robots.txt)
@@ -25,10 +25,10 @@ apps/web/
 
 ## Convention for new pages
 
-| Type | Location | Example |
-|------|----------|---------|
-| Page | `src/app/<route>/page.tsx` | `src/app/dashboard/page.tsx` → `/dashboard` |
-| Layout | `src/app/<route>/layout.tsx` | Nested layouts inherit from parent |
-| Loading | `src/app/<route>/loading.tsx` | Shown during SSR |
-| Error | `src/app/<route>/error.tsx` | Error boundary |
-| Components | `src/components/` | Shared UI components |
+| Type       | Location                      | Example                                     |
+| ---------- | ----------------------------- | ------------------------------------------- |
+| Page       | `src/app/<route>/page.tsx`    | `src/app/dashboard/page.tsx` → `/dashboard` |
+| Layout     | `src/app/<route>/layout.tsx`  | Nested layouts inherit from parent          |
+| Loading    | `src/app/<route>/loading.tsx` | Shown during SSR                            |
+| Error      | `src/app/<route>/error.tsx`   | Error boundary                              |
+| Components | `src/components/`             | Shared UI components                        |

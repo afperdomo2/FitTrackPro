@@ -60,11 +60,11 @@ Prefer libraries with **High/Medium** source reputation and **Benchmark Score > 
 
 Verify the new dependency works with current core runtimes:
 
-| Platform | Core runtimes |
-|----------|---------------|
-| Web | React 19.2.4, Next.js 16.2.6, Tailwind v4 |
-| Mobile | React 19.2.3, Expo SDK 56, React Native 0.85 |
-| Backend | Go 1.26 |
+| Platform | Core runtimes                                |
+| -------- | -------------------------------------------- |
+| Web      | React 19.2.4, Next.js 16.2.6, Tailwind v4    |
+| Mobile   | React 19.2.3, Expo SDK 56, React Native 0.85 |
+| Backend  | Go 1.26                                      |
 
 Check peer dependencies, minimum version requirements, and known incompatibilities via Context7.
 

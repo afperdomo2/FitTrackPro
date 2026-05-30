@@ -20,11 +20,11 @@ apps/mobile/
 
 ## Convention for new screens
 
-| Type | Location | Example |
-|------|----------|---------|
-| Screen | `screens/<Name>.tsx` | `screens/HomeScreen.tsx` |
-| Component | `components/<Name>.tsx` | `components/Button.tsx` |
-| Hook | `hooks/use<Name>.ts` | `hooks/useAuth.ts` |
-| Navigation | `navigation/` | react-navigation config |
+| Type       | Location                | Example                  |
+| ---------- | ----------------------- | ------------------------ |
+| Screen     | `screens/<Name>.tsx`    | `screens/HomeScreen.tsx` |
+| Component  | `components/<Name>.tsx` | `components/Button.tsx`  |
+| Hook       | `hooks/use<Name>.ts`    | `hooks/useAuth.ts`       |
+| Navigation | `navigation/`           | react-navigation config  |
 
 > ⚠️ `navigation/` and `screens/` patterns are planned conventions. The scaffold has no routing yet.
