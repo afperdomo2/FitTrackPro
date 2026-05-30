@@ -49,6 +49,13 @@ cd backend && govulncheck ./...   # vulnerability scan
 cd backend && go vet ./...        # static analysis
 ```
 
+## Format
+
+```bash
+pnpm format:api         # go fmt ./...
+cd backend && go fmt ./...
+```
+
 ## Swagger
 
 ```bash

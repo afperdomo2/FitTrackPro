@@ -26,7 +26,6 @@ func NewHandler(db *gorm.DB) *Handler {
 func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	users := rg.Group("/users")
 	users.Use(middleware.RequireRole("admin"))
-	users.Use(middleware.PasswordChangeRequired())
 	users.GET("", h.ListUsers)
 	users.GET("/:id", h.GetUser)
 	users.DELETE("/:id", h.DeleteUser)

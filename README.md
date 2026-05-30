@@ -28,60 +28,57 @@ FitTrackPro/
 
 ## ⚡ Scripts
 
-### 🔧 Desarrollo individual
+### ⚙️ Backend (Go)
 
 ```bash
-pnpm dev:api       # Go + air (hot-reload en :8080)
-pnpm dev:web       # Next.js (Turbopack)
-pnpm dev:mobile    # Expo dev server
-
-# Todas a la vez
-pnpm dev
+pnpm dev:api          # Go + air (hot-reload en :8080)
+pnpm build:api        # go build → backend/bin/server
+pnpm test:api         # go test ./...
+pnpm lint:api         # go vet + govulncheck
+pnpm format:api       # go fmt ./...
+pnpm swagger:api      # regenera docs/ de Swagger
+pnpm deps:api         # go mod tidy + download
 ```
 
-**Swagger UI**: http://localhost:8080/swagger/index.html
+**Swagger UI**: <http://localhost:8080/swagger/index.html>
 
-### 📱 Expo nativo
+### 🌐 Web (Next.js)
 
 ```bash
+pnpm dev:web          # Next.js (Turbopack)
+pnpm build:web        # next build
+pnpm deploy:web       # next build (producción)
+```
+
+### 📱 Mobile (Expo)
+
+```bash
+pnpm dev:mobile       # Expo dev server
+pnpm build:mobile     # expo build (native)
+pnpm deploy:mobile    # expo export --platform web
+
+# Nativo (dentro de apps/mobile/)
 cd apps/mobile && npx expo start --ios
 cd apps/mobile && npx expo start --android
 ```
 
-### 🏗️ Build y test
+### 🔧 Global (Turborepo)
 
 ```bash
-pnpm build:api     # go build ./cmd/server  →  backend/bin/server
-pnpm build:web     # next build
-pnpm build:mobile  # expo build (native)
-pnpm test:api      # go test ./...
-
-# Todos los builds
-pnpm build
-```
-
-### 🚀 Deploy
-
-```bash
-pnpm deploy:web     # next build (producción)
-pnpm deploy:mobile  # expo export --platform web
-```
-
-### 🧹 Utilidades
-
-```bash
-pnpm lint
-pnpm clean
-pnpm format
+pnpm dev              # todos los proyectos en paralelo
+pnpm build            # todos los builds
+pnpm lint             # lint de todos los proyectos
+pnpm clean            # limpia artefactos
+pnpm format           # Prettier (ts, tsx, js, json, md)
 ```
 
 ## 🚀 Primeros pasos
 
 ```bash
-pnpm install            # instala dependencias
+pnpm install                # instala dependencias
 go install github.com/air-verse/air@latest  # hot-reload para Go
-pnpm dev:api            # arranca API
-pnpm dev:web            # arranca frontend
+pnpm dev:api                # arranca API
+pnpm dev:web                # arranca frontend
 ```
 
 **Requisitos**: Node ≥ 22, Go ≥ 1.22, pnpm

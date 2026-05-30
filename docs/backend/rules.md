@@ -50,6 +50,19 @@ See `docs/backend/architecture.md` for full folder layout, entrypoint flow, and 
 - JSON responses standardized via `pkg/response/`.
 - Binary output: `bin/server` (via `make build-api`).
 
+## Swagger
+
+- All `@Summary`, `@Description`, and `@Param` annotations must be written in **Spanish**.
+- Tags (`@Tags`) and Go identifiers (function names, variables) remain in lowercase English.
+- Regenerate docs after any handler change: `pnpm swagger:api` or `make swagger` from `backend/`.
+
+## Code style
+
+- After every code change run `pnpm format:api` (`go fmt ./...`).
+- After every code change run `pnpm build:api` (verify compilation).
+- After changing handlers or annotations run `pnpm swagger:api` (regenerate docs).
+- If business logic changed run `pnpm test:api` (execute tests).
+
 ## Gotchas
 
 - GORM `AutoMigrate` never drops columns — manual migrations needed for destructive changes.

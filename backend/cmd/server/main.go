@@ -57,8 +57,12 @@ func main() {
 
 	protected := r.Group("/api/v1")
 	protected.Use(middleware.AuthRequired(cfg.JWT.Secret))
-	auth.RegisterProtectedRoutes(protected, authHandler)
+	protected.Use(middleware.PasswordChangeRequired())
 	users.RegisterRoutes(protected, usersHandler)
+
+	passwordGroup := r.Group("/api/v1")
+	passwordGroup.Use(middleware.AuthRequired(cfg.JWT.Secret))
+	auth.RegisterProtectedRoutes(passwordGroup, authHandler)
 
 	log.Printf("Server starting on port %s", cfg.AppPort)
 	if err := r.Run(":" + cfg.AppPort); err != nil {
