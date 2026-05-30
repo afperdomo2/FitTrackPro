@@ -109,7 +109,7 @@ func (h *Handler) Login(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			request	body		ChangePasswordRequest	true	"Contraseña actual y nueva"
-//	@Success		200		{object}	response.APIResponse
+//	@Success		200		{object}	response.APIResponse{data=auth.LoginResponse}
 //	@Failure		400		{object}	response.APIResponse
 //	@Failure		401		{object}	response.APIResponse
 //	@Security		BearerAuth
@@ -127,7 +127,8 @@ func (h *Handler) ChangePassword(c *gin.Context) {
 		return
 	}
 
-	if err := h.svc.ChangePassword(userID.(uuid.UUID), req); err != nil {
+	loginResp, err := h.svc.ChangePassword(userID.(uuid.UUID), req, h.jwtCfg.Secret, h.jwtCfg.ExpirationHours)
+	if err != nil {
 		switch {
 		case errors.Is(err, ErrInvalidOldPassword):
 			response.Error(c, http.StatusUnauthorized, err.Error())
@@ -137,5 +138,5 @@ func (h *Handler) ChangePassword(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, gin.H{"message": "Password changed successfully"})
+	response.OK(c, loginResp)
 }

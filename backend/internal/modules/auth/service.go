@@ -89,23 +89,41 @@ func (s *Service) Login(req LoginRequest, secret, expirationHours string) (*Logi
 	}, nil
 }
 
-func (s *Service) ChangePassword(userID uuid.UUID, req ChangePasswordRequest) error {
+func (s *Service) ChangePassword(userID uuid.UUID, req ChangePasswordRequest, secret, expirationHours string) (*LoginResponse, error) {
 	user, err := s.repo.FindByID(userID)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.OldPassword)); err != nil {
-		return ErrInvalidOldPassword
+		return nil, ErrInvalidOldPassword
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.NewPassword), bcrypt.DefaultCost)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	user.PasswordHash = string(hashedPassword)
 	user.MustChangePassword = false
 
-	return s.repo.UpdateUser(user)
+	if err := s.repo.UpdateUser(user); err != nil {
+		return nil, err
+	}
+
+	token, err := jwtpkg.GenerateToken(user.ID, user.Email, user.Role, false, secret, expirationHours)
+	if err != nil {
+		return nil, err
+	}
+
+	return &LoginResponse{
+		Token:              token,
+		MustChangePassword: false,
+		User: UserResponse{
+			ID:    user.ID,
+			Email: user.Email,
+			Name:  user.Name,
+			Role:  user.Role,
+		},
+	}, nil
 }
