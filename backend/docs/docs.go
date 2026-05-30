@@ -240,6 +240,12 @@ const docTemplate = `{
                         "description": "Registros por página",
                         "name": "per_page",
                         "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Filtrar por estado activo",
+                        "name": "is_active",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -510,6 +516,9 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "is_active": {
+                    "type": "boolean"
                 },
                 "name": {
                     "type": "string"

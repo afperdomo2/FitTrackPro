@@ -12,6 +12,7 @@ type UserResponse struct {
 	Email     string    `json:"email"`
 	Name      string    `json:"name"`
 	Role      string    `json:"role"`
+	IsActive  bool      `json:"is_active"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -26,6 +27,7 @@ func ToUserResponse(u *models.User) UserResponse {
 		Email:     u.Email,
 		Name:      u.Name,
 		Role:      u.Role,
+		IsActive:  u.IsActive,
 		CreatedAt: u.CreatedAt,
 		UpdatedAt: u.UpdatedAt,
 	}

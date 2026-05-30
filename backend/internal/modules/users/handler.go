@@ -38,6 +38,7 @@ func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 //	@Produce		json
 //	@Param			page		query		int		false	"Número de página"	default(1)
 //	@Param			per_page	query		int		false	"Registros por página"	default(20)
+//	@Param			is_active	query		bool	false	"Filtrar por estado activo"
 //	@Security		BearerAuth
 //	@Success		200			{object}	pagination.Response{data=[]UserResponse}
 //	@Failure		500			{object}	response.APIResponse
@@ -45,7 +46,15 @@ func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 func (h *Handler) ListUsers(c *gin.Context) {
 	params := pagination.ParseParams(c)
 
-	users, meta, err := h.svc.ListUsers(params)
+	var isActive *bool
+	if v := c.Query("is_active"); v != "" {
+		b, err := strconv.ParseBool(v)
+		if err == nil {
+			isActive = &b
+		}
+	}
+
+	users, meta, err := h.svc.ListUsers(params, isActive)
 	if err != nil {
 		response.Error(c, http.StatusInternalServerError, "Failed to list users: "+err.Error())
 		return

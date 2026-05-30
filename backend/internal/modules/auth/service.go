@@ -13,6 +13,7 @@ var (
 	ErrEmailTaken          = errors.New("email already registered")
 	ErrInvalidCredentials  = errors.New("invalid credentials")
 	ErrInvalidOldPassword  = errors.New("current password is incorrect")
+	ErrUserInactive        = errors.New("account is inactive, contact your administrator")
 )
 
 type Service struct {
@@ -60,6 +61,10 @@ func (s *Service) Login(req LoginRequest, secret, expirationHours string) (*Logi
 	user, err := s.repo.FindByEmail(req.Email)
 	if err != nil {
 		return nil, ErrInvalidCredentials
+	}
+
+	if !user.IsActive {
+		return nil, ErrUserInactive
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password)); err != nil {

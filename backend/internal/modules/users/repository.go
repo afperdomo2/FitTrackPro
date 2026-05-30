@@ -14,11 +14,14 @@ func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db: db}
 }
 
-func (r *Repository) FindAll(p pagination.Params) ([]models.User, int64, error) {
+func (r *Repository) FindAll(p pagination.Params, isActive *bool) ([]models.User, int64, error) {
 	var users []models.User
 	var total int64
 
 	query := r.db.Model(&models.User{})
+	if isActive != nil {
+		query = query.Where("is_active = ?", *isActive)
+	}
 
 	if err := query.Count(&total).Error; err != nil {
 		return nil, 0, err

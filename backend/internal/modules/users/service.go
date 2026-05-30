@@ -12,8 +12,8 @@ func NewService(repo *Repository) *Service {
 	return &Service{repo: repo}
 }
 
-func (s *Service) ListUsers(p pagination.Params) ([]UserResponse, pagination.Meta, error) {
-	users, total, err := s.repo.FindAll(p)
+func (s *Service) ListUsers(p pagination.Params, isActive *bool) ([]UserResponse, pagination.Meta, error) {
+	users, total, err := s.repo.FindAll(p, isActive)
 	if err != nil {
 		return nil, pagination.Meta{}, err
 	}

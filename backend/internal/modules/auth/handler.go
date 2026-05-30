@@ -86,9 +86,12 @@ func (h *Handler) Login(c *gin.Context) {
 
 	loginResp, err := h.svc.Login(req, h.jwtCfg.Secret, h.jwtCfg.ExpirationHours)
 	if err != nil {
-		if errors.Is(err, ErrInvalidCredentials) {
+		switch {
+		case errors.Is(err, ErrInvalidCredentials):
 			response.Error(c, http.StatusUnauthorized, err.Error())
-		} else {
+		case errors.Is(err, ErrUserInactive):
+			response.Error(c, http.StatusForbidden, err.Error())
+		default:
 			response.Error(c, http.StatusInternalServerError, "Internal server error")
 		}
 		return
