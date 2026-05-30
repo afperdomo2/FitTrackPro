@@ -2,6 +2,7 @@ package auth
 
 import (
 	"github.com/felipe/FitTrackPro/backend/internal/models"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -32,7 +33,7 @@ func (r *Repository) CreateUser(user *models.User) error {
 	return r.db.Create(user).Error
 }
 
-func (r *Repository) FindByID(id uint) (*models.User, error) {
+func (r *Repository) FindByID(id uuid.UUID) (*models.User, error) {
 	var user models.User
 	err := r.db.First(&user, id).Error
 	if err != nil {

@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 
 	"github.com/felipe/FitTrackPro/backend/internal/config"
@@ -126,7 +127,7 @@ func (h *Handler) ChangePassword(c *gin.Context) {
 		return
 	}
 
-	if err := h.svc.ChangePassword(userID.(uint), req); err != nil {
+	if err := h.svc.ChangePassword(userID.(uuid.UUID), req); err != nil {
 		switch {
 		case errors.Is(err, ErrInvalidOldPassword):
 			response.Error(c, http.StatusUnauthorized, err.Error())

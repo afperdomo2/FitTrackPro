@@ -5,15 +5,16 @@ import (
 
 	"github.com/felipe/FitTrackPro/backend/internal/models"
 	jwtpkg "github.com/felipe/FitTrackPro/backend/pkg/jwt"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
 var (
-	ErrAdminExists         = errors.New("admin user already exists, registration is disabled")
-	ErrEmailTaken          = errors.New("email already registered")
-	ErrInvalidCredentials  = errors.New("invalid credentials")
-	ErrInvalidOldPassword  = errors.New("current password is incorrect")
-	ErrUserInactive        = errors.New("account is inactive, contact your administrator")
+	ErrAdminExists        = errors.New("admin user already exists, registration is disabled")
+	ErrEmailTaken         = errors.New("email already registered")
+	ErrInvalidCredentials = errors.New("invalid credentials")
+	ErrInvalidOldPassword = errors.New("current password is incorrect")
+	ErrUserInactive       = errors.New("account is inactive, contact your administrator")
 )
 
 type Service struct {
@@ -88,7 +89,7 @@ func (s *Service) Login(req LoginRequest, secret, expirationHours string) (*Logi
 	}, nil
 }
 
-func (s *Service) ChangePassword(userID uint, req ChangePasswordRequest) error {
+func (s *Service) ChangePassword(userID uuid.UUID, req ChangePasswordRequest) error {
 	user, err := s.repo.FindByID(userID)
 	if err != nil {
 		return err

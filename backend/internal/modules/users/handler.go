@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 
 	"github.com/felipe/FitTrackPro/backend/internal/middleware"
@@ -25,6 +26,7 @@ func NewHandler(db *gorm.DB) *Handler {
 func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 	users := rg.Group("/users")
 	users.Use(middleware.RequireRole("admin"))
+	users.Use(middleware.PasswordChangeRequired())
 	users.GET("", h.ListUsers)
 	users.GET("/:id", h.GetUser)
 	users.DELETE("/:id", h.DeleteUser)
@@ -75,13 +77,13 @@ func (h *Handler) ListUsers(c *gin.Context) {
 //	@Security		BearerAuth
 //	@Router			/users/{id} [get]
 func (h *Handler) GetUser(c *gin.Context) {
-	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
 		response.Error(c, http.StatusBadRequest, "Invalid user ID")
 		return
 	}
 
-	user, err := h.svc.GetUser(uint(id))
+	user, err := h.svc.GetUser(id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			response.Error(c, http.StatusNotFound, "User not found")
@@ -106,13 +108,13 @@ func (h *Handler) GetUser(c *gin.Context) {
 //	@Security		BearerAuth
 //	@Router			/users/{id} [delete]
 func (h *Handler) DeleteUser(c *gin.Context) {
-	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
 		response.Error(c, http.StatusBadRequest, "Invalid user ID")
 		return
 	}
 
-	if err := h.svc.DeleteUser(uint(id)); err != nil {
+	if err := h.svc.DeleteUser(id); err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			response.Error(c, http.StatusNotFound, "User not found")
 		} else {

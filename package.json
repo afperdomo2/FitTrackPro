@@ -17,6 +17,7 @@
     "swagger:api": "cd backend && make swagger",
     "deps:api": "cd backend && make deps",
     "lint:api": "cd backend && make lint",
+    "format:api": "cd backend && go fmt ./...",
     "deploy:web": "pnpm --filter web deploy",
     "deploy:mobile": "pnpm --filter mobile deploy:web"
   },

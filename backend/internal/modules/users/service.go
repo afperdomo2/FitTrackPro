@@ -2,6 +2,7 @@ package users
 
 import (
 	"github.com/felipe/FitTrackPro/backend/pkg/pagination"
+	"github.com/google/uuid"
 )
 
 type Service struct {
@@ -21,7 +22,7 @@ func (s *Service) ListUsers(p pagination.Params, isActive *bool) ([]UserResponse
 	return ToUserResponses(users), pagination.BuildMeta(p, total), nil
 }
 
-func (s *Service) GetUser(id uint) (*UserResponse, error) {
+func (s *Service) GetUser(id uuid.UUID) (*UserResponse, error) {
 	user, err := s.repo.FindByID(id)
 	if err != nil {
 		return nil, err
@@ -30,7 +31,7 @@ func (s *Service) GetUser(id uint) (*UserResponse, error) {
 	return &resp, nil
 }
 
-func (s *Service) DeleteUser(id uint) error {
+func (s *Service) DeleteUser(id uuid.UUID) error {
 	_, err := s.repo.FindByID(id)
 	if err != nil {
 		return err

@@ -3,6 +3,7 @@ package users
 import (
 	"github.com/felipe/FitTrackPro/backend/internal/models"
 	"github.com/felipe/FitTrackPro/backend/pkg/pagination"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -34,7 +35,7 @@ func (r *Repository) FindAll(p pagination.Params, isActive *bool) ([]models.User
 	return users, total, nil
 }
 
-func (r *Repository) FindByID(id uint) (*models.User, error) {
+func (r *Repository) FindByID(id uuid.UUID) (*models.User, error) {
 	var user models.User
 	err := r.db.First(&user, id).Error
 	if err != nil {
@@ -43,6 +44,6 @@ func (r *Repository) FindByID(id uint) (*models.User, error) {
 	return &user, nil
 }
 
-func (r *Repository) Delete(id uint) error {
+func (r *Repository) Delete(id uuid.UUID) error {
 	return r.db.Delete(&models.User{}, id).Error
 }

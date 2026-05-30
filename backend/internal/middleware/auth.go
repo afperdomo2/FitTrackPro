@@ -10,6 +10,18 @@ import (
 	"github.com/felipe/FitTrackPro/backend/pkg/response"
 )
 
+func PasswordChangeRequired() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		mustChange, _ := c.Get("must_change_password")
+		if mustChangeBool, ok := mustChange.(bool); ok && mustChangeBool {
+			response.Error(c, http.StatusForbidden, "Password change required")
+			c.Abort()
+			return
+		}
+		c.Next()
+	}
+}
+
 func RequireRole(allowedRoles ...string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		role, _ := c.Get("role")
@@ -54,6 +66,7 @@ func AuthRequired(secret string) gin.HandlerFunc {
 		c.Set("user_id", claims.UserID)
 		c.Set("email", claims.Email)
 		c.Set("role", claims.Role)
+		c.Set("must_change_password", claims.MustChangePassword)
 		c.Next()
 	}
 }

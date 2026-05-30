@@ -8,10 +8,10 @@ import (
 )
 
 type Config struct {
-	AppPort              string
-	DefaultUserPassword  string
-	Database             DatabaseConfig
-	JWT                  JWTConfig
+	AppPort             string
+	DefaultUserPassword string
+	Database            DatabaseConfig
+	JWT                 JWTConfig
 }
 
 type DatabaseConfig struct {

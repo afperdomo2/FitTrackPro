@@ -5,18 +5,19 @@ import (
 	"strconv"
 	"time"
 
-	jwtlib "github.com/golang-jwt/jwt/v5"
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 )
 
 type Claims struct {
-	UserID             uint   `json:"user_id"`
-	Email              string `json:"email"`
-	Role               string `json:"role"`
-	MustChangePassword bool   `json:"must_change_password"`
-	jwtlib.RegisteredClaims
+	UserID             uuid.UUID `json:"user_id"`
+	Email              string    `json:"email"`
+	Role               string    `json:"role"`
+	MustChangePassword bool      `json:"must_change_password"`
+	jwt.RegisteredClaims
 }
 
-func GenerateToken(userID uint, email, role string, mustChangePassword bool, secret, expirationHours string) (string, error) {
+func GenerateToken(userID uuid.UUID, email, role string, mustChangePassword bool, secret, expirationHours string) (string, error) {
 	hours, err := strconv.Atoi(expirationHours)
 	if err != nil {
 		hours = 24
@@ -27,13 +28,13 @@ func GenerateToken(userID uint, email, role string, mustChangePassword bool, sec
 		Email:              email,
 		Role:               role,
 		MustChangePassword: mustChangePassword,
-		RegisteredClaims: jwtlib.RegisteredClaims{
-			ExpiresAt: jwtlib.NewNumericDate(time.Now().UTC().Add(time.Duration(hours) * time.Hour)),
-			IssuedAt:  jwtlib.NewNumericDate(time.Now().UTC()),
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().UTC().Add(time.Duration(hours) * time.Hour)),
+			IssuedAt:  jwt.NewNumericDate(time.Now().UTC()),
 		},
 	}
 
-	token := jwtlib.NewWithClaims(jwtlib.SigningMethodHS256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(secret))
 }
 
@@ -43,14 +44,14 @@ var (
 )
 
 func ParseToken(tokenString, secret string) (*Claims, error) {
-	token, err := jwtlib.ParseWithClaims(tokenString, &Claims{}, func(t *jwtlib.Token) (any, error) {
-		if _, ok := t.Method.(*jwtlib.SigningMethodHMAC); !ok {
+	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(t *jwt.Token) (any, error) {
+		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, ErrInvalidToken
 		}
 		return []byte(secret), nil
 	})
 	if err != nil {
-		if errors.Is(err, jwtlib.ErrTokenExpired) {
+		if errors.Is(err, jwt.ErrTokenExpired) {
 			return nil, ErrExpiredToken
 		}
 		return nil, ErrInvalidToken

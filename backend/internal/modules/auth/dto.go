@@ -1,5 +1,7 @@
 package auth
 
+import "github.com/google/uuid"
+
 type RegisterRequest struct {
 	Email    string `json:"email"    binding:"required,email"`
 	Password string `json:"password" binding:"required,min=8"`
@@ -12,9 +14,9 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	Token               string       `json:"token"`
-	MustChangePassword  bool         `json:"must_change_password"`
-	User                UserResponse `json:"user"`
+	Token              string       `json:"token"`
+	MustChangePassword bool         `json:"must_change_password"`
+	User               UserResponse `json:"user"`
 }
 
 type ChangePasswordRequest struct {
@@ -23,8 +25,8 @@ type ChangePasswordRequest struct {
 }
 
 type UserResponse struct {
-	ID    uint   `json:"id"`
-	Email string `json:"email"`
-	Name  string `json:"name"`
-	Role  string `json:"role"`
+	ID    uuid.UUID `json:"id"`
+	Email string    `json:"email"`
+	Name  string    `json:"name"`
+	Role  string    `json:"role"`
 }
