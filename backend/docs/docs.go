@@ -225,7 +225,7 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "Listar usuarios",
+                "summary": "Listar usuarios (admin)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -287,7 +287,7 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "Obtener usuario",
+                "summary": "Obtener usuario (admin)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -337,7 +337,7 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "Eliminar usuario",
+                "summary": "Eliminar usuario (admin)",
                 "parameters": [
                     {
                         "type": "integer",

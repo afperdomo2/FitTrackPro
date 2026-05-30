@@ -10,6 +10,21 @@ import (
 	"github.com/felipe/FitTrackPro/backend/pkg/response"
 )
 
+func RequireRole(allowedRoles ...string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		role, _ := c.Get("role")
+		roleStr, _ := role.(string)
+		for _, allowed := range allowedRoles {
+			if roleStr == allowed {
+				c.Next()
+				return
+			}
+		}
+		response.Error(c, http.StatusForbidden, "Insufficient permissions")
+		c.Abort()
+	}
+}
+
 func AuthRequired(secret string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")

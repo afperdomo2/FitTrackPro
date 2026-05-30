@@ -272,7 +272,7 @@ paths:
             $ref: '#/definitions/response.APIResponse'
       security:
       - BearerAuth: []
-      summary: Listar usuarios
+      summary: Listar usuarios (admin)
       tags:
       - users
   /users/{id}:
@@ -295,7 +295,7 @@ paths:
             $ref: '#/definitions/response.APIResponse'
       security:
       - BearerAuth: []
-      summary: Eliminar usuario
+      summary: Eliminar usuario (admin)
       tags:
       - users
     get:
@@ -324,7 +324,7 @@ paths:
             $ref: '#/definitions/response.APIResponse'
       security:
       - BearerAuth: []
-      summary: Obtener usuario
+      summary: Obtener usuario (admin)
       tags:
       - users
 schemes:

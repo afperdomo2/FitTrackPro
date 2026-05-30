@@ -223,7 +223,7 @@
                 "tags": [
                     "users"
                 ],
-                "summary": "Listar usuarios",
+                "summary": "Listar usuarios (admin)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -285,7 +285,7 @@
                 "tags": [
                     "users"
                 ],
-                "summary": "Obtener usuario",
+                "summary": "Obtener usuario (admin)",
                 "parameters": [
                     {
                         "type": "integer",
@@ -335,7 +335,7 @@
                 "tags": [
                     "users"
                 ],
-                "summary": "Eliminar usuario",
+                "summary": "Eliminar usuario (admin)",
                 "parameters": [
                     {
                         "type": "integer",

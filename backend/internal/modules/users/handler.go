@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
+	"github.com/felipe/FitTrackPro/backend/internal/middleware"
 	"github.com/felipe/FitTrackPro/backend/pkg/pagination"
 	"github.com/felipe/FitTrackPro/backend/pkg/response"
 )
@@ -22,14 +23,16 @@ func NewHandler(db *gorm.DB) *Handler {
 }
 
 func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
-	rg.GET("/users", h.ListUsers)
-	rg.GET("/users/:id", h.GetUser)
-	rg.DELETE("/users/:id", h.DeleteUser)
+	users := rg.Group("/users")
+	users.Use(middleware.RequireRole("admin"))
+	users.GET("", h.ListUsers)
+	users.GET("/:id", h.GetUser)
+	users.DELETE("/:id", h.DeleteUser)
 }
 
 // ListUsers godoc
 //
-//	@Summary		Listar usuarios
+//	@Summary		Listar usuarios (admin)
 //	@Description	Lista usuarios con paginación
 //	@Tags			users
 //	@Produce		json
@@ -53,7 +56,7 @@ func (h *Handler) ListUsers(c *gin.Context) {
 
 // GetUser godoc
 //
-//	@Summary		Obtener usuario
+//	@Summary		Obtener usuario (admin)
 //	@Description	Devuelve un usuario por su ID
 //	@Tags			users
 //	@Produce		json
@@ -84,7 +87,7 @@ func (h *Handler) GetUser(c *gin.Context) {
 
 // DeleteUser godoc
 //
-//	@Summary		Eliminar usuario
+//	@Summary		Eliminar usuario (admin)
 //	@Description	Realiza borrado lógico del usuario (establece la marca de eliminado)
 //	@Tags			users
 //	@Produce		json
