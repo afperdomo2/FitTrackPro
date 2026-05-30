@@ -83,6 +83,22 @@ pnpm dev:web                # arranca frontend
 
 **Requisitos**: Node ≥ 22, Go ≥ 1.22, pnpm
 
+## 🌐 CORS
+
+El backend usa `gin-contrib/cors` configurado en `internal/middleware/cors.go`.
+
+| Variable | Default | Descripción |
+|----------|---------|-------------|
+| `CORS_ALLOWED_ORIGINS` | `http://localhost:3000,http://localhost:8081` | Orígenes permitidos (separados por coma) |
+
+- **Métodos**: `GET, POST, PUT, PATCH, DELETE, OPTIONS`
+- **Headers**: `Origin, Content-Type, Accept, Authorization`
+- **Credentials**: `true` (requerido para JWT Bearer)
+- **Preflight cache**: 24 horas
+- **Aplica a**: solo web (CORS es del navegador, la app mobile no lo necesita)
+
+En producción, cambiar `CORS_ALLOWED_ORIGINS` al dominio del frontend (ej. `https://miapp.com`).
+
 ---
 
 > ⚠️ `packages/` está reservado para código compartido entre apps (UI components, types, utils). El backend Go no se gestiona vía pnpm pero se integra vía scripts y Makefile.
