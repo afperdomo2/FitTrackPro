@@ -47,6 +47,7 @@ func main() {
 	}
 
 	r := gin.Default()
+	r.Use(middleware.CORS(cfg))
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

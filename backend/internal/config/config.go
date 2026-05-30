@@ -10,6 +10,7 @@ import (
 type Config struct {
 	AppPort             string
 	DefaultUserPassword string
+	CORSAllowedOrigins  string
 	Database            DatabaseConfig
 	JWT                 JWTConfig
 }
@@ -46,6 +47,7 @@ func Load() *Config {
 	return &Config{
 		AppPort:             getEnv("APP_PORT", "8080"),
 		DefaultUserPassword: getEnv("DEFAULT_USER_PASSWORD", "ChangeMe123!"),
+		CORSAllowedOrigins:  getEnv("CORS_ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:8081"),
 		Database: DatabaseConfig{
 			Host:     getEnv("DB_HOST", "localhost"),
 			Port:     getEnv("DB_PORT", "5432"),
