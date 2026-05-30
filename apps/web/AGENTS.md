@@ -12,6 +12,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 See `docs/web/architecture.md` for folder layout, component patterns, and state management.
 
+## HeroUI v3 skill & MCP
+
+- **`heroui-react` skill** — load with `skill name: heroui-react` before creating or modifying HeroUI v3 components. Contains v3 API reference, compound patterns, setup, and migration.
+- **`heroui-react` MCP** tools — available via tools prefixed with `heroui-react_`. Use `heroui-react_list_components` first to verify a component exists in v3, then `heroui-react_get_component_docs` to get examples and props. Use `heroui-react_get_theme_variables` for design tokens.
+- HeroUI v3 has NO Provider, uses compound components (e.g. `Card.Header`, `Card.Content`), and Tailwind v4 + `@import "@heroui/styles"`.
+
 ## Quick rules
 
 ### Spanish UI
