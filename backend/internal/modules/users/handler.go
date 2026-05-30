@@ -70,7 +70,7 @@ func (h *Handler) ListUsers(c *gin.Context) {
 //	@Description	Devuelve un usuario por su ID
 //	@Tags			users
 //	@Produce		json
-//	@Param			id	path		int	true	"ID del usuario"
+//	@Param			id	path		string	true	"ID del usuario"
 //	@Success		200	{object}	response.APIResponse{data=UserResponse}
 //	@Failure		404	{object}	response.APIResponse
 //	@Security		BearerAuth
@@ -101,7 +101,7 @@ func (h *Handler) GetUser(c *gin.Context) {
 //	@Description	Realiza borrado lógico del usuario (establece la marca de eliminado)
 //	@Tags			users
 //	@Produce		json
-//	@Param			id	path		int	true	"ID del usuario"
+//	@Param			id	path		string	true	"ID del usuario"
 //	@Success		204	"No Content"
 //	@Failure		404	{object}	response.APIResponse
 //	@Security		BearerAuth

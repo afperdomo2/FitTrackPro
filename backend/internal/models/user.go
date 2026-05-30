@@ -19,7 +19,7 @@ type User struct {
 	Name               string         `gorm:"size:255;not null" json:"name"`
 	PasswordHash       string         `gorm:"size:255;not null" json:"-"`
 	Role               string         `gorm:"size:50;not null;default:'user'" json:"role"`
-	IsActive           bool           `gorm:"default:true;not null" json:"is_active"`
+	IsActive           bool           `gorm:"default:true;not null;index" json:"is_active"`
 	CreatedAt          time.Time      `json:"created_at"`
 	UpdatedAt          time.Time      `json:"updated_at"`
 	DeletedAt          gorm.DeletedAt `gorm:"index" json:"-"`

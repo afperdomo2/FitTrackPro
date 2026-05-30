@@ -92,6 +92,52 @@ definitions:
       success:
         type: boolean
     type: object
+  trainers.CreateTrainerRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        minLength: 8
+        type: string
+      speciality:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  trainers.TrainerResponse:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      name:
+        type: string
+      role:
+        type: string
+      speciality:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  trainers.UpdateTrainerRequest:
+    properties:
+      is_active:
+        type: boolean
+      name:
+        type: string
+      speciality:
+        type: string
+    type: object
   users.UserResponse:
     properties:
       created_at:
@@ -245,6 +291,178 @@ paths:
       summary: Verificación de estado
       tags:
       - health
+  /trainers:
+    get:
+      description: Lista entrenadores con paginación
+      parameters:
+      - default: 1
+        description: Número de página
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Registros por página
+        in: query
+        name: per_page
+        type: integer
+      - description: Filtrar por estado activo
+        in: query
+        name: is_active
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/pagination.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/trainers.TrainerResponse'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Listar entrenadores
+      tags:
+      - trainers
+    post:
+      consumes:
+      - application/json
+      description: Crea un usuario con rol trainer y su perfil de entrenador
+      parameters:
+      - description: Datos del entrenador
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/trainers.CreateTrainerRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/trainers.TrainerResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Crear entrenador (admin)
+      tags:
+      - trainers
+  /trainers/{id}:
+    delete:
+      description: Realiza borrado lógico del usuario asociado al entrenador
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Eliminar entrenador (admin)
+      tags:
+      - trainers
+    get:
+      description: Devuelve un entrenador por su ID
+      parameters:
+      - description: ID del entrenador
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/trainers.TrainerResponse'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Obtener entrenador
+      tags:
+      - trainers
+    put:
+      consumes:
+      - application/json
+      description: Actualiza los datos del entrenador y del usuario asociado
+      parameters:
+      - description: ID del entrenador
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Datos a actualizar
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/trainers.UpdateTrainerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/trainers.TrainerResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Actualizar entrenador (admin)
+      tags:
+      - trainers
   /users:
     get:
       description: Lista usuarios con paginación
@@ -294,7 +512,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -316,7 +534,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
