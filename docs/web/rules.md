@@ -38,7 +38,56 @@
 - Mutations use `@tanstack/react-query` `useMutation`.
 - Paginated queries must include page params in the query key for separate cache entries.
 - Use `placeholderData: (prev) => prev` for smooth page transitions.
-- Refresh buttons use `RefreshButton` component — invalidates query key, 1-second cooldown.
+
+## Tablas de datos (DataTable)
+
+Usar siempre el componente genérico `DataTable<T>` de `src/components/data-table/data-table.tsx`.
+
+### Column<T> — interfaz de columna
+
+```ts
+interface Column<T> {
+  key: string;                           // Llave del dato en la fila
+  label: string;                         // Texto del header (en español)
+  render?: (item: T) => React.ReactNode; // Render personalizado (opcional)
+  align?: 'left' | 'center' | 'right';   // Alineación (default: 'center')
+}
+```
+
+### Alineación de columnas
+
+| Tipo de dato | `align` | Ejemplos |
+|---|---|---|
+| Texto | `'left'` | Nombre, Email, Descripción |
+| Estado, chips, acciones | `'center'` (default) | Activo/Inactivo, Rol, Botones |
+| Fechas | `'center'` | created_at, updated_at |
+| Números / moneda | `'right'` | Precio, Total |
+
+### Botón de refrescar
+
+Toda tabla debe incluir `<RefreshButton>` junto al título, con el `queryKey` que coincida con el de la query:
+
+```tsx
+<RefreshButton queryKey={['trainers', { page, perPage: 20 }]} />
+```
+
+Invalida el cache y se desactiva por 1 segundo (cooldown).
+
+### Confirmación al eliminar
+
+Antes de ejecutar un `DELETE`, mostrar un `AlertDialog` de confirmación con:
+
+- `status="danger"` en el icono
+- Título: `¿Eliminar [entidad]?`
+- Cuerpo: descripción del borrado irreversible, incluyendo el nombre del registro
+- Botón "Cancelar" → cierra sin eliminar
+- Botón "Eliminar" con `variant="danger"` → ejecuta la mutación y cierra
+
+Ver ejemplo en `src/features/trainers/components/trainers-table.tsx`.
+
+### Módulo de referencia
+
+`features/trainers/` es el template a replicar para nuevos módulos CRUD: `types.ts` → `api.ts` → `components/trainers-table.tsx` + `components/[entity]-form.tsx` → página.
 
 ## Role-based access
 
