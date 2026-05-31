@@ -436,8 +436,10 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
-          description: No Content
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.APIResponse'
         "403":
           description: Forbidden
           schema:
@@ -642,8 +644,10 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
-          description: No Content
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.APIResponse'
         "404":
           description: Not Found
           schema:
@@ -780,8 +784,10 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
-          description: No Content
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.APIResponse'
         "404":
           description: Not Found
           schema:

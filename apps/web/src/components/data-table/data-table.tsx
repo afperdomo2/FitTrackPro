@@ -1,20 +1,18 @@
 'use client';
 
 import { Card, Table } from '@heroui/react';
-import { RefreshButton } from './refresh-button';
 import { Pagination } from './pagination';
-import type { QueryKey } from '@tanstack/react-query';
 
-interface Column<T> {
+export interface Column<T> {
   key: string;
   label: string;
   render?: (item: T) => React.ReactNode;
+  align?: 'left' | 'center' | 'right';
 }
 
 interface DataTableProps<T> {
   columns: Column<T>[];
   data: T[];
-  queryKey: QueryKey;
   page: number;
   totalPages: number;
   onPageChange: (page: number) => void;
@@ -25,43 +23,66 @@ interface DataTableProps<T> {
 export function DataTable<T extends { id: string | number }>({
   columns,
   data,
-  queryKey,
   page,
   totalPages,
   onPageChange,
   isLoading,
   emptyMessage = 'No data found',
 }: DataTableProps<T>) {
+  const columnMap = new Map(columns.map((col) => [col.key, col]));
+  const collectionColumns = columns.map((col) => ({ id: col.key, label: col.label }));
+
   return (
     <Card className="w-full">
       <Card.Content className="p-0">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-sidebar-border">
-          <RefreshButton queryKey={queryKey} />
-        </div>
         {data.length === 0 && !isLoading ? (
           <div className="flex items-center justify-center py-12 text-sm text-muted-foreground">
             {emptyMessage}
           </div>
         ) : (
           <Table aria-label="Data table">
-            <Table.Header>
-              {columns.map((col) => (
-                <Table.Column key={col.key}>{col.label}</Table.Column>
-              ))}
-            </Table.Header>
-            <Table.Body>
-              {data.map((item) => (
-                <Table.Row key={item.id}>
-                  {columns.map((col) => (
-                    <Table.Cell key={col.key}>
-                      {col.render
-                        ? col.render(item)
-                        : String((item as Record<string, unknown>)[col.key] ?? '')}
-                    </Table.Cell>
-                  ))}
-                </Table.Row>
-              ))}
-            </Table.Body>
+            <Table.ScrollContainer>
+              <Table.Content>
+                <Table.Header columns={collectionColumns}>
+                  {(col: { id: string }) => {
+                    const colDef = columnMap.get(col.id);
+                    return (
+                      <Table.Column
+                        id={col.id}
+                        isRowHeader={col.id === 'name'}
+                        className={`text-${colDef?.align ?? 'center'}`}
+                      >
+                        {colDef?.label}
+                      </Table.Column>
+                    );
+                  }}
+                </Table.Header>
+                <Table.Body>
+                  <Table.Collection items={data}>
+                    {(item: T) => (
+                      <Table.Row id={String(item.id)}>
+                        <Table.Collection items={collectionColumns}>
+                          {(col: { id: string }) => {
+                            const colDef = columnMap.get(col.id);
+                            return (
+                              <Table.Cell
+                                className={`text-${colDef?.align ?? 'center'}`}
+                              >
+                                {colDef?.render
+                                  ? colDef.render(item)
+                                  : String(
+                                      (item as Record<string, unknown>)[col.id] ?? '',
+                                    )}
+                              </Table.Cell>
+                            );
+                          }}
+                        </Table.Collection>
+                      </Table.Row>
+                    )}
+                  </Table.Collection>
+                </Table.Body>
+              </Table.Content>
+            </Table.ScrollContainer>
           </Table>
         )}
         {totalPages > 1 && (

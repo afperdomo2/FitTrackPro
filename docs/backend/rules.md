@@ -68,3 +68,31 @@ See `docs/backend/architecture.md` for full folder layout, entrypoint flow, and 
 - GORM `AutoMigrate` never drops columns — manual migrations needed for destructive changes.
 - `govulncheck` is the Go equivalent of `pnpm audit`. Run before adding dependencies.
 - `.env` must exist locally before running — copy from `.env.example` as starting point.
+
+### GORM — boolean `false` in Updates
+
+`gorm.Model` and structs with `bool` fields: **`Updates()` with a struct skips zero-value fields**, including `bool(false)`. An explicit `is_active: false` will be silently ignored, even with `Select("is_active")`.
+
+✅ **Correcta (usar map o SQL directo):**
+
+```go
+// Siempre funciona — map mantiene false
+db.Model(&User{}).Where("id = ?", id).Updates(map[string]interface{}{
+    "is_active": false,
+})
+
+// Siempre funciona — SQL directo
+db.Exec("UPDATE users SET is_active = ? WHERE id = ?", false, id)
+```
+
+❌ **Incorrecta (GORM omite false):**
+
+```go
+db.Model(&User{}).Where("id = ?", id).Select("is_active").Updates(&User{IsActive: false})
+//                                     ^^^^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^
+//                                     Select no sirve           struct — omite false
+```
+
+⚠️ **`Save()` sobre modelos con asociaciones (HasOne/BelongsTo) puede cascadear a la tabla relacionada usando struct, sobreescribiendo booleanos.** Preferir updates dirigidos con `Model().Update()` o `Exec()`.
+
+Ver `backend/internal/modules/trainers/repository.go` para un ejemplo real de la solución con `Exec`.

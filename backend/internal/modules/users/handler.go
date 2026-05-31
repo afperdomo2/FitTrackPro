@@ -61,7 +61,7 @@ func (h *Handler) ListUsers(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, pagination.NewResponse(users, meta))
+	response.OK(c, pagination.NewResponse(users, meta))
 }
 
 // GetUser godoc
@@ -102,7 +102,7 @@ func (h *Handler) GetUser(c *gin.Context) {
 //	@Tags			users
 //	@Produce		json
 //	@Param			id	path		string	true	"ID del usuario"
-//	@Success		204	"No Content"
+//	@Success		200	{object}	response.APIResponse
 //	@Failure		404	{object}	response.APIResponse
 //	@Security		BearerAuth
 //	@Router			/users/{id} [delete]
@@ -122,5 +122,5 @@ func (h *Handler) DeleteUser(c *gin.Context) {
 		return
 	}
 
-	c.Status(http.StatusNoContent)
+	response.OK(c, nil)
 }

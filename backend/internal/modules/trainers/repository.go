@@ -83,18 +83,22 @@ func (r *Repository) UpdateTrainer(trainer *models.Trainer) error {
 
 func (r *Repository) UpdateTrainerWithUser(trainer *models.Trainer, user *models.User) error {
 	return r.db.Transaction(func(tx *gorm.DB) error {
-		if err := tx.Save(trainer).Error; err != nil {
+		if err := tx.Model(&models.Trainer{}).Where("id = ?", trainer.ID).
+			Update("speciality", trainer.Speciality).Error; err != nil {
 			return err
 		}
-		if err := tx.Model(user).Select("name", "is_active", "updated_at").Updates(user).Error; err != nil {
-			return err
-		}
-		return nil
+		return tx.Exec(
+			"UPDATE users SET name = ?, is_active = ?, updated_at = NOW() WHERE id = ?",
+			user.Name, user.IsActive, user.ID,
+		).Error
 	})
 }
 
 func (r *Repository) UpdateUser(user *models.User) error {
-	return r.db.Model(user).Select("name", "is_active", "updated_at").Updates(user).Error
+	return r.db.Exec(
+		"UPDATE users SET name = ?, is_active = ?, updated_at = NOW() WHERE id = ?",
+		user.Name, user.IsActive, user.ID,
+	).Error
 }
 
 func (r *Repository) DeleteUser(id uuid.UUID) error {

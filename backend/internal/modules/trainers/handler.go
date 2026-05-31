@@ -65,7 +65,7 @@ func (h *Handler) ListTrainers(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, pagination.NewResponse(trainers, meta))
+	response.OK(c, pagination.NewResponse(trainers, meta))
 }
 
 // CreateTrainer godoc
@@ -182,7 +182,7 @@ func (h *Handler) UpdateTrainer(c *gin.Context) {
 //	@Description	Realiza borrado lógico del usuario asociado al entrenador
 //	@Tags			trainers
 //	@Produce		json
-//	@Success		204	"No Content"
+//	@Success		200	{object}	response.APIResponse
 //	@Failure		404	{object}	response.APIResponse
 //	@Security		BearerAuth
 //	@Router			/trainers/{id} [delete]
@@ -202,5 +202,5 @@ func (h *Handler) DeleteTrainer(c *gin.Context) {
 		return
 	}
 
-	c.Status(http.StatusNoContent)
+	response.OK(c, nil)
 }

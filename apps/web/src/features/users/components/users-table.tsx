@@ -2,7 +2,8 @@
 
 import { Button, Chip } from '@heroui/react';
 import { useState } from 'react';
-import { DataTable } from '@/components/data-table/data-table';
+import { DataTable, type Column } from '@/components/data-table/data-table';
+import { RefreshButton } from '@/components/data-table/refresh-button';
 import { useUsers, useDeleteUser } from '../api';
 import type { UserRow } from '../types';
 
@@ -11,12 +12,13 @@ export function UsersTable() {
   const { data, isLoading } = useUsers({ page });
   const deleteUser = useDeleteUser();
 
-  const columns = [
-    { key: 'name', label: 'Nombre' },
-    { key: 'email', label: 'Email' },
+  const columns: Column<UserRow>[] = [
+    { key: 'name', label: 'Nombre', align: 'left' },
+    { key: 'email', label: 'Email', align: 'left' },
     {
       key: 'role',
       label: 'Rol',
+      align: 'center',
       render: (user: UserRow) => (
         <Chip variant="soft" size="sm">
           {user.role}
@@ -26,6 +28,7 @@ export function UsersTable() {
     {
       key: 'is_active',
       label: 'Estado',
+      align: 'center',
       render: (user: UserRow) => (
         <Chip color={user.is_active ? 'success' : 'danger'} variant="soft" size="sm">
           {user.is_active ? 'Activo' : 'Inactivo'}
@@ -35,6 +38,7 @@ export function UsersTable() {
     {
       key: 'actions',
       label: 'Acciones',
+      align: 'center',
       render: (user: UserRow) => (
         <Button
           size="sm"
@@ -52,11 +56,11 @@ export function UsersTable() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Usuarios</h1>
+        <RefreshButton queryKey={['users', { page, perPage: 20 }]} />
       </div>
       <DataTable<UserRow>
         columns={columns}
         data={data?.data ?? []}
-        queryKey={['users', { page, perPage: 20 }]}
         page={page}
         totalPages={data?.meta.total_pages ?? 1}
         onPageChange={setPage}

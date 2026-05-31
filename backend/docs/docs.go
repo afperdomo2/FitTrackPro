@@ -484,8 +484,11 @@ const docTemplate = `{
                 ],
                 "summary": "Eliminar cliente (trainer)",
                 "responses": {
-                    "204": {
-                        "description": "No Content"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.APIResponse"
+                        }
                     },
                     "403": {
                         "description": "Forbidden",
@@ -815,8 +818,11 @@ const docTemplate = `{
                 ],
                 "summary": "Eliminar entrenador (admin)",
                 "responses": {
-                    "204": {
-                        "description": "No Content"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.APIResponse"
+                        }
                     },
                     "404": {
                         "description": "Not Found",
@@ -970,8 +976,11 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No Content"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.APIResponse"
+                        }
                     },
                     "404": {
                         "description": "Not Found",

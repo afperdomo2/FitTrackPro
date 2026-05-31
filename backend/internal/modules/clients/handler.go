@@ -69,7 +69,7 @@ func (h *Handler) ListClients(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, pagination.NewResponse(clients, meta))
+	response.OK(c, pagination.NewResponse(clients, meta))
 }
 
 // CreateClient godoc
@@ -203,7 +203,7 @@ func (h *Handler) UpdateClient(c *gin.Context) {
 //	@Tags			clients
 //	@Produce		json
 //	@Security		BearerAuth
-//	@Success		204	"No Content"
+//	@Success		200	{object}	response.APIResponse
 //	@Failure		403	{object}	response.APIResponse
 //	@Failure		404	{object}	response.APIResponse
 //	@Router			/clients/{id} [delete]
@@ -228,5 +228,5 @@ func (h *Handler) DeleteClient(c *gin.Context) {
 		return
 	}
 
-	c.Status(http.StatusNoContent)
+	response.OK(c, nil)
 }

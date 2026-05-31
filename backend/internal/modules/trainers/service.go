@@ -2,6 +2,7 @@ package trainers
 
 import (
 	"errors"
+	"log"
 
 	"github.com/felipe/FitTrackPro/backend/internal/models"
 	"github.com/felipe/FitTrackPro/backend/pkg/pagination"
@@ -91,6 +92,8 @@ func (s *Service) UpdateTrainer(id uuid.UUID, req UpdateTrainerRequest) (*Traine
 		trainer.Speciality = req.Speciality
 	}
 
+	log.Printf("---> IsActive value: %v", req)
+
 	user := &trainer.User
 	if req.Name != nil {
 		user.Name = *req.Name
@@ -98,6 +101,8 @@ func (s *Service) UpdateTrainer(id uuid.UUID, req UpdateTrainerRequest) (*Traine
 	if req.IsActive != nil {
 		user.IsActive = *req.IsActive
 	}
+
+	log.Printf("---> IsActive value after update: %v", user.IsActive)
 
 	if err := s.repo.UpdateTrainerWithUser(trainer, user); err != nil {
 		return nil, err

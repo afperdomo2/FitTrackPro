@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { Button } from '@heroui/react';
+import { Icon } from '@iconify/react';
 import { useQueryClient } from '@tanstack/react-query';
 import type { QueryKey } from '@tanstack/react-query';
 
@@ -21,8 +22,9 @@ export function RefreshButton({ queryKey }: RefreshButtonProps) {
   }, [queryClient, queryKey, cooldown]);
 
   return (
-    <Button onPress={handleRefresh} isDisabled={cooldown} variant="ghost" size="sm">
-      Refresh
+    <Button onPress={handleRefresh} isDisabled={cooldown} variant="secondary" size="sm">
+      <Icon icon="lucide:refresh-cw" className="size-4" />
+      Refrescar
     </Button>
   );
 }
