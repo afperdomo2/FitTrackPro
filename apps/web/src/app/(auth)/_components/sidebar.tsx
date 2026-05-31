@@ -13,10 +13,9 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: 'Dashboard', href: '/dashboard', roles: ['admin', 'trainer', 'client'] },
-  { label: 'Clientes', href: '/clients', roles: ['admin', 'trainer'] },
+  { label: 'Clientes', href: '/clients', roles: ['trainer'] },
   { label: 'Entrenadores', href: '/trainers', roles: ['admin'] },
-  { label: 'Entrenamientos', href: '/workouts', roles: ['admin', 'trainer', 'client'] },
-  { label: 'Admin', href: '/admin/users', roles: ['admin'] },
+  { label: 'Entrenamientos', href: '/workouts', roles: ['trainer'] },
   { label: 'Perfil', href: '/profile', roles: ['admin', 'trainer', 'client'] },
 ];
 
