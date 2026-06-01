@@ -15,7 +15,7 @@ func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db: db}
 }
 
-func (r *Repository) FindAll(p pagination.Params, isActive *bool, trainerID uuid.UUID) ([]models.Exercise, int64, error) {
+func (r *Repository) FindAll(p pagination.Params, isActive *bool, trainerID uuid.UUID, search string, muscleGroup string) ([]models.Exercise, int64, error) {
 	var exercises []models.Exercise
 	var total int64
 
@@ -24,6 +24,14 @@ func (r *Repository) FindAll(p pagination.Params, isActive *bool, trainerID uuid
 
 	if isActive != nil {
 		query = query.Where("is_active = ?", *isActive)
+	}
+
+	if search != "" {
+		query = query.Where("name ILIKE ?", "%"+search+"%")
+	}
+
+	if muscleGroup != "" {
+		query = query.Where("muscle_group = ?", muscleGroup)
 	}
 
 	if err := query.Count(&total).Error; err != nil {

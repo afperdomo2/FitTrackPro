@@ -540,6 +540,18 @@ const docTemplate = `{
                         "description": "Filtrar por estado activo",
                         "name": "is_active",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Buscar por nombre",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filtrar por grupo muscular",
+                        "name": "muscle_group",
+                        "in": "query"
                     }
                 ],
                 "responses": {

@@ -151,7 +151,11 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                   <Button variant="secondary" slot="close">
                     Cancelar
                   </Button>
-                  <Button type="submit" variant="primary" isDisabled={updateForm.formState.isSubmitting}>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    isDisabled={updateForm.formState.isSubmitting}
+                  >
                     <Icon icon="lucide:save" className="size-4" />
                     {updateForm.formState.isSubmitting ? 'Actualizando…' : 'Actualizar'}
                   </Button>
@@ -222,7 +226,11 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                   <Button variant="secondary" slot="close">
                     Cancelar
                   </Button>
-                  <Button type="submit" variant="primary" isDisabled={createForm.formState.isSubmitting}>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    isDisabled={createForm.formState.isSubmitting}
+                  >
                     <Icon icon="lucide:save" className="size-4" />
                     {createForm.formState.isSubmitting ? 'Creando…' : 'Crear entrenador'}
                   </Button>

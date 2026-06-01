@@ -15,6 +15,7 @@ const navItems: NavItem[] = [
   { label: 'Dashboard', href: '/dashboard', roles: ['admin', 'trainer', 'client'] },
   { label: 'Clientes', href: '/clients', roles: ['trainer'] },
   { label: 'Entrenadores', href: '/trainers', roles: ['admin'] },
+  { label: 'Ejercicios', href: '/exercises', roles: ['trainer'] },
   { label: 'Entrenamientos', href: '/workouts', roles: ['trainer'] },
   { label: 'Perfil', href: '/profile', roles: ['admin', 'trainer', 'client'] },
 ];

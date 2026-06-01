@@ -105,6 +105,38 @@ Ver ejemplo en `src/features/trainers/components/trainers-table.tsx`.
 
 `features/trainers/` es el template a replicar para nuevos módulos CRUD: `types.ts` → `api.ts` → `components/trainers-table.tsx` + `components/[entity]-form.tsx` → página.
 
+## Edición en modal con datos frescos
+
+Cuando un elemento se edita dentro de un modal (o cualquier componente inline en la misma página), **siempre se debe consultar el endpoint `GET /:id`** para obtener datos actualizados del backend, en lugar de usar los datos del listado cacheados en el frontend.
+
+### Implementación
+
+1. El hook `useEntity(id)` debe tener `staleTime: 0` para asegurar un refetch en cada apertura.
+2. El modal recibe el `id` del elemento a editar (no el objeto completo).
+3. Mientras se cargan los datos frescos, el modal muestra un `Spinner`.
+4. Cuando los datos llegan, se resetea el formulario con `form.reset(data)`.
+
+### Ejemplo (`features/exercises/api.ts`)
+
+```ts
+export function useExercise(id: string | null) {
+  return useQuery({
+    queryKey: [...KEY, id],
+    queryFn: () => apiClient<Entity>(`/entities/${id}`),
+    enabled: !!id,
+    staleTime: 0, // ← siempre refetch
+  });
+}
+```
+
+### Flujo
+
+1. Usuario da clic en "Editar" → se setea `editingId` y se abre el modal
+2. El modal recibe `exerciseId={editingId}` como prop
+3. `useExercise(exerciseId)` se activa (`enabled: !!id`) y hace fetch a `GET /entities/:id`
+4. Mientras carga: `Spinner`
+5. Cuando llegan los datos: `form.reset(exercise)` → el usuario ve datos frescos
+
 ## Role-based access
 
 - Use `RoleGuard` component from `src/components/ui/role-guard.tsx` for conditional rendering.

@@ -22,13 +22,13 @@ func NewService(repo *Repository) *Service {
 	return &Service{repo: repo}
 }
 
-func (s *Service) ListExercises(p pagination.Params, isActive *bool, userID uuid.UUID) ([]ExerciseResponse, pagination.Meta, error) {
+func (s *Service) ListExercises(p pagination.Params, isActive *bool, userID uuid.UUID, search string, muscleGroup string) ([]ExerciseResponse, pagination.Meta, error) {
 	trainer, err := s.repo.FindTrainerByUserID(userID)
 	if err != nil {
 		return nil, pagination.Meta{}, ErrTrainerNotFound
 	}
 
-	exercises, total, err := s.repo.FindAll(p, isActive, trainer.ID)
+	exercises, total, err := s.repo.FindAll(p, isActive, trainer.ID, search, muscleGroup)
 	if err != nil {
 		return nil, pagination.Meta{}, err
 	}
@@ -97,24 +97,16 @@ func (s *Service) UpdateExercise(id uuid.UUID, req UpdateExerciseRequest, userID
 	if req.Name != nil {
 		exercise.Name = *req.Name
 	}
-	if req.Description != nil {
-		exercise.Description = req.Description
-	}
+	exercise.Description = req.Description
 	if req.MuscleGroup != nil {
 		exercise.MuscleGroup = *req.MuscleGroup
 	}
 	if req.SecondaryMuscles != nil {
 		exercise.SecondaryMuscles = req.SecondaryMuscles
 	}
-	if req.Equipment != nil {
-		exercise.Equipment = req.Equipment
-	}
-	if req.VideoURL != nil {
-		exercise.VideoURL = req.VideoURL
-	}
-	if req.ImageURL != nil {
-		exercise.ImageURL = req.ImageURL
-	}
+	exercise.Equipment = req.Equipment
+	exercise.VideoURL = req.VideoURL
+	exercise.ImageURL = req.ImageURL
 	if req.IsActive != nil {
 		exercise.IsActive = *req.IsActive
 	}

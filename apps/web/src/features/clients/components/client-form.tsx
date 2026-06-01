@@ -139,7 +139,9 @@ export function ClientForm({ isOpen, onClose, client }: ClientFormProps) {
                     variant="secondary"
                     isInvalid={!!updateForm.formState.errors.name}
                   >
-                    <Label>Nombre <span className="text-danger ml-0.5">*</span></Label>
+                    <Label>
+                      Nombre <span className="text-danger ml-0.5">*</span>
+                    </Label>
                     <Input
                       placeholder="Nombre completo"
                       value={updateForm.watch('name')}
@@ -184,7 +186,9 @@ export function ClientForm({ isOpen, onClose, client }: ClientFormProps) {
                       <Input
                         placeholder="Ej. 70"
                         value={updateForm.watch('weight') ?? ''}
-                        onChange={(e) => updateForm.setValue('weight', e.target.value, { shouldValidate: true })}
+                        onChange={(e) =>
+                          updateForm.setValue('weight', e.target.value, { shouldValidate: true })
+                        }
                       />
                     </TextField>
 
@@ -193,7 +197,9 @@ export function ClientForm({ isOpen, onClose, client }: ClientFormProps) {
                       <Input
                         placeholder="Ej. 175"
                         value={updateForm.watch('height') ?? ''}
-                        onChange={(e) => updateForm.setValue('height', e.target.value, { shouldValidate: true })}
+                        onChange={(e) =>
+                          updateForm.setValue('height', e.target.value, { shouldValidate: true })
+                        }
                       />
                     </TextField>
                   </div>
@@ -224,7 +230,11 @@ export function ClientForm({ isOpen, onClose, client }: ClientFormProps) {
                   <Button variant="secondary" slot="close">
                     Cancelar
                   </Button>
-                  <Button type="submit" variant="primary" isDisabled={updateForm.formState.isSubmitting}>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    isDisabled={updateForm.formState.isSubmitting}
+                  >
                     <Icon icon="lucide:save" className="size-4" />
                     {updateForm.formState.isSubmitting ? 'Actualizando…' : 'Actualizar'}
                   </Button>
@@ -240,7 +250,9 @@ export function ClientForm({ isOpen, onClose, client }: ClientFormProps) {
                     variant="secondary"
                     isInvalid={!!createForm.formState.errors.email}
                   >
-                    <Label>Email <span className="text-danger ml-0.5">*</span></Label>
+                    <Label>
+                      Email <span className="text-danger ml-0.5">*</span>
+                    </Label>
                     <Input
                       placeholder="correo@ejemplo.com"
                       value={createForm.watch('email')}
@@ -261,7 +273,9 @@ export function ClientForm({ isOpen, onClose, client }: ClientFormProps) {
                     variant="secondary"
                     isInvalid={!!createForm.formState.errors.name}
                   >
-                    <Label>Nombre <span className="text-danger ml-0.5">*</span></Label>
+                    <Label>
+                      Nombre <span className="text-danger ml-0.5">*</span>
+                    </Label>
                     <Input
                       placeholder="Nombre completo"
                       value={createForm.watch('name')}
@@ -306,7 +320,9 @@ export function ClientForm({ isOpen, onClose, client }: ClientFormProps) {
                       <Input
                         placeholder="Ej. 70"
                         value={createForm.watch('weight') ?? ''}
-                        onChange={(e) => createForm.setValue('weight', e.target.value, { shouldValidate: true })}
+                        onChange={(e) =>
+                          createForm.setValue('weight', e.target.value, { shouldValidate: true })
+                        }
                       />
                     </TextField>
 
@@ -315,7 +331,9 @@ export function ClientForm({ isOpen, onClose, client }: ClientFormProps) {
                       <Input
                         placeholder="Ej. 175"
                         value={createForm.watch('height') ?? ''}
-                        onChange={(e) => createForm.setValue('height', e.target.value, { shouldValidate: true })}
+                        onChange={(e) =>
+                          createForm.setValue('height', e.target.value, { shouldValidate: true })
+                        }
                       />
                     </TextField>
                   </div>
@@ -334,7 +352,11 @@ export function ClientForm({ isOpen, onClose, client }: ClientFormProps) {
                   <Button variant="secondary" slot="close">
                     Cancelar
                   </Button>
-                  <Button type="submit" variant="primary" isDisabled={createForm.formState.isSubmitting}>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    isDisabled={createForm.formState.isSubmitting}
+                  >
                     <Icon icon="lucide:save" className="size-4" />
                     {createForm.formState.isSubmitting ? 'Creando…' : 'Crear cliente'}
                   </Button>

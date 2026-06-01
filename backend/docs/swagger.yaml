@@ -617,6 +617,14 @@ paths:
         in: query
         name: is_active
         type: boolean
+      - description: Buscar por nombre
+        in: query
+        name: search
+        type: string
+      - description: Filtrar por grupo muscular
+        in: query
+        name: muscle_group
+        type: string
       produces:
       - application/json
       responses:

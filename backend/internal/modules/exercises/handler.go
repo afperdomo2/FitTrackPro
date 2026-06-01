@@ -41,11 +41,13 @@ func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
 //	@Produce		json
 //	@Param			page		query		int		false	"Número de página"	default(1)
 //	@Param			per_page	query		int		false	"Registros por página"	default(20)
-//	@Param			is_active	query		bool	false	"Filtrar por estado activo"
+//	@Param			is_active		query		bool	false	"Filtrar por estado activo"
+//	@Param			search			query		string	false	"Buscar por nombre"
+//	@Param			muscle_group	query		string	false	"Filtrar por grupo muscular"
 //	@Security		BearerAuth
-//	@Success		200			{object}	pagination.Response{data=[]ExerciseResponse}
-//	@Failure		403			{object}	response.APIResponse
-//	@Failure		500			{object}	response.APIResponse
+//	@Success		200				{object}	pagination.Response{data=[]ExerciseResponse}
+//	@Failure		403				{object}	response.APIResponse
+//	@Failure		500				{object}	response.APIResponse
 //	@Router			/exercises [get]
 func (h *Handler) ListExercises(c *gin.Context) {
 	userID, _ := c.Get("user_id")
@@ -59,7 +61,10 @@ func (h *Handler) ListExercises(c *gin.Context) {
 		}
 	}
 
-	exercises, meta, err := h.svc.ListExercises(params, isActive, userID.(uuid.UUID))
+	search := c.Query("search")
+	muscleGroup := c.Query("muscle_group")
+
+	exercises, meta, err := h.svc.ListExercises(params, isActive, userID.(uuid.UUID), search, muscleGroup)
 	if err != nil {
 		if errors.Is(err, ErrTrainerNotFound) {
 			response.Error(c, http.StatusForbidden, err.Error())
