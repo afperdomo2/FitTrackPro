@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Card } from '@heroui/react';
+import { Icon } from '@iconify/react';
 
 export default function Error({
   error,
@@ -23,6 +24,7 @@ export default function Error({
         </Card.Content>
         <Card.Footer className="flex justify-end">
           <Button onPress={reset} variant="primary">
+            <Icon icon="lucide:refresh-cw" className="size-4" />
             Reintentar
           </Button>
         </Card.Footer>

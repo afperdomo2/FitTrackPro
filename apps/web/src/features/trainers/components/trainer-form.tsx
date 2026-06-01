@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { Button, Input, Label, Modal, Switch, TextField } from '@heroui/react';
+import { Icon } from '@iconify/react';
 import { useForm, useController } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
@@ -106,11 +107,15 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                     variant="secondary"
                     isInvalid={!!updateForm.formState.errors.name}
                   >
-                    <Label>Nombre</Label>
+                    <Label>
+                      Nombre <span className="text-danger ml-0.5">*</span>
+                    </Label>
                     <Input
                       placeholder="Nombre completo"
                       value={updateForm.watch('name')}
-                      onChange={(e) => updateForm.setValue('name', e.target.value, { shouldValidate: true })}
+                      onChange={(e) =>
+                        updateForm.setValue('name', e.target.value, { shouldValidate: true })
+                      }
                     />
                   </TextField>
                   {updateForm.formState.errors.name && (
@@ -124,7 +129,9 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                     <Input
                       placeholder="Ej. Nutrición deportiva"
                       value={updateForm.watch('speciality') ?? ''}
-                      onChange={(e) => updateForm.setValue('speciality', e.target.value, { shouldValidate: true })}
+                      onChange={(e) =>
+                        updateForm.setValue('speciality', e.target.value, { shouldValidate: true })
+                      }
                     />
                   </TextField>
 
@@ -144,11 +151,8 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                   <Button variant="secondary" slot="close">
                     Cancelar
                   </Button>
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    isDisabled={updateForm.formState.isSubmitting}
-                  >
+                  <Button type="submit" variant="primary" isDisabled={updateForm.formState.isSubmitting}>
+                    <Icon icon="lucide:save" className="size-4" />
                     {updateForm.formState.isSubmitting ? 'Actualizando…' : 'Actualizar'}
                   </Button>
                 </Modal.Footer>
@@ -163,11 +167,15 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                     variant="secondary"
                     isInvalid={!!createForm.formState.errors.email}
                   >
-                    <Label>Email</Label>
+                    <Label>
+                      Email <span className="text-danger ml-0.5">*</span>
+                    </Label>
                     <Input
                       placeholder="correo@ejemplo.com"
                       value={createForm.watch('email')}
-                      onChange={(e) => createForm.setValue('email', e.target.value, { shouldValidate: true })}
+                      onChange={(e) =>
+                        createForm.setValue('email', e.target.value, { shouldValidate: true })
+                      }
                     />
                   </TextField>
                   {createForm.formState.errors.email && (
@@ -182,11 +190,15 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                     variant="secondary"
                     isInvalid={!!createForm.formState.errors.name}
                   >
-                    <Label>Nombre</Label>
+                    <Label>
+                      Nombre <span className="text-danger ml-0.5">*</span>
+                    </Label>
                     <Input
                       placeholder="Nombre completo"
                       value={createForm.watch('name')}
-                      onChange={(e) => createForm.setValue('name', e.target.value, { shouldValidate: true })}
+                      onChange={(e) =>
+                        createForm.setValue('name', e.target.value, { shouldValidate: true })
+                      }
                     />
                   </TextField>
                   {createForm.formState.errors.name && (
@@ -200,7 +212,9 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                     <Input
                       placeholder="Ej. Nutrición deportiva"
                       value={createForm.watch('speciality') ?? ''}
-                      onChange={(e) => createForm.setValue('speciality', e.target.value, { shouldValidate: true })}
+                      onChange={(e) =>
+                        createForm.setValue('speciality', e.target.value, { shouldValidate: true })
+                      }
                     />
                   </TextField>
                 </Modal.Body>
@@ -208,11 +222,8 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                   <Button variant="secondary" slot="close">
                     Cancelar
                   </Button>
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    isDisabled={createForm.formState.isSubmitting}
-                  >
+                  <Button type="submit" variant="primary" isDisabled={createForm.formState.isSubmitting}>
+                    <Icon icon="lucide:save" className="size-4" />
                     {createForm.formState.isSubmitting ? 'Creando…' : 'Crear entrenador'}
                   </Button>
                 </Modal.Footer>

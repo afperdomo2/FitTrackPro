@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Card } from '@heroui/react';
+import { Icon } from '@iconify/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
@@ -44,6 +45,7 @@ export function RegisterForm() {
             name="name"
             label="Nombre completo"
             placeholder="Juan Pérez"
+            required
           />
           <FormField
             control={control}
@@ -51,6 +53,7 @@ export function RegisterForm() {
             label="Email"
             type="email"
             placeholder="tu@correo.com"
+            required
           />
           <FormField
             control={control}
@@ -58,6 +61,7 @@ export function RegisterForm() {
             label="Contraseña"
             type="password"
             placeholder="Mín. 8 caracteres"
+            required
           />
           {formState.errors.root && (
             <p className="text-sm text-danger">{formState.errors.root.message}</p>
@@ -70,6 +74,7 @@ export function RegisterForm() {
             className="w-full"
             isDisabled={formState.isSubmitting}
           >
+            <Icon icon="lucide:user-plus" className="size-4" />
             {formState.isSubmitting ? 'Creando cuenta…' : 'Crear cuenta'}
           </Button>
           <p className="text-sm text-center text-muted-foreground">

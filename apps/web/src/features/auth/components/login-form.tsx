@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Card } from '@heroui/react';
+import { Icon } from '@iconify/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
@@ -48,6 +49,7 @@ export function LoginForm() {
             label="Email"
             type="email"
             placeholder="tu@correo.com"
+            required
           />
           <FormField
             control={control}
@@ -55,6 +57,7 @@ export function LoginForm() {
             label="Contraseña"
             type="password"
             placeholder="••••••••"
+            required
           />
           {formState.errors.root && (
             <p className="text-sm text-danger">{formState.errors.root.message}</p>
@@ -67,6 +70,7 @@ export function LoginForm() {
             className="w-full"
             isDisabled={formState.isSubmitting}
           >
+            <Icon icon="lucide:log-in" className="size-4" />
             {formState.isSubmitting ? 'Iniciando sesión…' : 'Iniciar sesión'}
           </Button>
           <p className="text-sm text-center text-muted-foreground">

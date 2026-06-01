@@ -1,4 +1,5 @@
 import { Button, Card } from '@heroui/react';
+import { Icon } from '@iconify/react';
 import Link from 'next/link';
 
 export default function NotFound() {
@@ -16,7 +17,10 @@ export default function NotFound() {
         </Card.Content>
         <Card.Footer className="flex justify-end">
           <Link href="/">
-            <Button variant="primary">Ir al inicio</Button>
+            <Button variant="primary">
+              <Icon icon="lucide:home" className="size-4" />
+              Ir al inicio
+            </Button>
           </Link>
         </Card.Footer>
       </Card>

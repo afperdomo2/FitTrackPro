@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Card, Input, Label, TextField } from '@heroui/react';
+import { Icon } from '@iconify/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
@@ -104,6 +105,7 @@ export function ChangePasswordForm() {
         </Card.Content>
         <Card.Footer className="flex justify-end pt-4">
           <Button type="submit" variant="primary" isDisabled={formState.isSubmitting}>
+            <Icon icon="lucide:key-round" className="size-4" />
             {formState.isSubmitting ? 'Cambiando…' : 'Cambiar contraseña'}
           </Button>
         </Card.Footer>

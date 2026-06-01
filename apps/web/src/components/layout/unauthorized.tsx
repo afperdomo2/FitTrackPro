@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Card } from '@heroui/react';
+import { Icon } from '@iconify/react';
 import Link from 'next/link';
 
 export function Unauthorized() {
@@ -18,7 +19,10 @@ export function Unauthorized() {
         </Card.Content>
         <Card.Footer className="flex justify-end">
           <Link href="/dashboard">
-            <Button variant="primary">Ir al dashboard</Button>
+            <Button variant="primary">
+              <Icon icon="lucide:layout-dashboard" className="size-4" />
+              Ir al dashboard
+            </Button>
           </Link>
         </Card.Footer>
       </Card>

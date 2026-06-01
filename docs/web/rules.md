@@ -32,6 +32,22 @@
 - Use `FormField` wrapper from `src/components/form/` to bind RHF to HeroUI Input.
 - Server errors: catch in `onSubmit`, display via `setError('root', ...)` + `toast.error()`.
 
+### Campos obligatorios
+
+- Todo campo requerido debe mostrar un **asterisco rojo** (`*`) al lado de su label.
+- En `FormField` usar prop `required` para campos obligatorios.
+- En formularios con `Label` manual, agregar:
+  ```tsx
+  <Label>
+    Nombre <span className="text-danger ml-0.5">*</span>
+  </Label>
+  ```
+
+### Layout de formularios (responsive)
+
+- Preferir **CSS Grid** (`grid grid-cols-2 gap-4`) sobre `flex gap-4` para agrupar campos que deben ir en la misma fila (ej. peso/altura). Grid se adapta mejor en pantallas chicas sin overflow horizontal.
+- El `Modal.Body` usa `className="flex flex-col gap-4"` (vertical). Dentro de él, los grupos de campos horizontales usan grid, no flex.
+
 ## Data fetching
 
 - Use `apiClient<T>(path, options)` from `src/lib/api-client.ts`.
@@ -47,21 +63,21 @@ Usar siempre el componente genérico `DataTable<T>` de `src/components/data-tabl
 
 ```ts
 interface Column<T> {
-  key: string;                           // Llave del dato en la fila
-  label: string;                         // Texto del header (en español)
+  key: string; // Llave del dato en la fila
+  label: string; // Texto del header (en español)
   render?: (item: T) => React.ReactNode; // Render personalizado (opcional)
-  align?: 'left' | 'center' | 'right';   // Alineación (default: 'center')
+  align?: 'left' | 'center' | 'right'; // Alineación (default: 'center')
 }
 ```
 
 ### Alineación de columnas
 
-| Tipo de dato | `align` | Ejemplos |
-|---|---|---|
-| Texto | `'left'` | Nombre, Email, Descripción |
+| Tipo de dato            | `align`              | Ejemplos                      |
+| ----------------------- | -------------------- | ----------------------------- |
+| Texto                   | `'left'`             | Nombre, Email, Descripción    |
 | Estado, chips, acciones | `'center'` (default) | Activo/Inactivo, Rol, Botones |
-| Fechas | `'center'` | created_at, updated_at |
-| Números / moneda | `'right'` | Precio, Total |
+| Fechas                  | `'center'`           | created_at, updated_at        |
+| Números / moneda        | `'right'`            | Precio, Total                 |
 
 ### Botón de refrescar
 
@@ -122,6 +138,12 @@ Ver ejemplo en `src/features/trainers/components/trainers-table.tsx`.
 
 - **All user-facing text must be in Spanish**: labels, buttons, placeholders, error messages, titles, descriptions.
 - Technical terms that stay in English: `Email`, `Token`, `JWT`, `Dashboard`, component names, CSS classes, API terms.
+
+## Botones
+
+- Todo botón con `variant="primary"` debe incluir un icono antes del texto (importar `<Icon>` de `@iconify/react`).
+- Iconos recomendados según acción: agregar (`lucide:plus`), guardar (`lucide:save`), iniciar sesión (`lucide:log-in`), registrarse (`lucide:user-plus`), cambiar contraseña (`lucide:key-round`), volver al inicio (`lucide:home`), reintentar (`lucide:refresh-cw`), editar (`lucide:pencil`), eliminar (`lucide:trash-2`).
+- Los botones con `variant="secondary"`, `variant="danger"` y `variant="tertiary"` también pueden usar iconos cuando mejoren la claridad de la acción.
 
 ## Shared package
 

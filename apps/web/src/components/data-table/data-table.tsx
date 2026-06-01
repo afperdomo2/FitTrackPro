@@ -65,14 +65,10 @@ export function DataTable<T extends { id: string | number }>({
                           {(col: { id: string }) => {
                             const colDef = columnMap.get(col.id);
                             return (
-                              <Table.Cell
-                                className={`text-${colDef?.align ?? 'center'}`}
-                              >
+                              <Table.Cell className={`text-${colDef?.align ?? 'center'}`}>
                                 {colDef?.render
                                   ? colDef.render(item)
-                                  : String(
-                                      (item as Record<string, unknown>)[col.id] ?? '',
-                                    )}
+                                  : String((item as Record<string, unknown>)[col.id] ?? '')}
                               </Table.Cell>
                             );
                           }}

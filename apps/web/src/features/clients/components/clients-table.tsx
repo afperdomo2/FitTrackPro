@@ -5,44 +5,44 @@ import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { DataTable, type Column } from '@/components/data-table/data-table';
 import { RefreshButton } from '@/components/data-table/refresh-button';
-import { useTrainers, useDeleteTrainer } from '../api';
-import { TrainerForm } from './trainer-form';
-import type { TrainerRow } from '../types';
+import { useClients, useDeleteClient } from '../api';
+import { ClientForm } from './client-form';
+import type { ClientRow } from '../types';
 
-export function TrainersTable() {
+export function ClientsTable() {
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
-  const [editingTrainer, setEditingTrainer] = useState<TrainerRow | undefined>(undefined);
-  const [deletingTrainer, setDeletingTrainer] = useState<TrainerRow | null>(null);
-  const { data, isLoading } = useTrainers({ page });
-  const deleteTrainer = useDeleteTrainer();
+  const [editingClient, setEditingClient] = useState<ClientRow | undefined>(undefined);
+  const [deletingClient, setDeletingClient] = useState<ClientRow | null>(null);
+  const { data, isLoading } = useClients({ page });
+  const deleteClient = useDeleteClient();
 
   const openCreate = () => {
-    setEditingTrainer(undefined);
+    setEditingClient(undefined);
     setModalOpen(true);
   };
 
-  const openEdit = (trainer: TrainerRow) => {
-    setEditingTrainer(trainer);
+  const openEdit = (client: ClientRow) => {
+    setEditingClient(client);
     setModalOpen(true);
   };
 
   const closeModal = () => {
     setModalOpen(false);
-    setEditingTrainer(undefined);
+    setEditingClient(undefined);
   };
 
-  const columns: Column<TrainerRow>[] = [
+  const columns: Column<ClientRow>[] = [
     { key: 'name', label: 'Nombre', align: 'left' },
     { key: 'email', label: 'Email', align: 'left' },
-    { key: 'speciality', label: 'Especialidad', align: 'left' },
+    { key: 'fitness_level', label: 'Nivel', align: 'left' },
     {
       key: 'is_active',
       label: 'Estado',
       align: 'center',
-      render: (trainer: TrainerRow) => (
-        <Chip color={trainer.is_active ? 'success' : 'danger'} variant="soft" size="sm">
-          {trainer.is_active ? 'Activo' : 'Inactivo'}
+      render: (client: ClientRow) => (
+        <Chip color={client.is_active ? 'success' : 'danger'} variant="soft" size="sm">
+          {client.is_active ? 'Activo' : 'Inactivo'}
         </Chip>
       ),
     },
@@ -50,18 +50,13 @@ export function TrainersTable() {
       key: 'actions',
       label: 'Acciones',
       align: 'center',
-      render: (trainer: TrainerRow) => (
+      render: (client: ClientRow) => (
         <div className="flex justify-center gap-2">
-          <Button size="sm" variant="secondary" onPress={() => openEdit(trainer)}>
+          <Button size="sm" variant="secondary" onPress={() => openEdit(client)}>
             <Icon icon="lucide:pencil" className="size-4" />
             Editar
           </Button>
-          <Button
-            size="sm"
-            variant="danger"
-            onPress={() => setDeletingTrainer(trainer)}
-            isDisabled={deleteTrainer.isPending}
-          >
+          <Button size="sm" variant="danger" onPress={() => setDeletingClient(client)}>
             <Icon icon="lucide:trash-2" className="size-4" />
             Eliminar
           </Button>
@@ -73,30 +68,30 @@ export function TrainersTable() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Entrenadores</h1>
+        <h1 className="text-2xl font-semibold">Clientes</h1>
         <div className="flex items-center gap-2">
-          <RefreshButton queryKey={['trainers', { page, perPage: 20 }]} />
+          <RefreshButton queryKey={['clients', { page, perPage: 20 }]} />
           <Button variant="primary" onPress={openCreate}>
             <Icon icon="lucide:plus" className="size-4" />
-            Agregar entrenador
+            Agregar cliente
           </Button>
         </div>
       </div>
-      <DataTable<TrainerRow>
+      <DataTable<ClientRow>
         columns={columns}
         data={data?.data ?? []}
         page={page}
         totalPages={data?.meta.total_pages ?? 1}
         onPageChange={setPage}
         isLoading={isLoading}
-        emptyMessage="No se encontraron entrenadores"
+        emptyMessage="No se encontraron clientes"
       />
-      <TrainerForm isOpen={modalOpen} onClose={closeModal} trainer={editingTrainer} />
+      <ClientForm isOpen={modalOpen} onClose={closeModal} client={editingClient} />
 
       <AlertDialog.Backdrop
-        isOpen={deletingTrainer !== null}
+        isOpen={deletingClient !== null}
         onOpenChange={(open) => {
-          if (!open) setDeletingTrainer(null);
+          if (!open) setDeletingClient(null);
         }}
       >
         <AlertDialog.Container placement="center" size="sm">
@@ -104,12 +99,12 @@ export function TrainersTable() {
             <AlertDialog.CloseTrigger />
             <AlertDialog.Header>
               <AlertDialog.Icon status="danger" />
-              <AlertDialog.Heading>¿Eliminar entrenador?</AlertDialog.Heading>
+              <AlertDialog.Heading>¿Eliminar cliente?</AlertDialog.Heading>
             </AlertDialog.Header>
             <AlertDialog.Body>
               <p>
-                Esto eliminará permanentemente a <strong>{deletingTrainer?.name}</strong> y todos
-                sus datos. Esta acción no se puede deshacer.
+                Esto eliminará permanentemente a <strong>{deletingClient?.name}</strong> y todos sus
+                datos. Esta acción no se puede deshacer.
               </p>
             </AlertDialog.Body>
             <AlertDialog.Footer>
@@ -119,10 +114,8 @@ export function TrainersTable() {
               <Button
                 variant="danger"
                 onPress={() => {
-                  if (deletingTrainer) {
-                    deleteTrainer.mutate(deletingTrainer.id);
-                  }
-                  setDeletingTrainer(null);
+                  if (deletingClient) deleteClient.mutate(deletingClient.id);
+                  setDeletingClient(null);
                 }}
               >
                 Eliminar

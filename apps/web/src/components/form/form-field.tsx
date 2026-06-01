@@ -11,6 +11,7 @@ interface FormFieldProps<T extends FieldValues> {
   type?: 'text' | 'email' | 'password';
   placeholder?: string;
   isDisabled?: boolean;
+  required?: boolean;
 }
 
 export function FormField<T extends FieldValues>({
@@ -20,6 +21,7 @@ export function FormField<T extends FieldValues>({
   type = 'text',
   placeholder,
   isDisabled,
+  required,
 }: FormFieldProps<T>) {
   const {
     field,
@@ -28,7 +30,10 @@ export function FormField<T extends FieldValues>({
 
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-sm font-medium text-foreground">{label}</label>
+      <label className="text-sm font-medium text-foreground">
+        {label}
+        {required && <span className="text-danger ml-0.5">*</span>}
+      </label>
       <Input
         value={field.value ?? ''}
         onChange={field.onChange}
