@@ -28,7 +28,7 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
   const createForm = useForm<CreateTrainerFormData>({
     resolver: zodResolver(createTrainerSchema),
     mode: 'onChange',
-    defaultValues: { email: '', password: '', name: '', speciality: '' },
+    defaultValues: { email: '', name: '', speciality: '' },
   });
 
   const updateForm = useForm<UpdateTrainerFormData>({
@@ -45,6 +45,12 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
     control: updateForm.control,
     name: 'is_active',
   });
+
+  useEffect(() => {
+    if (isOpen) {
+      createForm.reset({ email: '', name: '', speciality: '' });
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (trainer) {
@@ -104,7 +110,7 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                     <Input
                       placeholder="Nombre completo"
                       value={updateForm.watch('name')}
-                      onChange={(e) => updateForm.setValue('name', e.target.value)}
+                      onChange={(e) => updateForm.setValue('name', e.target.value, { shouldValidate: true })}
                     />
                   </TextField>
                   {updateForm.formState.errors.name && (
@@ -118,7 +124,7 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                     <Input
                       placeholder="Ej. Nutrición deportiva"
                       value={updateForm.watch('speciality') ?? ''}
-                      onChange={(e) => updateForm.setValue('speciality', e.target.value)}
+                      onChange={(e) => updateForm.setValue('speciality', e.target.value, { shouldValidate: true })}
                     />
                   </TextField>
 
@@ -161,32 +167,12 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                     <Input
                       placeholder="correo@ejemplo.com"
                       value={createForm.watch('email')}
-                      onChange={(e) => createForm.setValue('email', e.target.value)}
+                      onChange={(e) => createForm.setValue('email', e.target.value, { shouldValidate: true })}
                     />
                   </TextField>
                   {createForm.formState.errors.email && (
                     <p className="text-xs text-danger -mt-3">
                       {createForm.formState.errors.email.message}
-                    </p>
-                  )}
-
-                  <TextField
-                    className="w-full"
-                    name="password"
-                    type="password"
-                    variant="secondary"
-                    isInvalid={!!createForm.formState.errors.password}
-                  >
-                    <Label>Contraseña</Label>
-                    <Input
-                      placeholder="Mín. 8 caracteres"
-                      value={createForm.watch('password')}
-                      onChange={(e) => createForm.setValue('password', e.target.value)}
-                    />
-                  </TextField>
-                  {createForm.formState.errors.password && (
-                    <p className="text-xs text-danger -mt-3">
-                      {createForm.formState.errors.password.message}
                     </p>
                   )}
 
@@ -200,7 +186,7 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                     <Input
                       placeholder="Nombre completo"
                       value={createForm.watch('name')}
-                      onChange={(e) => createForm.setValue('name', e.target.value)}
+                      onChange={(e) => createForm.setValue('name', e.target.value, { shouldValidate: true })}
                     />
                   </TextField>
                   {createForm.formState.errors.name && (
@@ -214,7 +200,7 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                     <Input
                       placeholder="Ej. Nutrición deportiva"
                       value={createForm.watch('speciality') ?? ''}
-                      onChange={(e) => createForm.setValue('speciality', e.target.value)}
+                      onChange={(e) => createForm.setValue('speciality', e.target.value, { shouldValidate: true })}
                     />
                   </TextField>
                 </Modal.Body>

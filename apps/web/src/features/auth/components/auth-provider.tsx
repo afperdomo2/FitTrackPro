@@ -11,9 +11,11 @@ interface AuthContextValue {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  mustChangePassword: boolean;
   login: (data: LoginRequest) => Promise<LoginResponse>;
   register: (data: RegisterRequest) => Promise<LoginResponse>;
   logout: () => Promise<void>;
+  updateToken: (token: string) => void;
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
@@ -21,6 +23,7 @@ export const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setTokenState] = useState<string | null>(null);
+  const [mustChangePassword, setMustChangePassword] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const loginMutation = useLogin();
@@ -33,6 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const claims = decodeToken(stored);
       if (claims && claims.exp * 1000 > Date.now()) {
         setTokenState(stored);
+        setMustChangePassword(claims.must_change_password);
         setUser({
           id: claims.user_id,
           email: claims.email,
@@ -51,6 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const result = await loginMutation.mutateAsync(data);
       setToken(result.token);
       setTokenState(result.token);
+      setMustChangePassword(result.must_change_password);
       setUser(result.user);
       return result;
     },
@@ -74,17 +79,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setTokenState(null);
   }, [logoutMutation]);
 
+  const updateToken = useCallback((newToken: string) => {
+    setToken(newToken);
+    setTokenState(newToken);
+    const claims = decodeToken(newToken);
+    if (claims) {
+      setMustChangePassword(claims.must_change_password);
+      setUser({ id: claims.user_id, email: claims.email, name: claims.email, role: claims.role });
+    }
+  }, []);
+
   const value = useMemo(
     () => ({
       user,
       token,
       isAuthenticated: !!user && !!token,
       isLoading,
+      mustChangePassword,
       login,
       register,
       logout,
+      updateToken,
     }),
-    [user, token, isLoading, login, register, logout],
+    [user, token, isLoading, mustChangePassword, login, register, logout, updateToken],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

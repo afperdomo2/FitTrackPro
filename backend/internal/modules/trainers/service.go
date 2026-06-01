@@ -2,7 +2,6 @@ package trainers
 
 import (
 	"errors"
-	"log"
 
 	"github.com/felipe/FitTrackPro/backend/internal/models"
 	"github.com/felipe/FitTrackPro/backend/pkg/pagination"
@@ -33,7 +32,7 @@ func (s *Service) ListTrainers(p pagination.Params, isActive *bool) ([]TrainerRe
 	return toTrainerResponses(trainers), pagination.BuildMeta(p, total), nil
 }
 
-func (s *Service) CreateTrainer(req CreateTrainerRequest) (*TrainerResponse, error) {
+func (s *Service) CreateTrainer(req CreateTrainerRequest, defaultPassword string) (*TrainerResponse, error) {
 	existing, err := s.repo.FindByEmail(req.Email)
 	if err == nil && existing != nil {
 		return nil, ErrEmailTaken
@@ -42,7 +41,7 @@ func (s *Service) CreateTrainer(req CreateTrainerRequest) (*TrainerResponse, err
 		return nil, err
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(defaultPassword), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
 	}
@@ -92,8 +91,6 @@ func (s *Service) UpdateTrainer(id uuid.UUID, req UpdateTrainerRequest) (*Traine
 		trainer.Speciality = req.Speciality
 	}
 
-	log.Printf("---> IsActive value: %v", req)
-
 	user := &trainer.User
 	if req.Name != nil {
 		user.Name = *req.Name
@@ -101,8 +98,6 @@ func (s *Service) UpdateTrainer(id uuid.UUID, req UpdateTrainerRequest) (*Traine
 	if req.IsActive != nil {
 		user.IsActive = *req.IsActive
 	}
-
-	log.Printf("---> IsActive value after update: %v", user.IsActive)
 
 	if err := s.repo.UpdateTrainerWithUser(trainer, user); err != nil {
 		return nil, err

@@ -23,7 +23,7 @@ export function useTrainers(params: UseTrainersParams = {}) {
 
 export function useCreateTrainer() {
   return useMutation({
-    mutationFn: (data: { email: string; password: string; name: string; speciality?: string }) =>
+    mutationFn: (data: { email: string; name: string; speciality?: string }) =>
       apiClient<TrainerRow>('/trainers', {
         method: 'POST',
         body: JSON.stringify({ ...data, speciality: data.speciality || null }),

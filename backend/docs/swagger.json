@@ -1124,8 +1124,7 @@
             "type": "object",
             "required": [
                 "email",
-                "name",
-                "password"
+                "name"
             ],
             "properties": {
                 "birth_date": {
@@ -1145,10 +1144,6 @@
                 },
                 "name": {
                     "type": "string"
-                },
-                "password": {
-                    "type": "string",
-                    "minLength": 8
                 },
                 "weight": {
                     "type": "number"
@@ -1240,8 +1235,7 @@
             "type": "object",
             "required": [
                 "email",
-                "name",
-                "password"
+                "name"
             ],
             "properties": {
                 "email": {
@@ -1249,10 +1243,6 @@
                 },
                 "name": {
                     "type": "string"
-                },
-                "password": {
-                    "type": "string",
-                    "minLength": 8
                 },
                 "speciality": {
                     "type": "string"

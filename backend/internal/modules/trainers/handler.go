@@ -15,12 +15,13 @@ import (
 )
 
 type Handler struct {
-	svc *Service
+	svc             *Service
+	defaultPassword string
 }
 
-func NewHandler(db *gorm.DB) *Handler {
+func NewHandler(db *gorm.DB, defaultPassword string) *Handler {
 	repo := NewRepository(db)
-	return &Handler{svc: NewService(repo)}
+	return &Handler{svc: NewService(repo), defaultPassword: defaultPassword}
 }
 
 func RegisterRoutes(rg *gin.RouterGroup, h *Handler) {
@@ -89,7 +90,7 @@ func (h *Handler) CreateTrainer(c *gin.Context) {
 		return
 	}
 
-	trainer, err := h.svc.CreateTrainer(req)
+	trainer, err := h.svc.CreateTrainer(req, h.defaultPassword)
 	if err != nil {
 		switch {
 		case errors.Is(err, ErrEmailTaken):

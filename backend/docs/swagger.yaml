@@ -100,15 +100,11 @@ definitions:
         type: number
       name:
         type: string
-      password:
-        minLength: 8
-        type: string
       weight:
         type: number
     required:
     - email
     - name
-    - password
     type: object
   clients.UpdateClientRequest:
     properties:
@@ -170,15 +166,11 @@ definitions:
         type: string
       name:
         type: string
-      password:
-        minLength: 8
-        type: string
       speciality:
         type: string
     required:
     - email
     - name
-    - password
     type: object
   trainers.TrainerResponse:
     properties:

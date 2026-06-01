@@ -53,8 +53,8 @@ func main() {
 
 	authHandler := auth.NewHandler(db, &cfg.JWT)
 	usersHandler := users.NewHandler(db)
-	trainersHandler := trainers.NewHandler(db)
-	clientsHandler := clients.NewHandler(db)
+	trainersHandler := trainers.NewHandler(db, cfg.DefaultUserPassword)
+	clientsHandler := clients.NewHandler(db, cfg.DefaultUserPassword)
 
 	public := r.Group("/api/v1")
 	health.RegisterRoutes(public, health.NewHandler(db))

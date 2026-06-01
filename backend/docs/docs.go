@@ -1126,8 +1126,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
-                "name",
-                "password"
+                "name"
             ],
             "properties": {
                 "birth_date": {
@@ -1147,10 +1146,6 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
-                },
-                "password": {
-                    "type": "string",
-                    "minLength": 8
                 },
                 "weight": {
                     "type": "number"
@@ -1242,8 +1237,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
-                "name",
-                "password"
+                "name"
             ],
             "properties": {
                 "email": {
@@ -1251,10 +1245,6 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
-                },
-                "password": {
-                    "type": "string",
-                    "minLength": 8
                 },
                 "speciality": {
                     "type": "string"

@@ -39,7 +39,7 @@ func (s *Service) ListClients(p pagination.Params, isActive *bool, userID uuid.U
 	return toClientResponses(clients), pagination.BuildMeta(p, total), nil
 }
 
-func (s *Service) CreateClient(req CreateClientRequest, userID uuid.UUID) (*ClientResponse, error) {
+func (s *Service) CreateClient(req CreateClientRequest, userID uuid.UUID, defaultPassword string) (*ClientResponse, error) {
 	trainer, err := s.repo.FindTrainerByUserID(userID)
 	if err != nil {
 		return nil, ErrTrainerNotFound
@@ -53,7 +53,7 @@ func (s *Service) CreateClient(req CreateClientRequest, userID uuid.UUID) (*Clie
 		return nil, err
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(defaultPassword), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
 	}

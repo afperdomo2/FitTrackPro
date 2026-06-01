@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Sidebar } from './_components/sidebar';
 import { Topbar } from './_components/topbar';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, mustChangePassword } = useAuth();
+  const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
@@ -15,6 +16,12 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       router.replace('/login');
     }
   }, [isAuthenticated, isLoading, router]);
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated && mustChangePassword && !pathname.startsWith('/profile')) {
+      router.replace('/profile?change_password=required');
+    }
+  }, [isAuthenticated, isLoading, mustChangePassword, pathname, router]);
 
   if (isLoading) {
     return (
