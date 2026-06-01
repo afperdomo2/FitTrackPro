@@ -11,6 +11,8 @@
 - **Tailwind CSS v4** — no `tailwind.config.ts`.
 - Theme is defined via `@theme inline` in `src/app/globals.css`.
 - Uses `@import "tailwindcss"` + `@import "@heroui/styles"` for HeroUI integration.
+- **Design system**: See `docs/web/design-system.md` for complete reference on colors, typography, animations, component conventions, and responsive rules.
+- **All new components must follow the conventions** in `design-system.md` (card styling, heading patterns, error banners, animation usage, spacing, responsive behavior).
 
 ## State management
 
@@ -37,6 +39,7 @@
 - Todo campo requerido debe mostrar un **asterisco rojo** (`*`) al lado de su label.
 - En `FormField` usar prop `required` para campos obligatorios.
 - En formularios con `Label` manual, agregar:
+
   ```tsx
   <Label>
     Nombre <span className="text-danger ml-0.5">*</span>

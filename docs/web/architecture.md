@@ -5,75 +5,101 @@
 ```
 apps/web/
 ├── src/
-│   ├── app/                          # Next.js App Router
-│   │   ├── (public)/                 # Route group — no auth required
+│   ├── app/                              # Next.js App Router
+│   │   ├── (public)/                     # Route group — no auth required
+│   │   │   ├── _components/
+│   │   │   │   └── brand-panel.tsx       # Brand panel for login/register (dark, 45%)
 │   │   │   ├── login/
 │   │   │   │   └── page.tsx
 │   │   │   ├── register/
 │   │   │   │   └── page.tsx
-│   │   │   └── layout.tsx            # Centered card layout, redirects if auth'd
-│   │   ├── (auth)/                   # Route group — requires authentication
-│   │   │   ├── _components/          # Private components for auth layout
-│   │   │   │   ├── sidebar.tsx       # Role-aware sidebar navigation
-│   │   │   │   └── topbar.tsx        # User menu, role badge, logout
+│   │   │   └── layout.tsx                # 2-panel: BrandPanel + children
+│   │   ├── (auth)/                       # Route group — requires authentication
+│   │   │   ├── _components/
+│   │   │   │   ├── sidebar.tsx           # Fixed desktop / drawer mobile, icons, role-aware
+│   │   │   │   └── topbar.tsx            # Breadcrumb + hamburger + theme toggle + user
 │   │   │   ├── dashboard/
 │   │   │   │   └── page.tsx
-│   │   │   ├── clients/              # trainer + admin
+│   │   │   ├── clients/
 │   │   │   │   └── page.tsx
-│   │   │   ├── workouts/             # all roles
+│   │   │   ├── trainers/
 │   │   │   │   └── page.tsx
-│   │   │   ├── admin/
-│   │   │   │   └── users/
-│   │   │   │       └── page.tsx      # admin only
+│   │   │   ├── workouts/
+│   │   │   │   └── page.tsx
+│   │   │   ├── exercises/
+│   │   │   │   └── page.tsx
 │   │   │   ├── profile/
 │   │   │   │   └── page.tsx
-│   │   │   └── layout.tsx            # Sidebar + topbar, redirects if unauthed
-│   │   ├── layout.tsx                # Root layout — fonts, metadata, providers
-│   │   ├── page.tsx                  # Landing / redirect
+│   │   │   └── layout.tsx                # Sidebar (fixed/drawer) + Topbar, auth guard
+│   │   ├── layout.tsx                    # Root layout — fonts, metadata, providers
+│   │   ├── page.tsx                      # Landing / redirect
 │   │   ├── loading.tsx
-│   │   ├── error.tsx                 # Error boundary
-│   │   ├── not-found.tsx             # 404
-│   │   ├── providers.tsx             # Client providers (QueryClient, Auth, Theme, Toasts)
-│   │   └── globals.css               # Tailwind v4 + HeroUI styles + theme tokens
-│   ├── components/                   # Shared UI components
+│   │   ├── error.tsx                     # Error boundary (icon + card design)
+│   │   ├── not-found.tsx                 # 404 (icon + card design)
+│   │   ├── providers.tsx                 # Client providers (QueryClient, Auth, Theme, Toasts)
+│   │   └── globals.css                   # Tailwind v4 + HeroUI styles + theme tokens + animations
+│   ├── components/                       # Shared UI components
 │   │   ├── form/
-│   │   │   └── form-field.tsx        # RHF + HeroUI Input + error message wrapper
+│   │   │   └── form-field.tsx            # RHF + HeroUI Input + error message wrapper
 │   │   ├── data-table/
-│   │   │   ├── data-table.tsx        # Generic table with sort, pagination, refresh
-│   │   │   ├── pagination.tsx        # Pagination controls
-│   │   │   └── refresh-button.tsx    # Refresh button with 1-second cooldown
+│   │   │   ├── data-table.tsx            # Generic table with pagination, empty state, refresh
+│   │   │   ├── pagination.tsx            # Pagination controls (español + iconos)
+│   │   │   └── refresh-button.tsx        # Refresh button with 1s cooldown + spin anim
 │   │   ├── layout/
-│   │   │   └── empty-state.tsx       # Empty state placeholder
+│   │   │   └── empty-state.tsx           # Reusable empty state (icon + title + action)
 │   │   └── ui/
-│   │       └── role-guard.tsx        # Conditionally renders children by role
-│   ├── features/                     # Domain feature modules
+│   │       ├── theme-toggle.tsx          # Dark/light toggle button
+│   │       ├── breadcrumb.tsx            # Auto breadcrumb (full / compact variant)
+│   │       └── role-guard.tsx            # Role-based conditional render
+│   ├── features/                         # Domain feature modules
 │   │   ├── auth/
 │   │   │   ├── components/
-│   │   │   │   ├── auth-provider.tsx # AuthContext provider
-│   │   │   │   ├── login-form.tsx    # Login form (RHF + Zod + HeroUI)
-│   │   │   │   └── register-form.tsx # Register form
+│   │   │   │   ├── auth-provider.tsx     # AuthContext provider
+│   │   │   │   ├── login-form.tsx        # Login form (RHF + Zod + HeroUI)
+│   │   │   │   ├── register-form.tsx     # Register form
+│   │   │   │   └── change-password-form.tsx
 │   │   │   ├── hooks/
-│   │   │   │   └── use-auth.ts       # AuthContext consumer
-│   │   │   ├── api.ts                # useLogin, useRegister, useLogout mutations
-│   │   │   ├── types.ts              # Auth DTOs
-│   │   │   └── validators.ts         # Zod schemas (login, register)
+│   │   │   │   └── use-auth.ts           # AuthContext consumer
+│   │   │   ├── api.ts                    # Auth API mutations
+│   │   │   ├── types.ts                  # Auth DTOs
+│   │   │   └── validators.ts             # Zod schemas (login, register, changePassword)
 │   │   ├── users/
 │   │   │   ├── components/
-│   │   │   │   └── users-table.tsx   # Admin user data table
-│   │   │   ├── api.ts                # useUsers (paginated), useDeleteUser
-│   │   │   └── types.ts              # UserRow DTO
-│   │   ├── clients/                  # Future trainer/client module
-│   │   └── workouts/                 # Future workout module
-│   ├── lib/                          # App configuration and utilities
-│   │   ├── api-client.ts             # Fetch wrapper: JWT injection, error normalization
-│   │   ├── query-client.ts           # TanStack Query client (staleTime: 5min, retry: 1)
-│   │   ├── auth.ts                   # Token get/set/remove from localStorage + JWT decode
-│   │   ├── roles.ts                  # Role constants + hasRole() helper
-│   │   └── errors.ts                 # normalizeError() utility
-│   ├── hooks/                        # Shared hooks
-│   └── types/                        # Global TypeScript types
-│       ├── api.ts                    # ApiResponse<T>, PaginatedData<T>, ApiError, User, Role
-│       └── auth.ts                   # LoginRequest, JwtClaims, AuthState
+│   │   │   │   └── users-table.tsx
+│   │   │   ├── api.ts
+│   │   │   └── types.ts
+│   │   ├── clients/
+│   │   │   ├── components/
+│   │   │   │   ├── clients-table.tsx
+│   │   │   │   └── client-form.tsx
+│   │   │   ├── api.ts
+│   │   │   ├── validators.ts
+│   │   │   └── types.ts
+│   │   ├── trainers/
+│   │   │   ├── components/
+│   │   │   │   ├── trainers-table.tsx
+│   │   │   │   └── trainer-form.tsx
+│   │   │   ├── api.ts
+│   │   │   ├── validators.ts
+│   │   │   └── types.ts
+│   │   └── exercises/
+│   │       ├── components/
+│   │       │   ├── exercise-card.tsx     # Card with image, muscle chip, actions
+│   │       │   ├── exercise-grid.tsx     # Search/filter grid with pagination
+│   │       │   └── exercise-form.tsx     # Create/edit modal form
+│   │       ├── api.ts
+│   │       ├── validators.ts
+│   │       └── types.ts
+│   ├── lib/                              # App configuration and utilities
+│   │   ├── api-client.ts                 # Fetch wrapper: JWT injection, error normalization
+│   │   ├── query-client.ts               # TanStack Query client (staleTime: 5min, retry: 1)
+│   │   ├── auth.ts                       # Token get/set/remove from localStorage + JWT decode
+│   │   ├── roles.ts                      # Role constants + hasRole() helper
+│   │   └── errors.ts                     # normalizeError() utility
+│   ├── hooks/                            # Shared hooks
+│   └── types/                            # Global TypeScript types
+│       ├── api.ts                        # ApiResponse<T>, PaginatedData<T>, ApiError, User, Role
+│       └── auth.ts                       # LoginRequest, JwtClaims, AuthState
 ```
 
 ## Entrypoint flow
@@ -82,8 +108,8 @@ apps/web/
 2. Root layout loads fonts, calls `globals.css`, wraps children with `Providers`
 3. `Providers` composes: `ThemeProvider` > `QueryClientProvider` > `AuthProvider` > children > `Toaster`
 4. Route groups determine which layout applies
-5. `(public)/layout.tsx` checks auth — if logged in, redirects to `/dashboard`
-6. `(auth)/layout.tsx` checks auth — if not logged in, redirects to `/login`; renders `Sidebar` + `Topbar`
+5. `(public)/layout.tsx` checks auth — if logged in, redirects to `/dashboard`; renders 2-panel layout: `BrandPanel` (left, hidden on mobile) + children (right)
+6. `(auth)/layout.tsx` checks auth — if not logged in, redirects to `/login`; renders `Sidebar` (fixed desktop / drawer mobile) + `Topbar` (hamburger + breadcrumb + theme toggle + user) + `children`
 
 ## State management
 
@@ -143,18 +169,36 @@ const { control, handleSubmit } = useForm<FormData>({
 
 ## Design system
 
-- **UI library**: HeroUI v3 (React Aria Components based)
+See **`docs/web/design-system.md`** for the complete design system reference (colors, typography, animations, component conventions, responsive rules).
+
+Key highlights:
+
+- **UI library**: HeroUI v3 (React Aria Components based) — compound patterns (`Card.Header`, `Dropdown.Menu`, etc.)
 - **CSS**: Tailwind v4 via `@import "tailwindcss"` and `@import "@heroui/styles"`
-- **Theme tokens**: Defined in `globals.css` via `@theme inline` — colors for background, foreground, sidebar, success, danger, warning
-- **Dark mode**: Managed by `next-themes` with `class` attribute strategy
+- **Theme tokens**: Defined in `globals.css` via `@theme inline` — warm amber accent, dark/light via `.dark` class managed by `next-themes`
+- **Fonts**: `font-display` (Plus Jakarta Sans) for headings/brand, Geist for body/mono
+- **Animations**: `animate-fade-in-up`, `animate-scale-in`, etc. with `delay-*` classes for staggered reveals
 - **Consistency**: All modules use the same building blocks (same Card, Button, Input, Chip) — no custom-styled module diverges
 
 ## Layouts
 
-| Route group | Layout           | Auth required | Sidebar | Topbar |
-| ----------- | ---------------- | ------------- | ------- | ------ |
-| `(public)`  | Centered card    | No            | No      | No     |
-| `(auth)`    | Sidebar + Topbar | Yes           | Yes     | Yes    |
+| Route group | Layout               | Auth required | Sidebar                  | Topbar                        |
+| ----------- | -------------------- | ------------- | ------------------------ | ----------------------------- |
+| `(public)`  | 2-panel asimétrico   | No            | No                       | No                            |
+| `(auth)`    | Sidebar + Topbar     | Yes           | Fixed (lg+) / Drawer (<lg) | Hamburger + breadcrumb + user |
+
+**Public layout** (`(public)/layout.tsx`):
+
+- Desktop: `BrandPanel` (45% left, dark bg) + form (55% right)
+- Mobile: brand panel oculto, form full-width
+- Animación: `animate-fade-in-up` en el contenedor del form
+
+**Auth layout** (`(auth)/layout.tsx`):
+
+- Desktop: Sidebar fijo (`w-60`, `hidden lg:flex`) + Topbar + content
+- Mobile: Sidebar como drawer overlay con hamburguesa + backdrop + `animate-slide-in-left`
+- Topbar: hamburguesa (`lg:hidden`), breadcrumb compacto en mobile (`sm:hidden`)
+- Cierra sidebar automáticamente al cambiar de ruta
 
 Role-based navigation is driven by `src/app/(auth)/_components/sidebar.tsx` — each nav item defines which roles can see it.
 
