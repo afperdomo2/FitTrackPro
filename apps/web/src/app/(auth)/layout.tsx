@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Sidebar } from './_components/sidebar';
@@ -10,6 +10,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   const { isAuthenticated, isLoading, mustChangePassword } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -23,10 +24,14 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     }
   }, [isAuthenticated, isLoading, mustChangePassword, pathname, router]);
 
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [pathname]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-dvh">
-        <p className="text-muted-foreground">Loading...</p>
+        <p className="text-muted-foreground animate-pulse">Cargando...</p>
       </div>
     );
   }
@@ -37,10 +42,10 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <div className="flex h-dvh">
-      <Sidebar />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Topbar />
-        <main className="flex-1 overflow-auto p-6">{children}</main>
+        <Topbar onMenuClick={() => setSidebarOpen((prev) => !prev)} />
+        <main className="flex-1 overflow-auto p-4 sm:p-6">{children}</main>
       </div>
     </div>
   );

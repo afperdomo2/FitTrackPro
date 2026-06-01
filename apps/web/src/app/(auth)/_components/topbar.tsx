@@ -7,15 +7,34 @@ import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 
-export function Topbar() {
+interface TopbarProps {
+  onMenuClick: () => void;
+}
+
+export function Topbar({ onMenuClick }: TopbarProps) {
   const { user, logout } = useAuth();
   const router = useRouter();
 
   return (
-    <header className="flex items-center justify-between h-14 px-6 border-b border-border bg-background shrink-0">
-      <Breadcrumb />
+    <header className="flex items-center justify-between h-14 px-4 sm:px-6 border-b border-border bg-background shrink-0">
+      <div className="flex items-center gap-3 min-w-0">
+        <button
+          onClick={onMenuClick}
+          className="lg:hidden size-9 flex items-center justify-center rounded-lg hover:bg-surface-secondary transition-colors shrink-0"
+          aria-label="Abrir menú"
+        >
+          <Icon icon="lucide:menu" className="size-4 text-muted-foreground" />
+        </button>
 
-      <div className="flex items-center gap-2">
+        <div className="hidden sm:block min-w-0 truncate">
+          <Breadcrumb />
+        </div>
+        <div className="block sm:hidden min-w-0 truncate">
+          <Breadcrumb variant="compact" />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 shrink-0">
         <ThemeToggle />
 
         <Dropdown>

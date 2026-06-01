@@ -12,11 +12,24 @@ const labelMap: Record<string, string> = {
   profile: 'Perfil',
 };
 
-export function Breadcrumb() {
+interface BreadcrumbProps {
+  variant?: 'full' | 'compact';
+}
+
+export function Breadcrumb({ variant = 'full' }: BreadcrumbProps) {
   const pathname = usePathname();
   const segments = pathname.split('/').filter(Boolean);
 
   if (segments.length === 0) return null;
+
+  if (variant === 'compact') {
+    const last = segments[segments.length - 1];
+    return (
+      <span className="text-sm font-medium text-foreground">
+        {labelMap[last] || last.charAt(0).toUpperCase() + last.slice(1)}
+      </span>
+    );
+  }
 
   return (
     <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
