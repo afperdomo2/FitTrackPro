@@ -1,26 +1,136 @@
 @import 'tailwindcss';
 @import '@heroui/styles';
 
-@theme inline {
-  --color-background: #ffffff;
-  --color-foreground: #171717;
-  --color-sidebar: #f8fafc;
-  --color-sidebar-border: #e2e8f0;
-  --color-success: #16a34a;
-  --color-danger: #dc2626;
-  --color-warning: #f59e0b;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ===============================
+   THEME — Warm Amber "Athletic Refined"
+   Light & Dark via .dark class
+   =============================== */
+
+:root {
+  color-scheme: light;
+
+  /* Base — warm off-white */
+  --background: oklch(0.975 0.003 65);
+  --foreground: oklch(0.15 0.01 65);
+  --surface: oklch(1 0 0);
+  --surface-secondary: oklch(0.96 0.005 65);
+
+  /* Sidebar */
+  --sidebar: oklch(0.96 0.005 65);
+  --sidebar-border: oklch(0.9 0.005 65);
+
+  /* Accent — Amber */
+  --accent: oklch(0.68 0.18 70);
+  --accent-foreground: oklch(1 0 0);
+
+  /* Status */
+  --success: oklch(0.68 0.18 145);
+  --success-foreground: oklch(1 0 0);
+  --danger: oklch(0.6 0.2 25);
+  --danger-foreground: oklch(1 0 0);
+  --warning: oklch(0.75 0.18 80);
+  --warning-foreground: oklch(0.15 0.01 70);
+
+  /* Borders */
+  --border: oklch(0.9 0.005 65);
+  --separator: oklch(0.92 0.005 65);
+
+  /* Text */
+  --muted: oklch(0.55 0.01 65);
+
+  /* Default elements */
+  --default: oklch(0.93 0.003 65);
+  --default-foreground: oklch(0.15 0.01 65);
+
+  /* Fields */
+  --field-background: oklch(1 0 0);
+  --field-border: transparent;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: #0a0a0a;
-    --color-foreground: #ededed;
-    --color-sidebar: #111827;
-    --color-sidebar-border: #1f2937;
-    --color-success: #22c55e;
-    --color-danger: #ef4444;
-    --color-warning: #facc15;
-  }
+.dark {
+  color-scheme: dark;
+
+  --background: oklch(0.11 0.005 65);
+  --foreground: oklch(0.96 0.003 65);
+  --surface: oklch(0.18 0.008 65);
+  --surface-secondary: oklch(0.15 0.005 65);
+
+  --sidebar: oklch(0.13 0.005 65);
+  --sidebar-border: oklch(0.22 0.005 65);
+
+  /* Amber — brighter on dark */
+  --accent: oklch(0.72 0.18 75);
+  --accent-foreground: oklch(0.15 0.01 70);
+
+  --success: oklch(0.65 0.18 145);
+  --success-foreground: oklch(0.15 0.01 70);
+  --danger: oklch(0.55 0.2 25);
+  --danger-foreground: oklch(1 0 0);
+  --warning: oklch(0.7 0.18 80);
+  --warning-foreground: oklch(0.15 0.01 70);
+
+  --border: oklch(0.25 0.005 65);
+  --separator: oklch(0.22 0.005 65);
+
+  --muted: oklch(0.65 0.01 65);
+
+  --default: oklch(0.2 0.005 65);
+  --default-foreground: oklch(0.96 0.003 65);
+
+  --field-background: oklch(0.14 0.005 65);
+  --field-border: transparent;
 }
+
+/* ===============================
+   TAILWIND v4 THEME TOKENS
+   =============================== */
+
+@theme inline {
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-surface-secondary: var(--surface-secondary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
+
+  --animate-fade-in: fade-in 0.4s ease-out forwards;
+  --animate-fade-in-up: fade-in-up 0.5s ease-out forwards;
+  --animate-slide-in-left: slide-in-left 0.3s ease-out forwards;
+  --animate-scale-in: scale-in 0.3s ease-out forwards;
+}
+
+/* ===============================
+   KEYFRAMES
+   =============================== */
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ===============================
+   UTILITY DELAY CLASSES
+   =============================== */
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }

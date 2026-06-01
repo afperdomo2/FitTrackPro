@@ -22,10 +22,10 @@ export function ExerciseCard({ exercise, onEdit, onDelete }: ExerciseCardProps) 
           <img
             src={exercise.image_url}
             alt={exercise.name}
-            className="w-full h-28 object-cover rounded-t-xl"
+            className="w-full h-60 object-cover rounded-t-xl"
           />
         ) : (
-          <div className="w-full h-24 bg-neutral-200 dark:bg-neutral-800 rounded-t-xl flex items-center justify-center">
+          <div className="w-full h-60 bg-neutral-200 dark:bg-neutral-800 rounded-t-xl flex items-center justify-center">
             <Icon icon="lucide:dumbbell" className="size-8 text-muted-foreground" />
           </div>
         )}
