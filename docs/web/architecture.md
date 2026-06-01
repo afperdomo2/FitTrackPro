@@ -182,10 +182,10 @@ Key highlights:
 
 ## Layouts
 
-| Route group | Layout               | Auth required | Sidebar                  | Topbar                        |
-| ----------- | -------------------- | ------------- | ------------------------ | ----------------------------- |
-| `(public)`  | 2-panel asimétrico   | No            | No                       | No                            |
-| `(auth)`    | Sidebar + Topbar     | Yes           | Fixed (lg+) / Drawer (<lg) | Hamburger + breadcrumb + user |
+| Route group | Layout             | Auth required | Sidebar                    | Topbar                        |
+| ----------- | ------------------ | ------------- | -------------------------- | ----------------------------- |
+| `(public)`  | 2-panel asimétrico | No            | No                         | No                            |
+| `(auth)`    | Sidebar + Topbar   | Yes           | Fixed (lg+) / Drawer (<lg) | Hamburger + breadcrumb + user |
 
 **Public layout** (`(public)/layout.tsx`):
 

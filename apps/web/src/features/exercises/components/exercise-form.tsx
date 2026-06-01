@@ -25,6 +25,7 @@ import {
   type UpdateExerciseFormData,
 } from '../validators';
 import { MUSCLE_GROUPS } from '../types';
+import { MuscleTagsInput } from './muscle-tags-input';
 
 interface ExerciseFormProps {
   isOpen: boolean;
@@ -239,18 +240,12 @@ export function ExerciseForm({ isOpen, onClose, exerciseId }: ExerciseFormProps)
                     />
                   </TextField>
 
-                  <TextField className="w-full" name="secondary_muscles" variant="secondary">
-                    <Label>Músculos secundarios</Label>
-                    <Input
-                      placeholder="Ej. tríceps, hombro anterior"
-                      value={updateForm.watch('secondary_muscles') ?? ''}
-                      onChange={(e) =>
-                        updateForm.setValue('secondary_muscles', e.target.value, {
-                          shouldValidate: true,
-                        })
-                      }
-                    />
-                  </TextField>
+                  <MuscleTagsInput
+                    value={updateForm.watch('secondary_muscles') ?? ''}
+                    onChange={(val) =>
+                      updateForm.setValue('secondary_muscles', val, { shouldValidate: true })
+                    }
+                  />
 
                   <TextField className="w-full" name="equipment" variant="secondary">
                     <Label>Equipamiento</Label>
@@ -356,18 +351,12 @@ export function ExerciseForm({ isOpen, onClose, exerciseId }: ExerciseFormProps)
                     />
                   </TextField>
 
-                  <TextField className="w-full" name="secondary_muscles" variant="secondary">
-                    <Label>Músculos secundarios</Label>
-                    <Input
-                      placeholder="Ej. tríceps, hombro anterior"
-                      value={createForm.watch('secondary_muscles') ?? ''}
-                      onChange={(e) =>
-                        createForm.setValue('secondary_muscles', e.target.value, {
-                          shouldValidate: true,
-                        })
-                      }
-                    />
-                  </TextField>
+                  <MuscleTagsInput
+                    value={createForm.watch('secondary_muscles') ?? ''}
+                    onChange={(val) =>
+                      createForm.setValue('secondary_muscles', val, { shouldValidate: true })
+                    }
+                  />
 
                   <TextField className="w-full" name="equipment" variant="secondary">
                     <Label>Equipamiento</Label>

@@ -9,6 +9,7 @@ import { Pagination } from '@/components/data-table/pagination';
 import { useExercises, useDeleteExercise } from '../api';
 import { ExerciseCard } from './exercise-card';
 import { ExerciseForm } from './exercise-form';
+import { ExerciseDetailModal } from './exercise-detail-modal';
 import { MUSCLE_GROUPS, type ExerciseRow } from '../types';
 
 export function ExerciseGrid() {
@@ -20,6 +21,7 @@ export function ExerciseGrid() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | undefined>(undefined);
   const [deletingExercise, setDeletingExercise] = useState<ExerciseRow | null>(null);
+  const [detailExerciseId, setDetailExerciseId] = useState<string | null>(null);
   const perPage = 20;
 
   const { data, isLoading } = useExercises({
@@ -134,7 +136,7 @@ export function ExerciseGrid() {
           {Array.from({ length: 8 }).map((_, i) => (
             <div
               key={i}
-              className="rounded-xl bg-surface-secondary animate-pulse h-52"
+              className="rounded-xl bg-surface-secondary animate-pulse h-60"
               style={{ animationDelay: `${i * 50}ms` }}
             />
           ))}
@@ -155,14 +157,19 @@ export function ExerciseGrid() {
           }
         />
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 auto-rows-fr">
           {exercises.map((exercise, i) => (
             <div
               key={exercise.id}
               className="animate-fade-in-up"
               style={{ animationDelay: `${(i % 8) * 60}ms` }}
             >
-              <ExerciseCard exercise={exercise} onEdit={openEdit} onDelete={setDeletingExercise} />
+              <ExerciseCard
+                exercise={exercise}
+                onEdit={openEdit}
+                onDelete={setDeletingExercise}
+                onViewDetails={(e) => setDetailExerciseId(e.id)}
+              />
             </div>
           ))}
         </div>
@@ -171,6 +178,16 @@ export function ExerciseGrid() {
       {totalPages > 1 && <Pagination page={page} totalPages={totalPages} onChange={setPage} />}
 
       <ExerciseForm isOpen={modalOpen} onClose={closeModal} exerciseId={editingId} />
+
+      <ExerciseDetailModal
+        isOpen={detailExerciseId !== null}
+        onClose={() => setDetailExerciseId(null)}
+        exerciseId={detailExerciseId}
+        onEdit={(exercise) => {
+          setDetailExerciseId(null);
+          openEdit(exercise);
+        }}
+      />
 
       <AlertDialog.Backdrop
         isOpen={deletingExercise !== null}

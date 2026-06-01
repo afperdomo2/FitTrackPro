@@ -4,26 +4,26 @@
 
 Todas las variables se definen en `src/app/globals.css` con valores `oklch`. El tema se controla via `next-themes` con clase `.dark` / `:root`.
 
-| Token | Light | Dark | Uso |
-|-------|-------|------|-----|
-| `--color-accent` | `var(--accent)` | `var(--accent)` | Botones primarios, links, indicadores activos |
-| `--color-accent-foreground` | `var(--accent-foreground)` | — | Texto sobre accent |
-| `--color-background` | `var(--background)` | `var(--background)` | Fondo de página |
-| `--color-foreground` | `var(--foreground)` | `var(--foreground)` | Texto principal |
-| `--color-sidebar` | `var(--sidebar)` | `var(--sidebar)` | Fondo del sidebar |
-| `--color-sidebar-border` | `var(--sidebar-border)` | — | Bordes del sidebar |
-| `--color-surface-secondary` | `var(--surface-secondary)` | — | Fondos secundarios (hover, placeholders) |
-| `--color-danger` | `var(--danger)` | `var(--danger)` | Errores, estados críticos |
-| `--color-success` | `var(--success)` | `var(--success)` | Estados exitosos |
-| `--color-warning` | `var(--warning)` | `var(--warning)` | Advertencias |
+| Token                       | Light                      | Dark                | Uso                                           |
+| --------------------------- | -------------------------- | ------------------- | --------------------------------------------- |
+| `--color-accent`            | `var(--accent)`            | `var(--accent)`     | Botones primarios, links, indicadores activos |
+| `--color-accent-foreground` | `var(--accent-foreground)` | —                   | Texto sobre accent                            |
+| `--color-background`        | `var(--background)`        | `var(--background)` | Fondo de página                               |
+| `--color-foreground`        | `var(--foreground)`        | `var(--foreground)` | Texto principal                               |
+| `--color-sidebar`           | `var(--sidebar)`           | `var(--sidebar)`    | Fondo del sidebar                             |
+| `--color-sidebar-border`    | `var(--sidebar-border)`    | —                   | Bordes del sidebar                            |
+| `--color-surface-secondary` | `var(--surface-secondary)` | —                   | Fondos secundarios (hover, placeholders)      |
+| `--color-danger`            | `var(--danger)`            | `var(--danger)`     | Errores, estados críticos                     |
+| `--color-success`           | `var(--success)`           | `var(--success)`    | Estados exitosos                              |
+| `--color-warning`           | `var(--warning)`           | `var(--warning)`    | Advertencias                                  |
 
 Valores base (ámbar/dorado):
 
-| Variable | Light | Dark |
-|----------|-------|------|
-| `--accent` | `oklch(0.68 0.18 70)` | `oklch(0.72 0.18 75)` |
+| Variable       | Light                                 | Dark                                   |
+| -------------- | ------------------------------------- | -------------------------------------- |
+| `--accent`     | `oklch(0.68 0.18 70)`                 | `oklch(0.72 0.18 75)`                  |
 | `--background` | `oklch(0.975 0.003 65)` (crema claro) | `oklch(0.11 0.005 65)` (carbón cálido) |
-| `--foreground` | `oklch(0.15 0.01 65)` | `oklch(0.96 0.003 65)` |
+| `--foreground` | `oklch(0.15 0.01 65)`                 | `oklch(0.96 0.003 65)`                 |
 
 > **Importante:** No usar valores hex hardcodeados. Siempre usar las variables del tema: `bg-accent`, `text-accent`, `bg-accent/10`, `bg-danger/10`, `border-border/50`, etc.
 
@@ -31,11 +31,11 @@ Valores base (ámbar/dorado):
 
 ## Typography
 
-| Token | Font | Uso |
-|-------|------|-----|
-| `font-display` | **Plus Jakarta Sans** (`next/font/google`) | Headings, brand name, títulos de página, `Card.Title`, `Modal.Heading` |
-| `font-sans` (default) | **Geist** | Cuerpo de texto, labels, botones, inputs |
-| `font-mono` | **Geist Mono** | Código, valores técnicos |
+| Token                 | Font                                       | Uso                                                                    |
+| --------------------- | ------------------------------------------ | ---------------------------------------------------------------------- |
+| `font-display`        | **Plus Jakarta Sans** (`next/font/google`) | Headings, brand name, títulos de página, `Card.Title`, `Modal.Heading` |
+| `font-sans` (default) | **Geist**                                  | Cuerpo de texto, labels, botones, inputs                               |
+| `font-mono`           | **Geist Mono**                             | Código, valores técnicos                                               |
 
 ### Conventions
 
@@ -59,12 +59,12 @@ Valores base (ámbar/dorado):
 
 Definidas en `globals.css` via `@theme inline` con `animation-fill-mode: both` (empiezan invisible, terminan visible).
 
-| Clase | Cuándo usarla |
-|-------|---------------|
-| `animate-fade-in` | Elementos que deben aparecer suavemente (errores, modales síncronos) |
-| `animate-fade-in-up` | **Patrón principal** para contenido de página, cards, formularios |
-| `animate-scale-in` | Modales, diálogos, tarjetas de error/404 |
-| `animate-slide-in-left` | Drawer del sidebar en mobile |
+| Clase                   | Cuándo usarla                                                        |
+| ----------------------- | -------------------------------------------------------------------- |
+| `animate-fade-in`       | Elementos que deben aparecer suavemente (errores, modales síncronos) |
+| `animate-fade-in-up`    | **Patrón principal** para contenido de página, cards, formularios    |
+| `animate-scale-in`      | Modales, diálogos, tarjetas de error/404                             |
+| `animate-slide-in-left` | Drawer del sidebar en mobile                                         |
 
 ### Staggered delays
 
@@ -108,12 +108,14 @@ Clases de delay disponibles: `delay-100`, `delay-200`, `delay-300`, `delay-400`,
 ### Error Banners (root errors en formularios)
 
 ```tsx
-{formState.errors.root && (
-  <div className="flex items-center gap-2 rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger animate-fade-in">
-    <Icon icon="lucide:alert-circle" className="size-4 shrink-0" />
-    <span>{formState.errors.root.message}</span>
-  </div>
-)}
+{
+  formState.errors.root && (
+    <div className="flex items-center gap-2 rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger animate-fade-in">
+      <Icon icon="lucide:alert-circle" className="size-4 shrink-0" />
+      <span>{formState.errors.root.message}</span>
+    </div>
+  );
+}
 ```
 
 ### Icon Circles (para estados vacíos, errores, páginas de estado)
@@ -134,13 +136,13 @@ Variante para errores:
 
 ### Buttons
 
-| Variant | Uso |
-|---------|-----|
-| `variant="primary"` | Acción principal. Siempre con icono. |
-| `variant="secondary"` | Acción secundaria (ej. Editar) |
-| `variant="tertiary"` | **Cancelar** en modales y AlertDialogs |
-| `variant="danger"` | Eliminar, acciones destructivas |
-| `variant="ghost"` | Acciones sutiles (refresh, toggle) |
+| Variant               | Uso                                    |
+| --------------------- | -------------------------------------- |
+| `variant="primary"`   | Acción principal. Siempre con icono.   |
+| `variant="secondary"` | Acción secundaria (ej. Editar)         |
+| `variant="tertiary"`  | **Cancelar** en modales y AlertDialogs |
+| `variant="danger"`    | Eliminar, acciones destructivas        |
+| `variant="ghost"`     | Acciones sutiles (refresh, toggle)     |
 
 ### Modals
 
@@ -166,12 +168,12 @@ Variante para errores:
 
 ### Breakpoints (Tailwind v4)
 
-| Prefix | Min-width | Target |
-|--------|-----------|--------|
-| `sm` | 640px | Tablets pequeñas |
-| `md` | 768px | Tablets |
-| `lg` | 1024px | Desktop |
-| `xl` | 1280px | Desktop grande |
+| Prefix | Min-width | Target           |
+| ------ | --------- | ---------------- |
+| `sm`   | 640px     | Tablets pequeñas |
+| `md`   | 768px     | Tablets          |
+| `lg`   | 1024px    | Desktop          |
+| `xl`   | 1280px    | Desktop grande   |
 
 ### Auth Layout (Sidebar + Topbar)
 
@@ -211,20 +213,26 @@ Variante para errores:
 
 ```tsx
 // Estructura del drawer (sidebar.tsx)
-{isOpen && (
-  <div className="fixed inset-0 z-40 animate-fade-in lg:hidden" onClick={onClose}>
-    <div className="absolute inset-0 bg-black/50" />
-  </div>
-)}
-<aside className={`fixed inset-y-0 left-0 z-50 w-60 ... animate-slide-in-left lg:hidden ${isOpen ? '' : 'hidden'}`}>
+{
+  isOpen && (
+    <div className="fixed inset-0 z-40 animate-fade-in lg:hidden" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/50" />
+    </div>
+  );
+}
+<aside
+  className={`fixed inset-y-0 left-0 z-50 w-60 ... animate-slide-in-left lg:hidden ${isOpen ? '' : 'hidden'}`}
+>
   {navContent}
-</aside>
+</aside>;
 ```
 
 El drawer se cierra automáticamente en `layout.tsx`:
 
 ```tsx
-useEffect(() => { setSidebarOpen(false); }, [pathname]);
+useEffect(() => {
+  setSidebarOpen(false);
+}, [pathname]);
 ```
 
 ### Public Layout (Login/Register)
@@ -251,11 +259,11 @@ useEffect(() => { setSidebarOpen(false); }, [pathname]);
 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
 ```
 
-| Dispositivo | Columnas |
-|-------------|----------|
-| Mobile (<640px) | 1 columna |
-| Tablet pequeña (640+) | 2 columnas |
-| Desktop (1024+) | 3-4 columnas |
+| Dispositivo           | Columnas     |
+| --------------------- | ------------ |
+| Mobile (<640px)       | 1 columna    |
+| Tablet pequeña (640+) | 2 columnas   |
+| Desktop (1024+)       | 3-4 columnas |
 
 ### Form Layouts
 
@@ -286,17 +294,17 @@ Campos agrupados horizontalmente usan CSS Grid, no Flex:
 
 ## UI Component Catalog
 
-| Componente | Ubicación | Props principales |
-|------------|-----------|-------------------|
-| `ThemeToggle` | `src/components/ui/theme-toggle.tsx` | Ninguno. Alterna dark/light. |
-| `Breadcrumb` | `src/components/ui/breadcrumb.tsx` | `variant: 'full' \| 'compact'` |
-| `EmptyState` | `src/components/layout/empty-state.tsx` | `icon`, `title`, `description?`, `action?` |
-| `BrandPanel` | `src/app/(public)/_components/brand-panel.tsx` | Ninguno. Panel izquierdo de login. |
-| `FormField` | `src/components/form/form-field.tsx` | `control`, `name`, `label`, `type?`, `placeholder?`, `required?`, `isDisabled?` |
-| `DataTable` | `src/components/data-table/data-table.tsx` | `columns`, `data`, `page`, `totalPages`, `onPageChange`, `isLoading?`, `emptyMessage?` |
-| `Pagination` | `src/components/data-table/pagination.tsx` | `page`, `totalPages`, `onChange` |
-| `RefreshButton` | `src/components/data-table/refresh-button.tsx` | `queryKey` |
-| `RoleGuard` | `src/components/ui/role-guard.tsx` | `roles: Role \| Role[]`, `fallback?` |
+| Componente      | Ubicación                                      | Props principales                                                                      |
+| --------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `ThemeToggle`   | `src/components/ui/theme-toggle.tsx`           | Ninguno. Alterna dark/light.                                                           |
+| `Breadcrumb`    | `src/components/ui/breadcrumb.tsx`             | `variant: 'full' \| 'compact'`                                                         |
+| `EmptyState`    | `src/components/layout/empty-state.tsx`        | `icon`, `title`, `description?`, `action?`                                             |
+| `BrandPanel`    | `src/app/(public)/_components/brand-panel.tsx` | Ninguno. Panel izquierdo de login.                                                     |
+| `FormField`     | `src/components/form/form-field.tsx`           | `control`, `name`, `label`, `type?`, `placeholder?`, `required?`, `isDisabled?`        |
+| `DataTable`     | `src/components/data-table/data-table.tsx`     | `columns`, `data`, `page`, `totalPages`, `onPageChange`, `isLoading?`, `emptyMessage?` |
+| `Pagination`    | `src/components/data-table/pagination.tsx`     | `page`, `totalPages`, `onChange`                                                       |
+| `RefreshButton` | `src/components/data-table/refresh-button.tsx` | `queryKey`                                                                             |
+| `RoleGuard`     | `src/components/ui/role-guard.tsx`             | `roles: Role \| Role[]`, `fallback?`                                                   |
 
 ---
 
