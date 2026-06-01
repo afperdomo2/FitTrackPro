@@ -13,6 +13,7 @@ import (
 	"github.com/felipe/FitTrackPro/backend/internal/models"
 	"github.com/felipe/FitTrackPro/backend/internal/modules/auth"
 	"github.com/felipe/FitTrackPro/backend/internal/modules/clients"
+	"github.com/felipe/FitTrackPro/backend/internal/modules/exercises"
 	"github.com/felipe/FitTrackPro/backend/internal/modules/health"
 	"github.com/felipe/FitTrackPro/backend/internal/modules/trainers"
 	"github.com/felipe/FitTrackPro/backend/internal/modules/users"
@@ -42,7 +43,7 @@ func main() {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
-	if err := db.AutoMigrate(&models.User{}, &models.Trainer{}, &models.Client{}); err != nil {
+	if err := db.AutoMigrate(&models.User{}, &models.Trainer{}, &models.Client{}, &models.Exercise{}); err != nil {
 		log.Fatalf("Failed to run migrations: %v", err)
 	}
 
@@ -55,6 +56,7 @@ func main() {
 	usersHandler := users.NewHandler(db)
 	trainersHandler := trainers.NewHandler(db, cfg.DefaultUserPassword)
 	clientsHandler := clients.NewHandler(db, cfg.DefaultUserPassword)
+	exercisesHandler := exercises.NewHandler(db)
 
 	public := r.Group("/api/v1")
 	health.RegisterRoutes(public, health.NewHandler(db))
@@ -66,6 +68,7 @@ func main() {
 	users.RegisterRoutes(protected, usersHandler)
 	trainers.RegisterRoutes(protected, trainersHandler)
 	clients.RegisterRoutes(protected, clientsHandler)
+	exercises.RegisterRoutes(protected, exercisesHandler)
 
 	passwordGroup := r.Group("/api/v1")
 	passwordGroup.Use(middleware.AuthRequired(cfg.JWT.Secret))

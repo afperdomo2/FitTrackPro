@@ -123,6 +123,78 @@ definitions:
       weight:
         type: number
     type: object
+  exercises.CreateExerciseRequest:
+    properties:
+      description:
+        type: string
+      equipment:
+        type: string
+      image_url:
+        type: string
+      muscle_group:
+        type: string
+      name:
+        type: string
+      secondary_muscles:
+        items:
+          type: string
+        type: array
+      video_url:
+        type: string
+    required:
+    - muscle_group
+    - name
+    type: object
+  exercises.ExerciseResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      equipment:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      is_active:
+        type: boolean
+      muscle_group:
+        type: string
+      name:
+        type: string
+      secondary_muscles:
+        items:
+          type: string
+        type: array
+      trainer_id:
+        type: string
+      updated_at:
+        type: string
+      video_url:
+        type: string
+    type: object
+  exercises.UpdateExerciseRequest:
+    properties:
+      description:
+        type: string
+      equipment:
+        type: string
+      image_url:
+        type: string
+      is_active:
+        type: boolean
+      muscle_group:
+        type: string
+      name:
+        type: string
+      secondary_muscles:
+        items:
+          type: string
+        type: array
+      video_url:
+        type: string
+    type: object
   health.HealthResponse:
     properties:
       database:
@@ -527,6 +599,196 @@ paths:
       summary: Actualizar cliente (trainer)
       tags:
       - clients
+  /exercises:
+    get:
+      description: Lista los ejercicios del entrenador autenticado
+      parameters:
+      - default: 1
+        description: Número de página
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Registros por página
+        in: query
+        name: per_page
+        type: integer
+      - description: Filtrar por estado activo
+        in: query
+        name: is_active
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/pagination.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/exercises.ExerciseResponse'
+                  type: array
+              type: object
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Listar ejercicios (trainer)
+      tags:
+      - exercises
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo ejercicio para el entrenador autenticado
+      parameters:
+      - description: Datos del ejercicio
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/exercises.CreateExerciseRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/exercises.ExerciseResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Crear ejercicio (trainer)
+      tags:
+      - exercises
+  /exercises/{id}:
+    delete:
+      description: Realiza borrado lógico del ejercicio
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Eliminar ejercicio (trainer)
+      tags:
+      - exercises
+    get:
+      description: Devuelve un ejercicio del entrenador autenticado
+      parameters:
+      - description: ID del ejercicio
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/exercises.ExerciseResponse'
+              type: object
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Obtener ejercicio (trainer)
+      tags:
+      - exercises
+    put:
+      consumes:
+      - application/json
+      description: Actualiza los datos del ejercicio
+      parameters:
+      - description: ID del ejercicio
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Datos a actualizar
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/exercises.UpdateExerciseRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/exercises.ExerciseResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Actualizar ejercicio (trainer)
+      tags:
+      - exercises
   /health:
     get:
       description: Verifica que el servidor y la base de datos estén operativos
