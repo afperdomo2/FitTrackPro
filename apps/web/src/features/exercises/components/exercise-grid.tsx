@@ -67,9 +67,9 @@ export function ExerciseGrid() {
   const totalPages = meta?.total_pages ?? 1;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 animate-fade-in-up">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Ejercicios</h1>
+        <h1 className="text-2xl font-display font-bold tracking-tight">Ejercicios</h1>
         <div className="flex items-center gap-2">
           <RefreshButton
             queryKey={[
@@ -132,7 +132,11 @@ export function ExerciseGrid() {
       {isLoading ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="rounded-xl bg-muted animate-pulse h-52" />
+            <div
+              key={i}
+              className="rounded-xl bg-surface-secondary animate-pulse h-52"
+              style={{ animationDelay: `${i * 50}ms` }}
+            />
           ))}
         </div>
       ) : exercises.length === 0 ? (
@@ -152,13 +156,14 @@ export function ExerciseGrid() {
         />
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-          {exercises.map((exercise) => (
-            <ExerciseCard
+          {exercises.map((exercise, i) => (
+            <div
               key={exercise.id}
-              exercise={exercise}
-              onEdit={openEdit}
-              onDelete={setDeletingExercise}
-            />
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${(i % 8) * 60}ms` }}
+            >
+              <ExerciseCard exercise={exercise} onEdit={openEdit} onDelete={setDeletingExercise} />
+            </div>
           ))}
         </div>
       )}

@@ -16,7 +16,7 @@ export function ExerciseCard({ exercise, onEdit, onDelete }: ExerciseCardProps) 
   const chipColor = MUSCLE_GROUP_COLORS[exercise.muscle_group] ?? 'default';
 
   return (
-    <Card className="w-full">
+    <Card className="w-full border border-border/50 shadow-sm transition-shadow hover:shadow-md">
       <div className="relative">
         {exercise.image_url ? (
           <img
@@ -25,18 +25,18 @@ export function ExerciseCard({ exercise, onEdit, onDelete }: ExerciseCardProps) 
             className="w-full h-60 object-cover rounded-t-xl"
           />
         ) : (
-          <div className="w-full h-60 bg-neutral-200 dark:bg-neutral-800 rounded-t-xl flex items-center justify-center">
+          <div className="w-full h-60 bg-surface-secondary rounded-t-xl flex items-center justify-center">
             <Icon icon="lucide:dumbbell" className="size-8 text-muted-foreground" />
           </div>
         )}
         {!exercise.is_active && (
-          <Chip color="danger" variant="primary" size="sm" className="absolute top-2 right-2">
+          <Chip color="danger" variant="soft" size="sm" className="absolute top-2 right-2">
             Inactivo
           </Chip>
         )}
       </div>
       <Card.Header className="pb-1">
-        <span className="font-semibold text-sm leading-tight">{exercise.name}</span>
+        <span className="font-display font-semibold text-sm leading-tight">{exercise.name}</span>
       </Card.Header>
       <Card.Content className="flex flex-col gap-1.5">
         {exercise.description && (

@@ -66,9 +66,9 @@ export function ClientsTable() {
   ];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 animate-fade-in-up">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Clientes</h1>
+        <h1 className="text-2xl font-display font-bold tracking-tight">Clientes</h1>
         <div className="flex items-center gap-2">
           <RefreshButton queryKey={['clients', { page, perPage: 20 }]} />
           <Button variant="primary" onPress={openCreate}>

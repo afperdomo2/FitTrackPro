@@ -1,6 +1,7 @@
 'use client';
 
 import { Card, Table } from '@heroui/react';
+import { EmptyState } from '@/components/layout/empty-state';
 import { Pagination } from './pagination';
 
 export interface Column<T> {
@@ -18,6 +19,7 @@ interface DataTableProps<T> {
   onPageChange: (page: number) => void;
   isLoading?: boolean;
   emptyMessage?: string;
+  emptyIcon?: string;
 }
 
 export function DataTable<T extends { id: string | number }>({
@@ -28,17 +30,16 @@ export function DataTable<T extends { id: string | number }>({
   onPageChange,
   isLoading,
   emptyMessage = 'No data found',
+  emptyIcon = 'lucide:database',
 }: DataTableProps<T>) {
   const columnMap = new Map(columns.map((col) => [col.key, col]));
   const collectionColumns = columns.map((col) => ({ id: col.key, label: col.label }));
 
   return (
-    <Card className="w-full">
+    <Card className="w-full border border-border/50 shadow-sm">
       <Card.Content className="p-0">
         {data.length === 0 && !isLoading ? (
-          <div className="flex items-center justify-center py-12 text-sm text-muted-foreground">
-            {emptyMessage}
-          </div>
+          <EmptyState title={emptyMessage} icon={emptyIcon} />
         ) : (
           <Table aria-label="Data table">
             <Table.ScrollContainer>
@@ -82,7 +83,7 @@ export function DataTable<T extends { id: string | number }>({
           </Table>
         )}
         {totalPages > 1 && (
-          <div className="px-4 py-3 border-t border-sidebar-border">
+          <div className="px-4 py-3 border-t border-border">
             <Pagination page={page} totalPages={totalPages} onChange={onPageChange} />
           </div>
         )}

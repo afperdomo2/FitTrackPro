@@ -44,7 +44,7 @@ export function FormField<T extends FieldValues>({
         placeholder={placeholder}
         disabled={isDisabled}
       />
-      {error && <p className="text-xs text-danger">{error.message}</p>}
+      {error && <p className="text-xs text-danger animate-fade-in">{error.message}</p>}
     </div>
   );
 }

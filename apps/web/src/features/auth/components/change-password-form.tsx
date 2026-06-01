@@ -37,74 +37,94 @@ export function ChangePasswordForm() {
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md border border-border/50 shadow-sm">
       <Card.Header>
-        <Card.Title>Cambiar contraseña</Card.Title>
+        <Card.Title className="font-display">Cambiar contraseña</Card.Title>
       </Card.Header>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card.Content className="flex flex-col gap-4">
-          <TextField
-            className="w-full"
-            name="old_password"
-            type="password"
-            variant="secondary"
-            isInvalid={!!formState.errors.old_password}
-          >
-            <Label>Contraseña actual</Label>
-            <Input
-              placeholder="••••••••"
-              value={watch('old_password')}
-              onChange={(e) => setValue('old_password', e.target.value, { shouldValidate: true })}
-            />
-          </TextField>
-          {formState.errors.old_password && (
-            <p className="text-xs text-danger -mt-3">{formState.errors.old_password.message}</p>
-          )}
+          <div className="animate-fade-in-up delay-100">
+            <TextField
+              className="w-full"
+              name="old_password"
+              type="password"
+              variant="secondary"
+              isInvalid={!!formState.errors.old_password}
+            >
+              <Label>Contraseña actual</Label>
+              <Input
+                placeholder="••••••••"
+                value={watch('old_password')}
+                onChange={(e) => setValue('old_password', e.target.value, { shouldValidate: true })}
+              />
+            </TextField>
+            {formState.errors.old_password && (
+              <p className="text-xs text-danger -mt-3 animate-fade-in">
+                {formState.errors.old_password.message}
+              </p>
+            )}
+          </div>
 
-          <TextField
-            className="w-full"
-            name="new_password"
-            type="password"
-            variant="secondary"
-            isInvalid={!!formState.errors.new_password}
-          >
-            <Label>Nueva contraseña</Label>
-            <Input
-              placeholder="Mín. 8 caracteres"
-              value={watch('new_password')}
-              onChange={(e) => setValue('new_password', e.target.value, { shouldValidate: true })}
-            />
-          </TextField>
-          {formState.errors.new_password && (
-            <p className="text-xs text-danger -mt-3">{formState.errors.new_password.message}</p>
-          )}
+          <div className="animate-fade-in-up delay-200">
+            <TextField
+              className="w-full"
+              name="new_password"
+              type="password"
+              variant="secondary"
+              isInvalid={!!formState.errors.new_password}
+            >
+              <Label>Nueva contraseña</Label>
+              <Input
+                placeholder="Mín. 8 caracteres"
+                value={watch('new_password')}
+                onChange={(e) => setValue('new_password', e.target.value, { shouldValidate: true })}
+              />
+            </TextField>
+            {formState.errors.new_password && (
+              <p className="text-xs text-danger -mt-3 animate-fade-in">
+                {formState.errors.new_password.message}
+              </p>
+            )}
+          </div>
 
-          <TextField
-            className="w-full"
-            name="confirm_password"
-            type="password"
-            variant="secondary"
-            isInvalid={!!formState.errors.confirm_password}
-          >
-            <Label>Confirmar nueva contraseña</Label>
-            <Input
-              placeholder="Repite la nueva contraseña"
-              value={watch('confirm_password')}
-              onChange={(e) =>
-                setValue('confirm_password', e.target.value, { shouldValidate: true })
-              }
-            />
-          </TextField>
-          {formState.errors.confirm_password && (
-            <p className="text-xs text-danger -mt-3">{formState.errors.confirm_password.message}</p>
-          )}
+          <div className="animate-fade-in-up delay-300">
+            <TextField
+              className="w-full"
+              name="confirm_password"
+              type="password"
+              variant="secondary"
+              isInvalid={!!formState.errors.confirm_password}
+            >
+              <Label>Confirmar nueva contraseña</Label>
+              <Input
+                placeholder="Repite la nueva contraseña"
+                value={watch('confirm_password')}
+                onChange={(e) =>
+                  setValue('confirm_password', e.target.value, { shouldValidate: true })
+                }
+              />
+            </TextField>
+            {formState.errors.confirm_password && (
+              <p className="text-xs text-danger -mt-3 animate-fade-in">
+                {formState.errors.confirm_password.message}
+              </p>
+            )}
+          </div>
 
           {formState.errors.root && (
-            <p className="text-sm text-danger">{formState.errors.root.message}</p>
+            <div className="flex items-center gap-2 rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger animate-fade-in">
+              <Icon icon="lucide:alert-circle" className="size-4 shrink-0" />
+              <span>{formState.errors.root.message}</span>
+            </div>
           )}
         </Card.Content>
         <Card.Footer className="flex justify-end pt-4">
-          <Button type="submit" variant="primary" isDisabled={formState.isSubmitting}>
+          <Button
+            type="submit"
+            variant="primary"
+            isDisabled={formState.isSubmitting}
+            className="font-medium"
+          >
             <Icon icon="lucide:key-round" className="size-4" />
             {formState.isSubmitting ? 'Cambiando…' : 'Cambiar contraseña'}
           </Button>

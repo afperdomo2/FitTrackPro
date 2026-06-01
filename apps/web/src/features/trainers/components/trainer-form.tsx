@@ -92,10 +92,12 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
     <Modal>
       <Modal.Backdrop isOpen={isOpen} onOpenChange={(open) => !open && onClose()}>
         <Modal.Container placement="center" size="sm">
-          <Modal.Dialog>
+          <Modal.Dialog className="animate-scale-in">
             <Modal.CloseTrigger />
             <Modal.Header>
-              <Modal.Heading>{isEdit ? 'Editar entrenador' : 'Crear entrenador'}</Modal.Heading>
+              <Modal.Heading className="font-display">
+                {isEdit ? 'Editar entrenador' : 'Crear entrenador'}
+              </Modal.Heading>
             </Modal.Header>
 
             {isEdit ? (
@@ -148,7 +150,7 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                   </Switch>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" slot="close">
+                  <Button variant="tertiary" slot="close">
                     Cancelar
                   </Button>
                   <Button
@@ -223,7 +225,7 @@ export function TrainerForm({ isOpen, onClose, trainer }: TrainerFormProps) {
                   </TextField>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" slot="close">
+                  <Button variant="tertiary" slot="close">
                     Cancelar
                   </Button>
                   <Button

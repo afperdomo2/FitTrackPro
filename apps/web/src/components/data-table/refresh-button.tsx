@@ -22,8 +22,14 @@ export function RefreshButton({ queryKey }: RefreshButtonProps) {
   }, [queryClient, queryKey, cooldown]);
 
   return (
-    <Button onPress={handleRefresh} isDisabled={cooldown} variant="secondary" size="sm">
-      <Icon icon="lucide:refresh-cw" className="size-4" />
+    <Button
+      onPress={handleRefresh}
+      isDisabled={cooldown}
+      variant="ghost"
+      size="sm"
+      aria-label="Refrescar datos"
+    >
+      <Icon icon="lucide:refresh-cw" className={`size-4 ${cooldown ? 'animate-spin' : ''}`} />
       Refrescar
     </Button>
   );

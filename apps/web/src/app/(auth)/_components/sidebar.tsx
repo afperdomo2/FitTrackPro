@@ -88,7 +88,6 @@ export function Sidebar() {
             <p className="text-sm font-medium truncate leading-tight">{user?.name}</p>
             <p className="text-xs text-muted-foreground capitalize">{user?.role}</p>
           </div>
-
         </div>
       </div>
     </aside>

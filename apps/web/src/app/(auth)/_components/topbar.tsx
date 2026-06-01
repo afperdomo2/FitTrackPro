@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Avatar, Dropdown, Label } from '@heroui/react';
+import { Avatar, Button, Dropdown, Label } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
@@ -19,25 +19,23 @@ export function Topbar() {
         <ThemeToggle />
 
         <Dropdown>
-          <Dropdown.Trigger className="outline-none">
-            <button className="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-surface-secondary transition-colors">
-              <Avatar size="sm">
-                <Avatar.Fallback>
-                  <span className="text-xs font-semibold text-accent">
-                    {user?.name?.charAt(0).toUpperCase()}
-                  </span>
-                </Avatar.Fallback>
-              </Avatar>
-              <div className="hidden sm:block text-left">
-                <p className="text-sm font-medium leading-tight">{user?.name}</p>
-                <p className="text-xs text-muted-foreground capitalize">{user?.role}</p>
-              </div>
-              <Icon
-                icon="lucide:chevron-down"
-                className="size-3.5 text-muted-foreground hidden sm:block"
-              />
-            </button>
-          </Dropdown.Trigger>
+          <Button variant="ghost" className="flex items-center gap-2 px-2 py-1.5 h-auto">
+            <Avatar size="sm">
+              <Avatar.Fallback>
+                <span className="text-xs font-semibold text-accent">
+                  {user?.name?.charAt(0).toUpperCase()}
+                </span>
+              </Avatar.Fallback>
+            </Avatar>
+            <div className="hidden sm:block text-left">
+              <p className="text-sm font-medium leading-tight">{user?.name}</p>
+              <p className="text-xs text-muted-foreground capitalize">{user?.role}</p>
+            </div>
+            <Icon
+              icon="lucide:chevron-down"
+              className="size-3.5 text-muted-foreground hidden sm:block"
+            />
+          </Button>
           <Dropdown.Popover placement="bottom right">
             <Dropdown.Menu
               onAction={(key) => {

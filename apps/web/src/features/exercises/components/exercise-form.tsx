@@ -182,10 +182,12 @@ export function ExerciseForm({ isOpen, onClose, exerciseId }: ExerciseFormProps)
     <Modal>
       <Modal.Backdrop isOpen={isOpen} onOpenChange={(open) => !open && onClose()}>
         <Modal.Container placement="center" size="lg">
-          <Modal.Dialog>
+          <Modal.Dialog className="animate-scale-in">
             <Modal.CloseTrigger />
             <Modal.Header>
-              <Modal.Heading>{isEdit ? 'Editar ejercicio' : 'Crear ejercicio'}</Modal.Heading>
+              <Modal.Heading className="font-display">
+                {isEdit ? 'Editar ejercicio' : 'Crear ejercicio'}
+              </Modal.Heading>
             </Modal.Header>
 
             {isEdit && isLoading ? (
@@ -296,7 +298,7 @@ export function ExerciseForm({ isOpen, onClose, exerciseId }: ExerciseFormProps)
                   </Switch>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" slot="close">
+                  <Button variant="tertiary" slot="close">
                     Cancelar
                   </Button>
                   <Button
@@ -401,7 +403,7 @@ export function ExerciseForm({ isOpen, onClose, exerciseId }: ExerciseFormProps)
                   </TextField>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" slot="close">
+                  <Button variant="tertiary" slot="close">
                     Cancelar
                   </Button>
                   <Button
